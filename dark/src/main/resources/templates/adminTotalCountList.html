@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>test</title>
+</head>
+<body>
+
+<table width="900" border="2" cellpadding="2" cellspacing='1'>
+
+    <tr bgcolor="#3AAAFB">
+        <th>Name</th>
+        <th>Sum</th>
+    </tr>
+
+    <th:block th:each="balance : ${balanceList}">
+        <tr>
+            <td th:text="${balance.name}"></td>
+            <td th:text="${balance.value}"></td>
+        </tr>
+    </th:block>
+
+</table>
+
+<div th:text="${startDate}"></div>
+<div th:text="${endDate}"></div>
+
+</body>
+</html>

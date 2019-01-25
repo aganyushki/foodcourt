@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>test</title>
+</head>
+<body>
+
+<th:block th:each="entity : ${entities}">
+
+    <form action="#" th:action="@{/order/confirmation}" method="get">
+        <input type="hidden" name="customerid" th:value="${uid}" />
+        <input type="hidden" name="cakeid" th:value="${entity.id}" />
+        <button type="submit" th:text="${entity.name}"></button>
+    </form>
+
+</th:block>
+
+</body>
+</html>

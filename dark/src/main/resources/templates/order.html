@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>test</title>
+</head>
+<body>
+
+    <div th:text="${order.id}"></div>
+    <div th:text="${order.userName}"></div>
+    <div th:text="${order.bulkName}"></div>
+    <div th:text="${order.count}"></div>
+    <div th:text="${order.price}"></div>
+    <div th:text="${order.transactionSum}"></div>
+    <div th:text="${order.time}"></div>
+
+    <form action="#" th:action="@{/}" method="get">
+        <button type="submit">home</button>
+    </form>
+
+</body>
+</html>

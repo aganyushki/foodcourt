@@ -1,0 +1,79 @@
+
+body {
+    width: 1600px;
+    margin: auto;
+    background: #f5f5f3;
+}
+
+.btn {
+    border: none;
+    background-color: inherit;
+    padding: 6px 56px;
+    font-size: 40px;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 28px;
+    width: 250px;
+    height: 100px;
+}
+
+/* Green */
+.success {
+    color: green;
+}
+
+.success:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Blue */
+.info {
+    color: dodgerblue;
+}
+
+.info:hover {
+    background: #2196F3;
+    color: white;
+}
+
+/* Blue */
+.info_wide {
+    color: dodgerblue;
+    width: 500px
+}
+
+.info_wide:hover {
+    background: #2196F3;
+    color: white;
+    width: 500px
+}
+
+/* Orange */
+.warning {
+    color: orange;
+}
+
+.warning:hover {
+    background: #ff9800;
+    color: white;
+}
+
+/* Red */
+.danger {
+    color: red;
+}
+
+.danger:hover {
+    background: #f44336;
+    color: white;
+}
+
+/* Gray */
+.default {
+    color: black;
+}
+
+.default:hover {
+    background: #e7e7e7;
+}
