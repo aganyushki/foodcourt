@@ -2,18 +2,41 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/static/style.css" type="text/css">
+    <link rel="stylesheet" href="/static/styleCustomerList.css" type="text/css">
+
+    <title>Буфет</title>
 </head>
 <body>
 
-<th:block th:each="customer : ${customers}">
+    <br />
+    <h1>Выберите себя в списке:</h1>
 
-    <form action="#" th:action="@{/cake/list}" method="get">
-        <input type="hidden" name="uid" th:value="${customer.id}" />
-        <button type="submit" th:text="${customer.name}"></button>
-    </form>
+    <div id="container">
+        <div id="content">
 
-</th:block>
+            <div>
+                <th:block th:each="customer : ${customers}">
+
+                    <div style="float: left;">
+                        <form action="#" th:action="@{/cake/list}" method="get">
+                            <input type="hidden" name="uid" th:value="${customer.id}" />
+                            <button class="btn success" type="submit" th:text="${customer.name}"></button>
+                        </form>
+                    </div>
+
+                </th:block>
+
+                <div style="clear: both;"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <br />
+    <button class="btn info" onclick="history.back();">Назад</button>
 
 </body>
 </html>

@@ -2,19 +2,45 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/static/style.css" type="text/css">
+    <link rel="stylesheet" href="/static/styleCakeList.css" type="text/css">
+
+    <title>Буфет</title>
 </head>
 <body>
 
-<th:block th:each="entity : ${entities}">
+<br>
+<h1>Выберите кондитерское изделие:</h1>
 
-    <form action="#" th:action="@{/order/confirmation}" method="get">
-        <input type="hidden" name="customerid" th:value="${uid}" />
-        <input type="hidden" name="cakeid" th:value="${entity.id}" />
-        <button type="submit" th:text="${entity.name}"></button>
-    </form>
+<div>
 
-</th:block>
+    <h2 th:text="${uid}"></h2>
+
+    <div id="container">
+        <div id="content" data-scrollable="y">
+            <th:block th:each="entity : ${entities}">
+
+                <div style="float: left;">
+                    <form action="#" th:action="@{/order/confirmation}" method="get">
+                        <input type="hidden" name="customerid" th:value="${uid}"/>
+                        <input type="hidden" name="cakeid" th:value="${entity.id}"/>
+                        <button class="btn success" type="submit">
+                            <span th:text="${entity.id}"></span>
+                            <small th:text="${entity.name}"></small>
+                        </button>
+                    </form>
+                </div>
+
+            </th:block>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+
+    <button class="btn info" onclick="history.back();">Назад</button>
+
+</div>
 
 </body>
 </html>

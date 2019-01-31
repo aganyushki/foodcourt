@@ -1,0 +1,13 @@
+package far.galaxy.foodcourt.oldentity;
+
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
+@Configuration
+@EnableJpaRepositories(basePackages = {"far.galaxy.foodcourt.oldentity"})
+@EntityScan(basePackages = {"far.galaxy.foodcourt.oldentity"})
+public class PersistenceConfig {
+
+}

@@ -3,20 +3,39 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/static/style.css" type="text/css">
 
-    <title>test</title>
+    <link rel="stylesheet" href="/static/style.css" type="text/css">
+    <link rel="stylesheet" href="/static/styleCustomerGroup.css" type="text/css">
+
+    <title>Буфет</title>
 </head>
 <body>
 
-<th:block th:each="group : ${groups}">
+    <div style="height: 900px;" oncontextmenu="document.location.href='capture/index1.php';return false;">
+        <h1>Как купить булку?</h1>
+        <h2> Выберите первую букву фамилии (латиница):</h2>
 
-    <form action="#" th:action="@{/customer/list}" method="get">
-        <input type="hidden" name="gid" th:value="${group}" />
-        <button type="submit" th:text="${group}"></button>
-    </form>
+        <div>
+            <th:block th:each="group : ${groups}">
+                <div style="float: left; padding-right: 3px;">
+                    <form action="#" th:action="@{/customer/list}" method="get">
+                        <input type="hidden" name="gid" th:value="${group}" />
+                        <button class="btn success" type="submit" th:text="${group}"></button>
+                    </form>
+                </div>
+            </th:block>
 
-</th:block>
+            <div style="float: left; padding-right: 3px;">
+                <form action="#" th:action="@{/customer/list}" method="get">
+                    <input type="hidden" name="gid" value="-" />
+                    <button class="btn info_wide" type="submit">Персонал</button>
+                </form>
+            </div>
+
+            <div style="clear: both;"></div>
+        </div>
+
+    </div>
 
 </body>
 </html>

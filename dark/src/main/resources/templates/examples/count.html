@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../static/style.css" type="text/css">
+    <title>Буфет</title>
+    <style>
+        select {
+            font-size: 28px;
+        }
+
+        .wrapper {
+            text-align: center;
+        }
+
+        input.submit {
+            width: 5em;
+            height: 1.4em;
+            font-size: 20px;
+            margin: auto;
+            display: block;
+        }
+
+        .btn {
+            border: none;
+            background-color: inherit;
+            padding: 26px 56px;
+            font-size: 40px;
+            cursor: pointer;
+            display: inline-block;
+            border-radius: 28px;
+            width: 280px;
+            height: 100px;
+        }
+
+        /* Blue */
+        .info {
+            color: dodgerblue;
+        }
+
+        .info:hover {
+            background: #2196F3;
+            color: white;
+        }
+
+        /* Green */
+        .success {
+            color: green;
+        }
+
+        .success:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .default:hover {
+            background: #e7e7e7;
+        }
+    </style>
+</head>
+<body>
+
+<br>
+<h1>Выберите количество:</h1>
+
+<div>
+
+    <h2>{$name}</h2>
+    <h2>{$cake}</h2>
+
+    <button class="btn success">$countlist</button>
+
+    <br>
+</div>
+
+<button class="btn info" onclick="history.back();">Назад</button>
+
+</body>
+</html>

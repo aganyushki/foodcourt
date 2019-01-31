@@ -1,2 +1,2 @@
-group = "far.far.galaxy"
+group = "far.galaxy"
 version = "1.0-SNAPSHOT"
