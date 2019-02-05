@@ -13,6 +13,8 @@ repositories {
 dependencies {
     compile(project(":entity"))
 
+    compile("com.github.javafaker:javafaker:0.16")
+
     testCompile("org.junit.jupiter:junit-jupiter-api:5.1.0")
     testCompile("org.junit.jupiter:junit-jupiter-params:5.1.0")
     testCompile("org.junit.jupiter:junit-jupiter-engine:5.1.0")

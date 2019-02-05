@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "sales1")
-public class Order {
+public class OldOrder {
     private Long id;
     private String userName;
     private String bulkName;
@@ -14,11 +14,11 @@ public class Order {
     private Long transactionSum;
     private Date time;
 
-    public Order() {
+    public OldOrder() {
         this.id = 0L;
     }
 
-    public Order(String userName, String bulkName, Long count, Long price, Long transactionSum, Date time) {
+    public OldOrder(String userName, String bulkName, Long count, Long price, Long transactionSum, Date time) {
         this();
 
         this.userName = userName;
@@ -101,6 +101,6 @@ public class Order {
 
     @Override
     public boolean equals(Object obj) {
-        return this.getId().equals(((Order) obj).getId());
+        return this.getId().equals(((OldOrder) obj).getId());
     }
 }

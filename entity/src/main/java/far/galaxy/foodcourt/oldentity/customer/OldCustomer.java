@@ -4,18 +4,18 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
-public class Customer {
+public class OldCustomer {
     private Long id;
     private String name;
     private String email;
 
-    public Customer() {
+    public OldCustomer() {
         this.id = 0L;
         this.name = "";
         this.email = "";
     }
 
-    public Customer(String name, String email) {
+    public OldCustomer(String name, String email) {
         this();
         this.name = name;
         this.email = email;
@@ -57,6 +57,6 @@ public class Customer {
 
     @Override
     public boolean equals(Object obj) {
-        return this.id.equals(((Customer) obj).getId());
+        return this.id.equals(((OldCustomer) obj).getId());
     }
 }

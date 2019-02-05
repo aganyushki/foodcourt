@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Order {
+public class OrderItem {
     private long id;
     private Date time;
 
@@ -17,12 +17,12 @@ public class Order {
 
     private int count;
 
-    public Order() {
+    public OrderItem() {
         this.id = 0;
         this.time = new Date();
     }
 
-    public Order(Customer customer, Cake cake, int count) {
+    public OrderItem(Customer customer, Cake cake, int count) {
         this();
 
         this.customer = customer;
@@ -32,12 +32,20 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long getId() {
+    public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Date getTime() {
         return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 
     @OneToOne

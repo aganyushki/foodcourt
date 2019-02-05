@@ -60,4 +60,8 @@ public class Customer {
     public void setBalance(long balance) {
         this.balance = balance;
     }
+
+    public void addBalance(long amount) {
+        this.balance += amount;
+    }
 }

@@ -2,7 +2,11 @@ package far.galaxy.foodcourt.oldentity.system;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface BalanceRepository extends CrudRepository<Balance, Long> {
+import java.util.List;
+
+public interface OldBalanceRepository extends CrudRepository<OldBalance, Long> {
+
+    List<OldBalance> findAllByUserName(String userName);
 
 //    @Query(
 //            value = "SELECT *, sum(incoming_transaction) sum_value FROM balans GROUP BY user_name;",
@@ -13,7 +17,7 @@ public interface BalanceRepository extends CrudRepository<Balance, Long> {
 // : Unknown column 'balance0_.sum_value' in 'field list'
 
     // so shitty
-//    default List<NameValuePair> buildBalanceList(Iterable<Balance> records) {
+//    default List<NameValuePair> buildBalanceList(Iterable<OldBalance> records) {
 //        Map<String, NameValuePair> accum = new HashMap<>();
 //
 //        records.forEach(balance -> {

@@ -5,17 +5,17 @@ import java.util.Date;
 
 @Entity
 @Table(name = "balans")
-public class Balance {
+public class OldBalance {
     private Long id;
     private String userName;
     private Long incoming_transaction;
     private Date time;
 
-    public Balance() {
+    public OldBalance() {
         this.id = 0L;
     }
 
-    public Balance(String userName, Long incoming_transaction) {
+    public OldBalance(String userName, Long incoming_transaction) {
         this();
         this.userName = userName;
         this.incoming_transaction = incoming_transaction;
@@ -67,6 +67,6 @@ public class Balance {
 
     @Override
     public boolean equals(Object obj) {
-        return this.getId().equals(((Balance) obj).getId());
+        return this.getId().equals(((OldBalance) obj).getId());
     }
 }

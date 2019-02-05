@@ -4,24 +4,24 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "bulk")
-public class Cake {
+public class OldCake {
     private Long id;
     private String name;
     private Long price;
 
-    public Cake() {
+    public OldCake() {
         this.id = -1L;
         this.name = "";
         this.price = 0L;
     }
 
-    public Cake(String name, Long price) {
+    public OldCake(String name, Long price) {
         this();
         this.name = name;
         this.price = price;
     }
 
-    public Cake(Long id, String name, Long price) {
+    public OldCake(Long id, String name, Long price) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -63,6 +63,6 @@ public class Cake {
 
     @Override
     public boolean equals(Object obj) {
-        return this.getId().equals(((Cake) obj).getId());
+        return this.getId().equals(((OldCake) obj).getId());
     }
 }

@@ -1,6 +1,7 @@
 package far.galaxy.foodcourt.dbbuilder;
 
-import far.galaxy.foodcourt.oldentity.PersistenceConfig;
+import far.galaxy.foodcourt.entity.MainMySQLPersistenceConfig;
+import far.galaxy.foodcourt.oldentity.OldMySQLPersistenceConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,7 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
                 "far.galaxy.foodcourt.dbbuilder"
         },
         scanBasePackageClasses = {
-                PersistenceConfig.class
+                MainMySQLPersistenceConfig.class,
+                OldMySQLPersistenceConfig.class
         }
 )
 public class Application {

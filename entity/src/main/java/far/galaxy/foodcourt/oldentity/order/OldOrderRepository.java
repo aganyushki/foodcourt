@@ -6,17 +6,20 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.*;
 
-public interface OrderRepository extends CrudRepository<Order, Long>{
+public interface OldOrderRepository extends CrudRepository<OldOrder, Long>{
 
-    @Query(value = "SELECT * FROM sales1 s WHERE s.time>=:startDate and s.time<=:endDate", nativeQuery = true)
-    public List<Order> findAllByDateRange(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+    List<OldOrder> findAllByUserName(String userName);
+    List<OldOrder> findAllByBulkName(String bulkName);
+
+//    @Query(value = "SELECT * FROM sales1 s WHERE s.time>=:startDate and s.time<=:endDate", nativeQuery = true)
+//    public List<OldOrder> findAllByDateRange(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
     // so shitty
 //    default List<NameValuePair> pullReportByDateRange(Date startDate, Date endDate) {
 //        return this.buildNameValuePairs(this.findAllByDateRange(startDate, endDate));
 //    }
 //
-//    default List<NameValuePair> buildNameValuePairs(Collection<Order> records) {
+//    default List<NameValuePair> buildNameValuePairs(Collection<OldOrder> records) {
 //        Map<String, NameValuePair> accum = new HashMap<>();
 //
 //        records.forEach(record -> {

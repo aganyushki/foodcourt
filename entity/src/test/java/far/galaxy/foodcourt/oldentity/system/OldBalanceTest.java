@@ -3,7 +3,7 @@ package far.galaxy.foodcourt.oldentity.system;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class BalanceTest {
+public class OldBalanceTest {
 
     private static final Long DEF_ID = 0L;
 
@@ -12,14 +12,14 @@ public class BalanceTest {
 
     @Test
     void createEmpty() throws Exception {
-        Balance balance = new Balance();
+        OldBalance balance = new OldBalance();
 
         Assertions.assertEquals(DEF_ID, balance.getId());
     }
 
     @Test
     void createWithData() throws Exception {
-        Balance balance = new Balance(
+        OldBalance balance = new OldBalance(
                 TEST_USER_NAME,
                 TEST_TX
         );
@@ -31,9 +31,9 @@ public class BalanceTest {
 
     @Test
     void checkEquals() {
-        Balance balance1 = new Balance();
-        Balance balance2 = new Balance();
-        Balance balance3 = new Balance();
+        OldBalance balance1 = new OldBalance();
+        OldBalance balance2 = new OldBalance();
+        OldBalance balance3 = new OldBalance();
 
         balance1.setId(3L);
         balance2.setId(3L);
@@ -48,7 +48,7 @@ public class BalanceTest {
     void checkHashcode() {
         final Long TEST_ID = 7777L;
 
-        Balance balance = new Balance();
+        OldBalance balance = new OldBalance();
         balance.setId(TEST_ID);
 
         Assertions.assertEquals(Long.valueOf(TEST_ID).hashCode(), balance.hashCode());

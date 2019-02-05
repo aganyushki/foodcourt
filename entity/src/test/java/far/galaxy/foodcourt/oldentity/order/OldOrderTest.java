@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 
-public class OrderTest {
+public class OldOrderTest {
 
     private static final Long DEF_ID = 0L;
 
@@ -18,14 +18,14 @@ public class OrderTest {
 
     @Test
     void createEmpty() throws Exception {
-        Order customer = new Order();
+        OldOrder customer = new OldOrder();
 
         Assertions.assertEquals(DEF_ID, customer.getId());
     }
 
     @Test
     void createWithData() throws Exception {
-        Order order = new Order(
+        OldOrder order = new OldOrder(
                 TEST_USER_NAME,
                 TEST_BULK_NAME,
                 TEST_COUNT,
@@ -45,9 +45,9 @@ public class OrderTest {
 
     @Test
     void checkEquals() {
-        Order order1 = new Order();
-        Order order2 = new Order();
-        Order order3 = new Order();
+        OldOrder order1 = new OldOrder();
+        OldOrder order2 = new OldOrder();
+        OldOrder order3 = new OldOrder();
 
         order1.setId(3L);
         order2.setId(3L);
@@ -62,7 +62,7 @@ public class OrderTest {
     void checkHashcode() {
         final Long TEST_ID = 7777L;
 
-        Order order = new Order();
+        OldOrder order = new OldOrder();
         order.setId(TEST_ID);
 
         Assertions.assertEquals(Long.valueOf(TEST_ID).hashCode(), order.hashCode());

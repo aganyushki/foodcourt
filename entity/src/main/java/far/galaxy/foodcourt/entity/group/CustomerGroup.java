@@ -7,39 +7,38 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Group {
+public class CustomerGroup {
     private long id;
-    private String key;
     private String title;
 
     private List<Customer> customers;
 
-    public Group() {
+    public CustomerGroup() {
         this.id = 0;
     }
 
-    public Group(String key, String title) {
+    public CustomerGroup(String title) {
         this();
-        this.key = key;
         this.title = title;
     }
 
     @Id
-    @NonNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
 
-    @NonNull
-    @Column(unique = true)
-    public String getKey() {
-        return key;
+    public void setId(long id) {
+        this.id = id;
     }
 
     @NonNull
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @OneToMany
@@ -50,4 +49,6 @@ public class Group {
     public void setCustomers(List<Customer> customers) {
         this.customers = customers;
     }
+
+
 }

@@ -3,7 +3,7 @@ package far.galaxy.foodcourt.oldentity.customer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class CustomerTest {
+public class OldCustomerTest {
     private static final Long DEF_ID = 0L;
     private static final String DEF_NAME = "";
     private static final String DEF_EMAIL = "";
@@ -13,7 +13,7 @@ public class CustomerTest {
 
     @Test
     void createEmpty() throws Exception {
-        Customer customer = new Customer();
+        OldCustomer customer = new OldCustomer();
 
         Assertions.assertEquals(DEF_ID, customer.getId());
         Assertions.assertEquals(DEF_NAME, customer.getName());
@@ -22,7 +22,7 @@ public class CustomerTest {
 
     @Test
     void createWithNameAndEmail() throws Exception {
-        Customer customer = new Customer(TEST_NAME, TEST_EMAIL);
+        OldCustomer customer = new OldCustomer(TEST_NAME, TEST_EMAIL);
 
         Assertions.assertEquals(DEF_ID, customer.getId());
         Assertions.assertEquals(TEST_NAME, customer.getName());
@@ -31,9 +31,9 @@ public class CustomerTest {
 
     @Test
     void checkEquals() {
-        Customer customer1 = new Customer("name 1", "email1");
-        Customer customer2 = new Customer("name 1", "email1");
-        Customer customer3 = new Customer("name 1", "email1");
+        OldCustomer customer1 = new OldCustomer("name 1", "email1");
+        OldCustomer customer2 = new OldCustomer("name 1", "email1");
+        OldCustomer customer3 = new OldCustomer("name 1", "email1");
 
         customer1.setId(3L);
         customer2.setId(3L);
@@ -48,7 +48,7 @@ public class CustomerTest {
     void checkHashcode() {
         final Long TEST_ID = 1L;
 
-        Customer customer = new Customer("name 1", "email@test");
+        OldCustomer customer = new OldCustomer("name 1", "email@test");
         customer.setId(TEST_ID);
 
         Assertions.assertEquals(Long.valueOf(TEST_ID).hashCode(), customer.hashCode());
