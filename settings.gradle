@@ -22,6 +22,6 @@ pluginManagement {
 rootProject.name = 'food-court'
 
 include 'entity'
-include 'test_db_builder'
+include 'db_builder'
 include 'dark'
 include 'white'

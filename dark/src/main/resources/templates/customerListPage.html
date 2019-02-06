@@ -21,7 +21,7 @@
                 <th:block th:each="customer : ${customers}">
 
                     <div style="float: left;">
-                        <form action="#" th:action="@{/cake/list}" method="get">
+                        <form action="#" th:action="@{/cake}" method="get">
                             <input type="hidden" name="uid" th:value="${customer.id}" />
                             <button class="btn success" type="submit" th:text="${customer.name}"></button>
                         </form>

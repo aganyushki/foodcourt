@@ -18,15 +18,15 @@
         <div>
             <th:block th:each="group : ${groups}">
                 <div style="float: left; padding-right: 3px;">
-                    <form action="#" th:action="@{/customer/list}" method="get">
-                        <input type="hidden" name="gid" th:value="${group}" />
-                        <button class="btn success" type="submit" th:text="${group}"></button>
+                    <form action="#" th:action="@{/customer}" method="get">
+                        <input type="hidden" name="gid" th:value="${group.id}" />
+                        <button class="btn success" type="submit" th:text="${group.title}"></button>
                     </form>
                 </div>
             </th:block>
 
             <div style="float: left; padding-right: 3px;">
-                <form action="#" th:action="@{/customer/list}" method="get">
+                <form action="#" th:action="@{/customer}" method="get">
                     <input type="hidden" name="gid" value="-" />
                     <button class="btn info_wide" type="submit">Персонал</button>
                 </form>

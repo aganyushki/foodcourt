@@ -14,14 +14,15 @@
     <br>
     <h1>Проверьте внимательно свой выбор</h1>
 
-    <form action="#" th:action="@{/order}" method="get">
-        <h2 th:text="${customer.name}"></h2>
-        <h2 th:text="${cake.name}"></h2>
-        <h2 th:text="${count}"></h2>
+    <form action="#" th:action="@{/order}" method="post">
+        <h2 th:text="${order.customer.name}"></h2>
+        <h2 th:text="${order.cake.name}"></h2>
+        <h2 th:text="${order.count}"></h2>
 
-        <input type="hidden" name="customerid" th:value="${customer.id}" />
-        <input type="hidden" name="cakeid" th:value="${cake.id}" />
-        <input type="hidden" name="count" th:value="${count}" />
+        <input type="hidden" name="customerid" th:value="${order.customer.id}" />
+        <input type="hidden" name="cakeid" th:value="${order.cake.id}" />
+        <input type="hidden" name="count" th:value="${order.count}" />
+        <input type="hidden" name="approved" value="true" />
         <button class="btn success" type="submit">Отправить</button>
     </form>
 

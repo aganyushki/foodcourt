@@ -7,11 +7,10 @@
 <body>
 
     <div th:text="${order.id}"></div>
-    <div th:text="${order.userName}"></div>
-    <div th:text="${order.bulkName}"></div>
+    <div th:text="${order.customer.name}"></div>
+    <div th:text="${order.cake.name}"></div>
     <div th:text="${order.count}"></div>
-    <div th:text="${order.price}"></div>
-    <div th:text="${order.transactionSum}"></div>
+    <div th:text="${order.cake.price}"></div>
     <div th:text="${order.time}"></div>
 
     <form action="#" th:action="@{/}" method="get">

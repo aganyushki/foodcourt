@@ -23,7 +23,7 @@
             <th:block th:each="entity : ${entities}">
 
                 <div style="float: left;">
-                    <form action="#" th:action="@{/order/confirmation}" method="get">
+                    <form action="#" th:action="@{/order}" method="post">
                         <input type="hidden" name="customerid" th:value="${uid}"/>
                         <input type="hidden" name="cakeid" th:value="${entity.id}"/>
                         <button class="btn success" type="submit">

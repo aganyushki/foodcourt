@@ -16,17 +16,17 @@
 
 <div>
 
-    <h2 th:text="${customer.name}"></h2>
-    <h2 th:text="${cake.name}"></h2>
+    <h2 th:text="${order.customer.name}"></h2>
+    <h2 th:text="${order.cake.name}"></h2>
 
     <div>
-        <th:block th:each="entity : ${listItems}">
+        <th:block th:each="countItem : ${countItems}">
             <div style="float: left;">
-                <form action="#" th:action="@{/order/confirmation}" method="get">
-                    <input type="hidden" name="customerid" th:value="${customer.id}" />
-                    <input type="hidden" name="cakeid" th:value="${cake.id}" />
-                    <input type="hidden" name="count" th:value="${entity}" />
-                    <button class="btn success" type="submit" th:text="${entity}"></button>
+                <form action="#" th:action="@{/order}" method="post">
+                    <input type="hidden" name="customerid" th:value="${order.customer.id}" />
+                    <input type="hidden" name="cakeid" th:value="${order.cake.id}" />
+                    <input type="hidden" name="count" th:value="${countItem}" />
+                    <button class="btn success" type="submit" th:text="${countItem}"></button>
                 </form>
             </div>
         </th:block>

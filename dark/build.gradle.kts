@@ -11,6 +11,8 @@ repositories {
 }
 
 dependencies {
+    compile(project(":entity"))
+    
     compile("mysql:mysql-connector-java:5.1.46")
 
     compile("org.springframework.boot:spring-boot-starter-web:2.1.1.RELEASE")

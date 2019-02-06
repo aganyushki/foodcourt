@@ -8,4 +8,5 @@ public interface CakeRepository extends JpaRepository<Cake, Long> {
     Cake findByName(String name);
     List<Cake> findAllByName(String name);
     Cake findByNameAndPrice(String name, long price);
+    List<Cake> findAllByAvailableTrue();
 }
