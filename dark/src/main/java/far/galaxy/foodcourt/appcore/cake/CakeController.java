@@ -19,7 +19,7 @@ public class CakeController {
     @Autowired
     CakeService cakeService;
 
-    @GetMapping("")
+    @GetMapping()
     public ModelAndView cakeChoosePage(
             @RequestParam("uid") String uid
     ) {
