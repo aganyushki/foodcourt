@@ -1,5 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {Welcome} from "./component/Welcome";
+import Groups from "./component/customer/Groups";
+import Customers from "./component/customer/Customers";
 
-ReactDOM.render(<Welcome />, document.getElementById("root"));
+import 'typeface-roboto';
+
+ReactDOM.render(<Customers />, document.getElementsByTagName("body")[0]);
