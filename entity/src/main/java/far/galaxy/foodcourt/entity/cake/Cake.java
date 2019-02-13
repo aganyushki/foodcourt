@@ -9,7 +9,6 @@ import java.io.Serializable;
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"name", "version"})
 })
-//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Cake {
     private long id;
     private String name;
