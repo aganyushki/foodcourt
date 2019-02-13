@@ -6,7 +6,7 @@ GET http://localhost/groups
 ###
 GET http://localhost/groups/7
 ###
-GET http://localhost/groups/7/customers
+GET http://localhost/groups/2/customers
 ###
 GET http://localhost/cakes
 ###

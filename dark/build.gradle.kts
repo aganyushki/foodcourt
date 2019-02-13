@@ -17,7 +17,6 @@ dependencies {
 
     compile("org.springframework.boot:spring-boot-starter-web:2.1.1.RELEASE")
     compile("org.springframework.boot:spring-boot-starter-data-jpa:2.1.1.RELEASE")
-    compile("org.springframework.boot:spring-boot-starter-thymeleaf:2.1.1.RELEASE")
 
     testCompile("org.junit.jupiter:junit-jupiter-api:5.1.0")
     testCompile("org.junit.jupiter:junit-jupiter-params:5.1.0")

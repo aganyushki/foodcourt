@@ -18,28 +18,28 @@ import java.util.Optional;
 public class GroupController {
 
     @Autowired
-    GroupRepository groupRepository; // todo, move to service
+    private GroupService groupService;
 
     @GetMapping(
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     public List<CustomerGroup> getGroupList() {
-        return groupRepository.findAll();
+        return groupService.getList();
     }
 
     @GetMapping(
             value = "/{groupId}",
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public CustomerGroup getGroup(@PathVariable Long groupId) {
-        return groupRepository.getOne(groupId);
+    public CustomerGroup getGroup(@PathVariable long groupId) {
+        return groupService.getGroupById(groupId);
     }
 
     @GetMapping(
             value = "/{groupId}/customers",
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public List<Customer> getGroupCustomers(@PathVariable Long groupId) {
-        return groupRepository.getOne(groupId).getCustomers();
+    public List<Customer> getGroupCustomers(@PathVariable long groupId) {
+        return groupService.getCustomers(groupId);
     }
 }

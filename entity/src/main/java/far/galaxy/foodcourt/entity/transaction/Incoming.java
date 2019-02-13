@@ -1,5 +1,6 @@
 package far.galaxy.foodcourt.entity.transaction;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import far.galaxy.foodcourt.entity.customer.Customer;
 import org.springframework.lang.NonNull;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Incoming {
     private long id;
     private Date time;

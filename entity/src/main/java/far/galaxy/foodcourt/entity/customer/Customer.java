@@ -1,10 +1,13 @@
 package far.galaxy.foodcourt.entity.customer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Customer {
     private long id;
     private String name;
@@ -45,6 +48,7 @@ public class Customer {
 
     @NonNull
     @Column(unique = true)
+    @JsonIgnore
     public String getEmail() {
         return email;
     }
