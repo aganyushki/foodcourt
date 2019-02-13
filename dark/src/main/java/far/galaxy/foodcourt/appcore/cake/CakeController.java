@@ -1,53 +1,37 @@
 package far.galaxy.foodcourt.appcore.cake;
 
+import far.galaxy.foodcourt.entity.cake.Cake;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-@Controller
-@RequestMapping(path = "/cake")
+@RestController
+@RequestMapping(path = "/cakes")
 public class CakeController {
 
     @Autowired
     CakeService cakeService;
 
-    @GetMapping()
-    public ModelAndView cakeChoosePage(
-            @RequestParam("uid") String uid
-    ) {
-        Map model = new HashMap();
-        model.put("entities", cakeService.getAvailableCakes());
-        model.put("uid", uid);
-        return new ModelAndView("cakeListPage", model);
+    @GetMapping(
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<Cake> getAvailableCakeList() {
+        return cakeService.getAvailableCakes();
     }
 
-//    @PostMapping()
-//    public RedirectView updateCake(
-//            @RequestParam( name = "id", defaultValue = "-1") Long cakeId,
-//            @RequestParam( name = "name", defaultValue = "") String name,
-//            @RequestParam( name = "price", defaultValue = "0") Long price
-//    ) {
-//        cakeService.updateCake(cakeId, name, price);
-//
-//        return new RedirectView("/cake/edit");
-//    }
-
-//    @GetMapping("/edit")
-//    public ModelAndView cakeListEdit(
-//            @RequestParam( name = "id", defaultValue = "-1") Long cakeId
-//    ) {
-//        Map model = new HashMap();
-//        model.put("cake", cakeService.getCakeByIdOrNew(cakeId));
-//        model.put("entities", cakeService.getAvailableCakes());
-//
-//        return new ModelAndView("cakeListEditPage", model);
-//    }
+    @GetMapping(
+            value = "/{cakeId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @ResponseBody
+    public Cake getCakeById(@PathVariable long cakeId) {
+        return cakeService.getCakeById(cakeId);
+    }
 }

@@ -3,11 +3,13 @@ package far.galaxy.foodcourt.entity.cake;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {"name", "version"})
 })
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Cake {
     private long id;
     private String name;

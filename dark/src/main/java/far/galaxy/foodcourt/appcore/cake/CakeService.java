@@ -46,4 +46,8 @@ public class CakeService {
                 )
                 .collect(Collectors.toList());
     }
+
+    public Cake getCakeById(long cakeId) {
+        return cakeRepository.getOne(cakeId);
+    }
 }

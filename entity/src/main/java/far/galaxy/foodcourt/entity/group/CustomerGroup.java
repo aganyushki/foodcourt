@@ -41,7 +41,7 @@ public class CustomerGroup {
         this.title = title;
     }
 
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
     public List<Customer> getCustomers() {
         return customers;
     }
@@ -49,6 +49,4 @@ public class CustomerGroup {
     public void setCustomers(List<Customer> customers) {
         this.customers = customers;
     }
-
-
 }

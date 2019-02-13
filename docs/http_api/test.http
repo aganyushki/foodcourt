@@ -2,4 +2,13 @@ GET http://localhost:8080/values
 ###
 GET http://localhost:8080/datas?id=377
 ###
-
+GET http://localhost/groups
+###
+GET http://localhost/groups/7
+###
+GET http://localhost/groups/7/customers
+###
+GET http://localhost/cakes
+###
+GET http://localhost/cakes/10
+###
