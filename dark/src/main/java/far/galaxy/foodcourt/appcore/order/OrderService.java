@@ -25,6 +25,14 @@ public class OrderService {
     @Autowired
     private CakeRepository cakeRepository;
 
+    public List<OrderItem> getOrderList() {
+        return orderRepository.findAll();
+    }
+
+    public OrderItem getOrderById(long orderId) {
+        return orderRepository.getOne(orderId);
+    }
+
     @Transactional
     public OrderItem putNewOrder(long customerId, long cakeId, int count) { // todo, how to and where check count arg
         Customer customer = customerRepository.findById(customerId).orElseThrow(() ->

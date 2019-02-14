@@ -1,16 +1,25 @@
 
 plugins {
-
+    id("com.moowork.node") version "1.2.0"
 }
 
 repositories {
     jcenter()
     mavenCentral()
-    maven {
-        url = uri("https://dl.bintray.com/kotlin/kotlin-js-wrappers")
-    }
 }
 
 dependencies {
 
+}
+
+node {
+}
+
+task("build") {
+    dependsOn("npmInstall", "npm_run-script_build");
+}
+
+tasks.register<Delete>("clean") {
+    delete(buildDir)
+    delete("node_modules")
 }

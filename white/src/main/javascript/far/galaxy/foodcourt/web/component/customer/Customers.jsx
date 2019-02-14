@@ -83,7 +83,7 @@ function Customers(props) {
                         customers.map(customer => (
                             <Grid item xs={2} key={customer.id}>
                                 <Paper className={classes.paper} onClick={console.log}>
-                                    <h1>{customer.name}</h1>
+                                    <h2>{customer.name}</h2>
                                 </Paper>
                             </Grid>
                         ))

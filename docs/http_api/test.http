@@ -12,3 +12,7 @@ GET http://localhost/cakes
 ###
 GET http://localhost/cakes/10
 ###
+GET http://localhost/orders
+###
+GET http://localhost/orders/5
+###
