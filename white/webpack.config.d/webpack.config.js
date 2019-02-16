@@ -58,7 +58,16 @@ const config = {
     },
     plugins: [
 
-    ]
+    ],
+    devServer: {
+        contentBase: './build/out',
+        proxy: {
+            '/api': {
+                target: 'http://localhost:80',
+                pathRewrite: {'^/api' : ''}
+            }
+        }
+    }
 };
 
 module.exports = config;

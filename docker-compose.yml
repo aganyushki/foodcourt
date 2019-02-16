@@ -1,0 +1,26 @@
+version: '3'
+services:
+
+  app:
+    build: ./dark/
+    ports:
+      - "80:80"
+    networks:
+      - appnet
+    environment:
+      MYSQL_HOST_PORT: "mysql:3306"
+      MYSQL_USER: "root"
+      MYSQL_PASSWORD: "root"
+      MYSQL_DB: "food_court"
+
+  mysql:
+    image: "mysql:latest"
+    ports:
+      - "3307:3306"
+    networks:
+      - appnet
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+
+networks:
+  appnet:
