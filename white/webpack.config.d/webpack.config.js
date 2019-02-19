@@ -21,14 +21,23 @@ const config = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        plugins: [
-                            "transform-class-properties",
-                            "transform-function-bind",
-                            "transform-object-rest-spread",
-                        ],
                         presets: [
-                            'babel-preset-env',
-                            'react'
+                            "@babel/preset-env",
+                            "@babel/preset-react"
+                        ],
+                        plugins: [
+                            [
+                                "@babel/plugin-proposal-decorators",
+                                {
+                                    "legacy": true
+                                }
+                            ],
+                            [
+                                "@babel/plugin-proposal-class-properties",
+                                {
+                                    "loose": true
+                                }
+                            ]
                         ]
                     }
                 }
