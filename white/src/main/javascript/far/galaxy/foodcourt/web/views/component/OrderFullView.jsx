@@ -6,7 +6,7 @@ export default class OrderFullView extends Component {
 
         return (
             <div>
-                { `${order.getId()}; ${order.getCustomerId()}; ${order.getCakeId()}; ${order.getCount()}` }
+                { `${order.getId()}; ${order.getCustomer().getName()}; ${order.getCake().getName()}; ${order.getCount()}` }
             </div>
         )
     }

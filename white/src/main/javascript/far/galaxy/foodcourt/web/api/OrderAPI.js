@@ -1,27 +1,46 @@
 import OrderItem from "../entity/OrderItem";
+import Customer from "../entity/Customer";
+import Cake from "../entity/Cake";
 
-export function putOrder(order) {
+function newItem(i) {
+    return new OrderItem({
+        id: i,
+        customer: new Customer({
+            id: i * 7,
+            name: `User Name ${i * 7}`,
+            email: `email_${i * 7}@wiley.com`,
+            balance: i * 3
+        }),
+        order: new Cake({
+            id: i + 9000,
+            name: `item name ${i + 9000}`,
+            price: i * 2
+        }),
+        count: 2 * i
+    })
+}
+
+let orderPool = [];
+for (let i = 0; i < 3; i++) {
+    orderPool.push(newItem(i));
+}
+
+export function putOrder(orderTemplate) {
     return new Promise((res) => {
-        console.log("putOrder", order.value);
         setTimeout(() => {
+
+            const order = newItem(orderPool.length);
+            orderPool.push(order);
+
             res(order);
         }, 1000);
     })
 }
 
 export function getOrders() {
-    return new Promise((res)=> {
-        setTimeout(() => {
-            let orders = [];
-            for (let i = 0; i < 100; i++) {
-                orders.push(new OrderItem({
-                    id: i,
-                    customer: 100 + i,
-                    order: 200 + i,
-                    count: 2 * i
-                }))
-            }
-            res(orders);
-        }, 1000);
-    })
+    return fetch(`/api/orders`)
+        .then(res => res.json())
+        .then(orders =>
+            orders.map(order => new OrderItem(order))
+        )
 }

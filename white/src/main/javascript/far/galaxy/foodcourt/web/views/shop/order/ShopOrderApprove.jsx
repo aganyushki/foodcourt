@@ -9,15 +9,10 @@ export default class ShopOrderApprove extends Component {
         getOrderStore().putOrder()
     }
 
-    reject() {
-        getOrderStore().cleanupOrder()
-    }
-
     render() {
         return (
             <div>
                 <button onClick={this.approve.bind(this)}>OK?</button>
-                <button onClick={this.reject.bind(this)}>no</button>
             </div>
         )
     }

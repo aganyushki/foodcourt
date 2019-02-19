@@ -1,29 +1,32 @@
-import React from "react";
-import {Link, Route, Switch} from "react-router-dom";
+import React, {Component} from "react";
+import {Route, Switch} from "react-router-dom";
 import ShopGroups from "../shop/ShopGroups";
 import ShopCustomers from "../shop/ShopCustomers";
 import ShopCakes from "../shop/ShopCakes";
 import ShopRootOrderView from "../shop/order/ShopRootOrderView";
 import {URL} from '../../URLS';
+import ShopOrderStepper from "../shop/ShopOrderStepper";
+import {getOrderStore} from "../../store/OrderStore";
 
-export default function ShopRootLayout() {
-    return (
-        <div>
-            <Link to="/">root</Link> <br />
-            <Link to="/admin">admin</Link> <br />
-            <Link to="/login">login</Link> <br />
-            <Link to="/shop">shop</Link> <br />
-
+export default class ShopRootLayout extends Component {
+    closeOrder() {
+        getOrderStore().cleanupOrder();
+    }
+    render() {
+        return (
             <div>
+                <ShopOrderStepper/>
+
                 <Switch>
-                    <Route exact path={URL.ROOT} component={ShopGroups} />
-                    <Route exact path={URL.SHOP} component={ShopGroups} />
-                    <Route exact path={URL.SHOP_GROUPS} component={ShopGroups} />
-                    <Route path={URL.SHOP_CUSTOMERS} component={ShopCustomers} />
-                    <Route path={URL.SHOP_CAKES} component={ShopCakes} />
-                    <Route path={URL.SHOP_ORDER} component={ShopRootOrderView} />
+                    <Route exact path={URL.SHOP} component={ShopGroups}/>
+                    <Route exact path={URL.SHOP_GROUPS} component={ShopGroups}/>
+                    <Route path={URL.SHOP_CUSTOMERS} component={ShopCustomers}/>
+                    <Route path={URL.SHOP_CAKES} component={ShopCakes}/>
+                    <Route path={URL.SHOP_ORDER} component={ShopRootOrderView}/>
                 </Switch>
+
+                <button onClick={this.closeOrder.bind(this)}>back to home</button>
             </div>
-        </div>
-    )
+        )
+    }
 }

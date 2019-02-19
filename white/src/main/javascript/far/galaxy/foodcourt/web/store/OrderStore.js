@@ -1,13 +1,6 @@
 import {observable, action} from "mobx";
 import {getOrders, putOrder} from "../api/OrderAPI";
-import OrderItem from "../entity/OrderItem";
-
-const DEF_ORDER = {
-    group: null,
-    customer: null,
-    cake: null,
-    count: 0
-};
+import NewOrderItem from "../entity/NewOrderItem";
 
 function buildOrderEntity(internalOrderStructure) {
     return {
@@ -19,12 +12,17 @@ function buildOrderEntity(internalOrderStructure) {
 }
 
 class OrderStore {
-    @observable order = DEF_ORDER;
+    @observable order;
     @observable processing = false;
     @observable orders = null;
 
     constructor() {
-        this.cleanupOrder();
+        this.order = {
+            group: null,
+            customer: null,
+            cake: null,
+            count: 0
+        };
 
     }
 
@@ -40,7 +38,7 @@ class OrderStore {
     @action.bound
     putOrder() { // todo, workflow?
         this.processing = true;
-        putOrder(new OrderItem(buildOrderEntity(this.order)))
+        putOrder(new NewOrderItem(buildOrderEntity(this.order)))
             .then(() => {
                 this.processing = false;
                 this.cleanupOrder();
@@ -49,7 +47,10 @@ class OrderStore {
 
     @action.bound
     cleanupOrder() {
-        this.order = DEF_ORDER;
+        this.order.group = null;
+        this.order.customer = null;
+        this.order.cake = null;
+        this.order.count = 0;
     }
 
     @action.bound

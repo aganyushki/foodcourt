@@ -4,6 +4,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 const config = {
+    devtool: 'source-map',
     mode: "development",
     entry: {
         index: path.resolve(__dirname, "../src/main/javascript/far/galaxy/foodcourt/web/index.js")

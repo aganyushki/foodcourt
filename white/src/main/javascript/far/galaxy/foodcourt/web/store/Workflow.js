@@ -1,4 +1,4 @@
-import {autorun, computed, observable} from "mobx";
+import {autorun, observable} from "mobx";
 import {URL} from '../URLS';
 import {getOrderStore} from "./OrderStore";
 import {getCustomerStore} from "./CustomerStore";
@@ -8,8 +8,6 @@ class Workflow {
 
     constructor() {
         autorun(() => {
-            console.log(`Workflow->autorun`);
-
             let order = getOrderStore().order;
 
             if (order.group === null) {
@@ -22,6 +20,8 @@ class Workflow {
             } else {
                 this.routerPath = URL.SHOP_ORDER;
             }
+
+            console.log(`Workflow->autorun <${this.routerPath}>`);
         });
     }
 

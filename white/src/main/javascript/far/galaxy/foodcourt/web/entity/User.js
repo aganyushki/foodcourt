@@ -1,5 +1,5 @@
 
-export default class Cake {
+export default class User {
 
     constructor(value) {
         this.value = value;
@@ -13,11 +13,7 @@ export default class Cake {
         return this.value.name;
     }
 
-    getPrice() {
-        return this.value.price;
-    }
-
-    getMaxCount() {
-        return this.value.max || 5;
+    getAuthToken() {
+        return this.value.authToken;
     }
 }

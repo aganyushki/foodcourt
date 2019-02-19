@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {getOrderStore} from "../../../store/OrderStore";
 import {observer} from "mobx-react";
-import ShopOrderResult from "./ShopOrderResult";
+import ShopOrderSummary from "./ShopOrderSummary";
 import ShopOrderAmount from "./ShopOrderAmount";
 import ShopOrderApprove from "./ShopOrderApprove";
 
@@ -12,7 +12,7 @@ export default class ShopRootOrderView extends Component {
 
         return (
             <div>
-                <ShopOrderResult />
+                <ShopOrderSummary />
 
                 {
                     order.count === 0

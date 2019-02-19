@@ -11,9 +11,10 @@ export default class ShopOrderAmount extends Component {
 
     render() {
         const order = getOrderStore().order;
+        const maxCount = order.cake && order.cake.getMaxCount();
 
         let btns = [];
-        for (let count = 1; count <= order.cake.getMaxCount(); count++) {
+        for (let count = 1; count <= maxCount; count++) {
             btns.push(<div key={count} onClick={this.doSelect.bind(this, count)}>count: {count}</div>)
         }
         return (

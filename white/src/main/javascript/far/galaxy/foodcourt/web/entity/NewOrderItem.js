@@ -1,5 +1,3 @@
-import Customer from "./Customer";
-import Cake from "./Cake";
 
 export default class OrderItem {
 
@@ -11,12 +9,12 @@ export default class OrderItem {
         return this.value.id;
     }
 
-    getCustomer() {
-        return new Customer(this.value.customer);
+    getCustomerId() {
+        return this.value.customer;
     }
 
-    getCake() {
-        return new Cake(this.value.cake);
+    getCakeId() {
+        return this.value.order;
     }
 
     getCount() {
