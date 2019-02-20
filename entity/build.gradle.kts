@@ -12,6 +12,7 @@ dependencies {
     compile("mysql:mysql-connector-java:5.1.46")
 
     compile("org.springframework.boot:spring-boot-starter-data-jpa:2.1.1.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-security:2.1.1.RELEASE")
 
     compile("com.fasterxml.jackson.core:jackson-databind:2.9.0")
 
