@@ -30,4 +30,51 @@ public class CustomerController {
     public List<Customer> getCustomers() {
         return customerService.getList();
     }
+
+    @GetMapping(
+            value = "/{customerId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Customer getOrderById(@PathVariable long customerId) {
+        return customerService.getCustomerById(customerId);
+    }
+
+    @PutMapping(
+            produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    @ResponseBody
+    public Customer newCustomer(@RequestBody Customer data) {
+        return customerService.storeNewCustomer(data.getName(), data.getEmail());
+    }
+
+    @PostMapping(
+            value = "/{customerId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    @ResponseBody
+    public Customer updateCustomer(
+            @PathVariable long customerId,
+            @RequestBody Customer data
+    ) {
+        return customerService.updateCustomer(customerId, data.getName(), data.getEmail());
+    }
+
+    @DeleteMapping(
+            value = "/{customerId}"
+    )
+    public void removeCustomer(@PathVariable long customerId) {
+        customerService.removeCustomer(customerId);
+    }
+
+    @PostMapping(
+            value = "/{customerId}/balance",
+            produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    @ResponseBody
+    public Customer updateCustomerBalance(
+            @PathVariable long customerId,
+            @RequestBody Customer data
+    ) {
+        return customerService.updateCustomerBalance(customerId, data.getBalance());
+    }
 }

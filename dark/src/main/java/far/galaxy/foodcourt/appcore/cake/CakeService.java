@@ -16,26 +16,6 @@ public class CakeService {
 
     // todo, set available = false for old versions then new version wes created
 
-//    public void updateCake(Long cakeId, String name, Long price) {
-//        if (name.length() == 0) {
-//            throw new IllegalArgumentException("Incorrect arguments: name is empty");
-//        }
-//        if (price <= 0) {
-//            throw new IllegalArgumentException("Incorrect arguments: price is 0 or less");
-//        }
-//
-//        Cake cake = this.getCakeByIdOrNew(cakeId);
-//
-//        cake.setName(name);
-//        cake.setPrice(price);
-//
-//        cakeRepository.save(cake);
-//    }
-
-//    public Cake getCakeByIdOrNew(Long cakeId) {
-//        return cakeId > -1 ? cakeRepository.findById(cakeId).get() : new Cake();
-//    }
-
     public List<Cake> getAvailableCakes() {
         return cakeRepository.findAllByAvailableTrue()
                 .stream()
@@ -49,5 +29,25 @@ public class CakeService {
 
     public Cake getCakeById(long cakeId) {
         return cakeRepository.getOne(cakeId);
+    }
+
+    public Cake storeNewCake(String name, long price) {
+        return cakeRepository.save(new Cake(name, price));
+    }
+
+    public Cake updateCake(long id, String name) {
+        Cake cake = cakeRepository.getOne(id);
+        if (name != null) {
+            cake.setName(name);
+        }
+        // todo, price update MUST handled with new item creation, new version
+//        if (price > 0) { // todo, may be object will be better
+//            cake.setPrice(price);
+//        }
+        return cakeRepository.save(cake);
+    }
+
+    public void removeCake(long id) {
+        cakeRepository.deleteById(id);
     }
 }

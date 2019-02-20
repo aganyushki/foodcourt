@@ -42,7 +42,7 @@ public class OrderService {
                 new IllegalArgumentException("Undefined cake id")
         );
 
-        customer.addBalance(cake.getPrice() * count); // todo, concurrency?
+        customer.minusBalance(cake.getPrice() * count); // todo, concurrency?
 
         return orderRepository.save(new OrderItem(
                 customerRepository.save(customer),

@@ -6,7 +6,7 @@ export default class CustomerFullView extends Component {
 
         return (
             <div>
-                { `${customer.getId()}; ${customer.getName()}; ${customer.getEmail()}; ${customer.getBalance()}` }
+                { `${customer.getId()}; ${customer.getName()}; ${customer.getBalance()}` }
             </div>
         )
     }

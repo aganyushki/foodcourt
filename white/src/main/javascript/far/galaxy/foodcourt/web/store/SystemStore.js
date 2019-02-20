@@ -1,7 +1,6 @@
 import {observable, action} from "mobx";
 import {doAuth, getUser} from "../api/SystemAPI";
 
-
 class SystemStore {
     @observable user = null;
 
@@ -27,6 +26,7 @@ class SystemStore {
 
     @action.bound
     doLogin(login, pwd) {
+        console.log(`doLogin(login: ${login}; pwd: ${pwd})`);
         return doAuth(login, pwd)
             .then(user => {
                 if (user) {

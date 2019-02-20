@@ -1,6 +1,14 @@
 import React, {Component} from "react";
 import {observer} from "mobx-react";
 import {getOrderStore} from "../../store/OrderStore";
+import Stepper from "@material-ui/core/Stepper";
+import Step from "@material-ui/core/Step";
+import StepLabel from "@material-ui/core/StepLabel";
+import {withStyles} from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+
+const styles = theme => ({
+});
 
 class ShopOrderStepperItem extends Component {
     render() {
@@ -12,22 +20,23 @@ class ShopOrderStepperItem extends Component {
 }
 
 @observer
-export default class ShopOrderStepper extends Component {
+class ShopOrderStepper extends Component {
     render() {
         const order = getOrderStore().order;
+        const {customer, cake, count} = order;
 
         const stepper = [
             {
-                title: "Please input your name",
-                completed: order.customer !== null,
+                title: customer !== null ? customer.getName() : "Please input your name",
+                completed: customer !== null,
             },
             {
-                title: "Please choose cake",
-                completed: order.cake !== null,
+                title: cake !== null ? cake.getName() : "Please choose cake",
+                completed: cake !== null,
             },
             {
-                title: "How many <cakes> do you need?",
-                completed: order.count > 0,
+                title: count > 0 ? count : "How many <cakes> do you need?",
+                completed: count > 0,
             },
             {
                 title: "Complete and approve you order",
@@ -39,12 +48,24 @@ export default class ShopOrderStepper extends Component {
 
         return (
             <div>
-                <div><b>active step: {activeStep}</b></div>
-                {
-                    stepper
-                        .map(stepItem => <ShopOrderStepperItem key={stepItem.title} step={stepItem} />)
-                }
+                <Stepper activeStep={activeStep}>
+                    {
+                        stepper.map(step => {
+                            return (
+                                <Step key={step.title} completed={step.completed}>
+                                    <StepLabel>{step.title}</StepLabel>
+                                </Step>
+                            );
+                        })
+                    }
+                </Stepper>
             </div>
         )
     }
 }
+
+ShopOrderStepper.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(ShopOrderStepper);

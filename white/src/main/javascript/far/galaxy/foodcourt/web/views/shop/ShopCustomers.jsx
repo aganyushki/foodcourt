@@ -1,11 +1,26 @@
 import React, {Component} from "react";
 import {getOrderStore} from "../../store/OrderStore";
-import Customer from "../component/Customer";
 import {getCustomerStore} from "../../store/CustomerStore";
 import {observer} from "mobx-react";
+import PropTypes from "prop-types";
+import {withStyles} from "@material-ui/core";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+
+const styles = theme => ({ // todo, duplicated
+    wrapped: {
+        padding: 50,
+    },
+    paper: {
+        padding: theme.spacing.unit * 2,
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+        cursor: 'pointer'
+    },
+});
 
 @observer
-export default class ShopCustomers extends Component {
+class ShopCustomers extends Component {
 
     doSelect(customer) {
         getOrderStore().setCustomer(customer);
@@ -16,15 +31,23 @@ export default class ShopCustomers extends Component {
     }
 
     showCustomers(customers) {
-        return customers.map(customer =>
-            <Customer key={customer.getId()} customer={customer} onClick={this.doSelect.bind(this, customer)}
-        />)
+        return (
+            <Grid container spacing={24}>{
+                customers.map(customer =>
+                    <Grid key={customer.getId()} item xs={2} onClick={this.doSelect.bind(this, customer)}>
+                        <Paper className={this.props.classes.paper}>
+                            <h3>{customer.getName()}</h3>
+                        </Paper>
+                    </Grid>
+                )
+            }</Grid>
+        )
     }
 
     render() {
         const customers = getCustomerStore().customers;
         return (
-            <div>
+            <div className={this.props.classes.wrapped}>
                 {
                     customers === null
                         ? this.showProcessing()
@@ -34,3 +57,9 @@ export default class ShopCustomers extends Component {
         )
     }
 }
+
+ShopCustomers.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(ShopCustomers);

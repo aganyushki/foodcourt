@@ -1,11 +1,26 @@
 import React, {Component} from "react";
-import CustomerGroup from "../component/CustomerGroup";
 import {observer} from "mobx-react";
 import {getCustomerStore} from "../../store/CustomerStore";
 import {getOrderStore} from "../../store/OrderStore";
+import PropTypes from 'prop-types';
+import {withStyles} from '@material-ui/core/styles';
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+
+const styles = theme => ({
+    wrapped: {
+        padding: 50,
+    },
+    paper: {
+        padding: theme.spacing.unit * 2,
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+        cursor: 'pointer'
+    },
+});
 
 @observer
-export default class ShopGroups extends Component {
+class ShopGroups extends Component {
 
     doSelect(group) {
         getOrderStore().setGroup(group);
@@ -16,15 +31,23 @@ export default class ShopGroups extends Component {
     }
 
     showGroups(groups) {
-        return groups.map(group =>
-            <CustomerGroup key={group.getId()} group={group} onClick={this.doSelect.bind(this, group)}
-        />)
+        return (
+            <Grid container spacing={24}>{
+                groups.map(group =>
+                    <Grid key={group.getId()} item xs={2} onClick={this.doSelect.bind(this, group)}>
+                        <Paper className={this.props.classes.paper}>
+                            <h1>{group.getTitle()}</h1>
+                        </Paper>
+                    </Grid>
+                )
+            }</Grid>
+        )
     }
 
     render() {
         const groups = getCustomerStore().groups;
         return (
-            <div>
+            <div className={this.props.classes.wrapped}>
                 {
                     groups === null
                         ? this.showProcessing()
@@ -34,3 +57,9 @@ export default class ShopGroups extends Component {
         )
     }
 }
+
+ShopGroups.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(ShopGroups);

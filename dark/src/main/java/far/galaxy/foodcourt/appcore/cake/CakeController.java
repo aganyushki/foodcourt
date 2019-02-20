@@ -34,4 +34,31 @@ public class CakeController {
     public Cake getCakeById(@PathVariable long cakeId) {
         return cakeService.getCakeById(cakeId);
     }
+
+    @PutMapping(
+            produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    @ResponseBody
+    public Cake newCake(@RequestBody Cake data) {
+        return cakeService.storeNewCake(data.getName(), data.getPrice());
+    }
+
+    @PostMapping(
+            value = "/{customerId}",
+            produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    @ResponseBody
+    public Cake updateCake(
+            @PathVariable long customerId,
+            @RequestBody Cake data
+    ) {
+        return cakeService.updateCake(customerId, data.getName());
+    }
+
+    @DeleteMapping(
+            value = "/{cakeId}"
+    )
+    public void removeCustomer(@PathVariable long cakeId) {
+        cakeService.removeCake(cakeId);
+    }
 }

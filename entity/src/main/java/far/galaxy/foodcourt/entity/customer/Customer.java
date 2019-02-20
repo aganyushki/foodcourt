@@ -68,4 +68,8 @@ public class Customer {
     public void addBalance(long amount) {
         this.balance += amount;
     }
+
+    public void minusBalance(long amount) {
+        this.balance -= amount;
+    }
 }

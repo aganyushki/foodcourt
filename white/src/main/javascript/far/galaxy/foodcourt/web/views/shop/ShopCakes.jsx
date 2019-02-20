@@ -1,11 +1,26 @@
 import React, {Component} from "react";
 import {getOrderStore} from "../../store/OrderStore";
 import {observer} from "mobx-react";
-import Cake from "../component/Cake";
 import {getCakeStore} from "../../store/CakeStore";
+import PropTypes from "prop-types";
+import {withStyles} from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+
+const styles = theme => ({
+    wrapped: {
+        padding: 50,
+    },
+    paper: {
+        padding: theme.spacing.unit * 2,
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+        cursor: 'pointer'
+    },
+});
 
 @observer
-export default class ShopCakes extends Component {
+class ShopCakes extends Component {
 
     doSelect(cake) {
         getOrderStore().setCake(cake);
@@ -16,15 +31,28 @@ export default class ShopCakes extends Component {
     }
 
     showCakes(cakes) {
-        return cakes.map(cake =>
-            <Cake key={cake.getId()} cake={cake} onClick={this.doSelect.bind(this, cake)}
-        />)
+        return (
+            <Grid
+                container
+                direction="row"
+                alignItems="center"
+                spacing={24}
+            >{
+                cakes.map(cake =>
+                    <Grid key={cake.getId()} item xs={2} onClick={this.doSelect.bind(this, cake)}>
+                        <Paper className={this.props.classes.paper}>
+                            <h3>{cake.getName()}</h3>
+                        </Paper>
+                    </Grid>
+                )
+            }</Grid>
+        )
     }
 
     render() {
         const cakes = getCakeStore().cakes;
         return (
-            <div>
+            <div className={this.props.classes.wrapped}>
                 {
                     cakes === null
                         ? this.showProcessing()
@@ -34,3 +62,9 @@ export default class ShopCakes extends Component {
         )
     }
 }
+
+ShopCakes.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(ShopCakes);

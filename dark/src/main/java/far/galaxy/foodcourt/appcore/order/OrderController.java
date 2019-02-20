@@ -30,12 +30,12 @@ public class OrderController {
         return orderService.getOrderById(orderId);
     }
 
-    @PutMapping()
+    @PutMapping(
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public OrderItem putNewOrder(
-            @RequestParam(name = "customer", required = true) long customerId,
-            @RequestParam(name = "cake", required = true) long cakeId,
-            @RequestParam(name = "count", required = true) int count
+            @RequestBody OrderRequest data
     ) {
-        return orderService.putNewOrder(customerId, cakeId, count);
+        return orderService.putNewOrder(data.getCustomer(), data.getCake(), data.getCount());
     }
 }
