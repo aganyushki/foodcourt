@@ -38,6 +38,9 @@ const config = {
                                 {
                                     "loose": true
                                 }
+                            ],
+                            [
+                                "@babel/plugin-proposal-export-default-from"
                             ]
                         ]
                     }

@@ -1,40 +1,25 @@
 import React, {Component} from "react";
-import {getCustomerStore} from "../../store/CustomerStore";
-import CustomerFullView from "../component/CustomerFullView";
+import {getCustomerStore} from "../../../store/CustomerStore";
 import {observer} from "mobx-react";
-import EditItemDialog from "../component/EditItemDialog";
-import ConfirmDialog from "../component/ConfirmDialog";
-import Customer from "../../entity/Customer";
-import RefillDialog from "../component/RefillDialog";
-
-const NEW_CUSTOMER_MODEL = [
-    {key: "name", title: "name"},
-    {key: "email", title: "email"},
-];
-
-const UPDATE_CUSTOMER_MODEL = [
-    {key: "id", hidden: true},
-    {key: "name", title: "name"},
-    {key: "email", title: "email", disabled: true},
-];
-
-class Row extends Component {
-    render() {
-        const {customer, doUpdate, doRemove, doRefill} = this.props;
-
-        return (
-            <div style={{padding: 10}}>
-                <CustomerFullView customer={customer} />
-                <button onClick={doUpdate}>update</button>
-                <button onClick={doRemove}>remove</button>
-                <button onClick={doRefill}>refill</button>
-            </div>
-        )
-    }
-}
+import EditItemDialog from "../../component/EditItemDialog";
+import ConfirmDialog from "../../component/ConfirmDialog";
+import Customer from "../../../entity/Customer";
+import RefillDialog from "../../component/RefillDialog";
+import PropTypes from "prop-types";
+import {withStyles} from "@material-ui/core";
+import {NEW_CUSTOMER_MODEL, UPDATE_CUSTOMER_MODEL} from "./Constants";
+import {styles} from "./Style";
+import CustomerAdminViewRow from "./CustomerAdminViewRow";
+import CustomerAdminViewTable from "./CustomerAdminViewTable";
+import IconButton from "@material-ui/core/IconButton";
+import RefreshIcon from "@material-ui/icons/Refresh";
+import SearchIcon from "@material-ui/icons/Search";
+import Button from "@material-ui/core/Button";
+import InputBase from "@material-ui/core/InputBase";
+import Paper from "@material-ui/core/Paper";
 
 @observer
-export default class AdminCustomers extends Component {
+class AdminCustomers extends Component {
 
     constructor(props) {
         super(props);
@@ -136,23 +121,34 @@ export default class AdminCustomers extends Component {
 
         return (
             <div>
-                <button onClick={this.reloadData.bind(this)}>refresh</button>
-                <button onClick={this.showAddNew.bind(this)}>add new</button>
-                <input type="text" value={this.state.filterValue} onChange={this.doFilter.bind(this)} />
+                <div>
+                    <IconButton aria-label="refresh" onClick={this.reloadData.bind(this)}>
+                        <RefreshIcon fontSize="small" />
+                    </IconButton>
+                    <Button variant="contained" color="primary" onClick={this.showAddNew.bind(this)}>
+                        add new
+                    </Button>
+                    <Paper elevation={1} className={this.props.classes.filterinput}>
+                        <InputBase placeholder="keyword to search..." value={this.state.filterValue} onChange={this.doFilter.bind(this)} />
+                        <IconButton aria-label="Search">
+                            <SearchIcon />
+                        </IconButton>
+                    </Paper>
+                </div>
 
-                {
+                <CustomerAdminViewTable>{
                     customers === null
-                        ? <i>processing</i>
+                        ? null
                         : customers
                             .filter(customer => customer.getName().indexOf(this.state.filterValue) > -1)
                             .map(customer =>
-                                <Row key={customer.getId()} customer={customer}
-                                     doUpdate={this.showUpdate.bind(this, customer)}
-                                     doRemove={this.showRemove.bind(this, customer)}
-                                     doRefill={this.showRefill.bind(this, customer)}
+                                <CustomerAdminViewRow key={customer.getId()} customer={customer}
+                                                      doUpdate={this.showUpdate.bind(this, customer)}
+                                                      doRemove={this.showRemove.bind(this, customer)}
+                                                      doRefill={this.showRefill.bind(this, customer)}
                                 />
                             )
-                }
+                }</CustomerAdminViewTable>
 
                 <EditItemDialog // todo, anchor(*)
                     open={this.state.dialogAddNew}
@@ -189,3 +185,9 @@ export default class AdminCustomers extends Component {
         )
     }
 }
+
+AdminCustomers.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(AdminCustomers);
