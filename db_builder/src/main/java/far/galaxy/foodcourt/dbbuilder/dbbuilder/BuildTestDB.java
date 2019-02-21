@@ -1,6 +1,7 @@
 package far.galaxy.foodcourt.dbbuilder.dbbuilder;
 
 import com.github.javafaker.Faker;
+import far.galaxy.foodcourt.entity.MainMySQLPersistenceConfig;
 import far.galaxy.foodcourt.entity.cake.Cake;
 import far.galaxy.foodcourt.entity.cake.CakeRepository;
 import far.galaxy.foodcourt.entity.customer.Customer;
@@ -14,6 +15,8 @@ import far.galaxy.foodcourt.entity.transaction.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -24,8 +27,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-//@Component
-//@Transactional
+@SpringBootApplication(
+        scanBasePackages = {
+                "far.galaxy.foodcourt.dbbuilder"
+        },
+        scanBasePackageClasses = {
+                MainMySQLPersistenceConfig.class
+        }
+)
+@Transactional
 public class BuildTestDB {
     Logger log = LoggerFactory.getLogger(BuildTestDB.class);
 
@@ -138,5 +148,9 @@ public class BuildTestDB {
                     return customer;
                 })
                 .forEach(customerRepository::save);
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(BuildTestDB.class, args);
     }
 }

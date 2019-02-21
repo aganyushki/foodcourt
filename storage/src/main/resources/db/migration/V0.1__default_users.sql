@@ -1,0 +1,10 @@
+INSERT INTO `food_court`.`User` (`id`, `enabled`, `password`, `username`) VALUES (0, 1, 'root', 'root');
+INSERT INTO `food_court`.`User` (`id`, `enabled`, `password`, `username`) VALUES (0, 1, 'user1', 'pwd1');
+INSERT INTO `food_court`.`User` (`id`, `enabled`, `password`, `username`) VALUES (0, 1, 'user2', 'pwd2');
+INSERT INTO `food_court`.`UserRole` (`id`, `name`) VALUES (0, 'ROME_ADMIN');
+INSERT INTO `food_court`.`UserRole` (`id`, `name`) VALUES (0, 'ROME_USER');
+INSERT INTO `food_court`.`UserRole` (`id`, `name`) VALUES (0, 'ROME_TESTER');
+INSERT INTO `food_court`.`User_UserRole` (`User_id`, `roles_id`) VALUES (1, 1);
+INSERT INTO `food_court`.`User_UserRole` (`User_id`, `roles_id`) VALUES (2, 1);
+INSERT INTO `food_court`.`User_UserRole` (`User_id`, `roles_id`) VALUES (2, 2);
+INSERT INTO `food_court`.`User_UserRole` (`User_id`, `roles_id`) VALUES (3, 2);

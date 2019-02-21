@@ -1,0 +1,29 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="clean database for local" type="GradleRunConfiguration" factoryName="Gradle">
+    <ExternalSystemSettings>
+      <option name="env">
+        <map>
+          <entry key="MYSQL_DB" value="food_court" />
+          <entry key="MYSQL_HOST_PORT" value="localhost:3306" />
+          <entry key="MYSQL_PASSWORD" value="yak546uK!#" />
+          <entry key="MYSQL_USER" value="root" />
+        </map>
+      </option>
+      <option name="executionName" />
+      <option name="externalProjectPath" value="$PROJECT_DIR$/storage" />
+      <option name="externalSystemIdString" value="GRADLE" />
+      <option name="scriptParameters" value="" />
+      <option name="taskDescriptions">
+        <list />
+      </option>
+      <option name="taskNames">
+        <list>
+          <option value="flywayClean" />
+        </list>
+      </option>
+      <option name="vmOptions" value="" />
+    </ExternalSystemSettings>
+    <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+    <method v="2" />
+  </configuration>
+</component>

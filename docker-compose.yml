@@ -1,26 +1,30 @@
 version: '3'
 services:
 
-  app:
+  appnode:
+    container_name: food_court_appnode
+    restart: always
     build: ./dark/
     ports:
       - "80:80"
     networks:
-      - appnet
+      - foodcounrtnet
     environment:
-      MYSQL_HOST_PORT: "mysql:3306"
-      MYSQL_USER: "root"
-      MYSQL_PASSWORD: "root"
+      MYSQL_HOST_PORT: "food_court_storage:3306"
+      MYSQL_USER: "appuser1"
+      MYSQL_PASSWORD: "secretpwd1"
       MYSQL_DB: "food_court"
 
   mysql:
-    image: "mysql:latest"
+    container_name: food_court_storage
+    restart: always
+    build: ./storage/
     ports:
       - "3307:3306"
     networks:
-      - appnet
+      - foodcounrtnet
     environment:
       MYSQL_ROOT_PASSWORD: "root"
 
 networks:
-  appnet:
+  foodcounrtnet:

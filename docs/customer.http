@@ -1,18 +1,20 @@
 GET http://localhost/groups
-###
-GET http://localhost/groups/7
-###
-GET http://localhost/groups/2/customers
-###
-GET http://localhost/cakes
-###
-GET http://localhost/cakes/10
-###
-GET http://localhost/orders
+
 ###
 
-GET http://localhost/orders/5
-Cookie: JSESSIONID=606145087DEECAF7218E9107CD04B051
+GET http://localhost/groups/7
+
+###
+
+GET http://localhost/groups/2/customers
+
+###
+
+GET http://localhost/cakes
+
+###
+
+GET http://localhost/cakes/10
 
 ###
 

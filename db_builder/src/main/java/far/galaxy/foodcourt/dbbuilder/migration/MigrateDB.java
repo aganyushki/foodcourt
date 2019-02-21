@@ -27,8 +27,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
-@Transactional
+//@Component
+//@Transactional
 public class MigrateDB {
     Logger log = LoggerFactory.getLogger(MigrateDB.class);
 

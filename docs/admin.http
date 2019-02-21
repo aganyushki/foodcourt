@@ -1,0 +1,11 @@
+
+GET http://localhost/orders
+Cookie: JSESSIONID=7305B7E92DF3793A60A32A2ECFC83AF0
+
+###
+
+GET http://{{host}}:{{port}}/orders/5
+Cookie: JSESSIONID=7305B7E92DF3793A60A32A2ECFC83AF0
+
+###
+
