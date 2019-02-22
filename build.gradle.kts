@@ -30,3 +30,10 @@ task("stopDockerDevelopmentEnvironment") {
         tasks.getByPath(":composeDown")
     )
 }
+
+task("xyz") {
+    doLast {
+        println(System.getenv().forEach { println(it) })
+//        println(System.getProperties().forEach { println(it) })
+    }
+}
