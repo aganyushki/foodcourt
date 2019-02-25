@@ -8,6 +8,9 @@ import {withStyles} from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
 const styles = theme => ({
+    wrapper: {
+        width: '50%'
+    }
 });
 
 class ShopOrderStepperItem extends Component {
@@ -27,19 +30,19 @@ class ShopOrderStepper extends Component {
 
         const stepper = [
             {
-                title: customer !== null ? customer.getName() : "Please input your name",
+                title: customer !== null ? customer.getName() : "Your name",
                 completed: customer !== null,
             },
             {
-                title: cake !== null ? cake.getName() : "Please choose cake",
+                title: cake !== null ? cake.getName() : "Cake",
                 completed: cake !== null,
             },
             {
-                title: count > 0 ? count : "How many <cakes> do you need?",
+                title: count > 0 ? count : "Count",
                 completed: count > 0,
             },
             {
-                title: "Complete and approve you order",
+                title: "Complete",
                 completed: false,
             }
         ];
@@ -47,19 +50,17 @@ class ShopOrderStepper extends Component {
         const activeStep = stepper.filter(item => item.completed).length;
 
         return (
-            <div>
-                <Stepper activeStep={activeStep}>
-                    {
-                        stepper.map(step => {
-                            return (
-                                <Step key={step.title} completed={step.completed}>
-                                    <StepLabel>{step.title}</StepLabel>
-                                </Step>
-                            );
-                        })
-                    }
-                </Stepper>
-            </div>
+            <Stepper activeStep={activeStep} className={this.props.classes.wrapper}>
+                {
+                    stepper.map(step => {
+                        return (
+                            <Step key={step.title} completed={step.completed}>
+                                <StepLabel>{step.title}</StepLabel>
+                            </Step>
+                        );
+                    })
+                }
+            </Stepper>
         )
     }
 }

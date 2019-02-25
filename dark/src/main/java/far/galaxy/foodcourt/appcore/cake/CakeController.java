@@ -58,7 +58,7 @@ public class CakeController {
     @DeleteMapping(
             value = "/{cakeId}"
     )
-    public void removeCustomer(@PathVariable long cakeId) {
+    public void removeCake(@PathVariable long cakeId) {
         cakeService.removeCake(cakeId);
     }
 }

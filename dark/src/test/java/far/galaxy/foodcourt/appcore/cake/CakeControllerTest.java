@@ -1,7 +1,10 @@
 package far.galaxy.foodcourt.appcore.cake;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import far.galaxy.foodcourt.appcore.cake.CakeController;
 import far.galaxy.foodcourt.appcore.cake.CakeService;
+import far.galaxy.foodcourt.entity.cake.Cake;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,8 +14,17 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.*;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -20,157 +32,108 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(value = CakeController.class, secure = false)
 public class CakeControllerTest {
 
-    private final static String CAKE_EDIT_ACTION_PAGE_URL = "/cake";
-    private final static String CAKE_EDIT_VIEW_PAGE_URL = "/cake/edit";
-    private final static String CAKE_LIST_PAGE_URL = "/cake/list";
+    // todo, exceptions is not handled in controller and not tested here
 
     @Autowired
     private MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     private CakeService cakeService;
 
-    @InjectMocks
-    private CakeController controller;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+    @Test
+    public void checkGetAvailableCakeList() throws Exception {
+        List<Cake> testList = new ArrayList<>();
+        testList.add(new Cake("name", 2));
+
+        Mockito.when(cakeService.getAvailableCakes()).thenReturn(testList);
+
+        mockMvc.perform(
+                get("/cakes")
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().json(
+                        objectMapper.writeValueAsString(testList)
+                ));
     }
 
     @Test
-    void initializationTest() {
-        Assertions.assertNotNull(controller);
+    public void checkGetCakeById() throws Exception {
+        long id = 666;
+        Cake cake = new Cake("name 666", 13);
+
+        Mockito.when(cakeService.getCakeById(id)).thenReturn(cake);
+
+        mockMvc.perform(
+                get("/cakes/" + id).accept(MediaType.APPLICATION_JSON_VALUE)
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().json(
+                        objectMapper.writeValueAsString(cake)
+                ));
     }
 
     @Test
-    void updateCakeActionTest() throws Exception {
-//        final Long TEST_ID = 10L;
-//        final String TEST_NAME = "Test cake name";
-//        final Long TEST_PRICE = 777L;
-//
-//        mockMvc
-//                .perform(
-//                        post(CAKE_EDIT_ACTION_PAGE_URL)
-//                            .param("id", String.valueOf(TEST_ID))
-//                            .param("name", TEST_NAME)
-//                            .param("price", String.valueOf(TEST_PRICE))
-//                )
-//                .andExpect(redirectedUrl(CAKE_EDIT_VIEW_PAGE_URL));
-//
-//        Mockito.verify(cakeService).updateCake(TEST_ID, TEST_NAME, TEST_PRICE);
+    public void checkNewCake() throws Exception {
+        String name = "test-name";
+        long price = 713;
+        Cake testResultCake = new Cake(name, price);
+        String jsonCake = objectMapper.writeValueAsString(testResultCake);
+
+        Mockito.when(cakeService.storeNewCake(name, price)).thenReturn(testResultCake);
+
+        mockMvc.perform(
+                put("/cakes")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .content(jsonCake)
+
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().json(jsonCake));
     }
 
     @Test
-    void updateCakeActionWithDefValuesTest() throws Exception {
-//        final Long DEF_ID = -1L;
-//        final String DEF_NAME = "";
-//        final Long DEF_PRICE = 0L;
-//
-//        mockMvc
-//                .perform(
-//                        post(CAKE_EDIT_ACTION_PAGE_URL)
-//                )
-//                .andExpect(redirectedUrl(CAKE_EDIT_VIEW_PAGE_URL));
-//
-//        Mockito.verify(cakeService).updateCake(DEF_ID, DEF_NAME, DEF_PRICE);
+    public void checkUpdateCake() throws Exception {
+        long id = 717;
+        String name = "test-name";
+        long price = 713;
+        Cake testResultCake = new Cake(name, price);
+        String jsonCake = objectMapper.writeValueAsString(testResultCake);
+
+        Mockito.when(cakeService.updateCake(id, name)).thenReturn(testResultCake);
+
+        mockMvc.perform(
+                post("/cakes/" + id)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .content(jsonCake)
+
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().json(jsonCake));
     }
 
     @Test
-    void cakeListEditPageTest() throws Exception {
-//        final Long TEST_ID = 10L;
-//        final String TEST_NAME = "Test cake name";
-//        final Long TEST_PRICE = 777L;
-//
-//        Cake testCake = new Cake(TEST_ID, TEST_NAME, TEST_PRICE);
-//        List<Cake> testList = new ArrayList<>();
-//        testList.add(testCake);
-//
-//        Mockito.when(cakeService.getCakeByIdOrNew(Mockito.anyLong())).thenReturn(testCake);
-//        Mockito.when(cakeService.getAvailableCakes()).thenReturn(testList);
-//
-//        mockMvc
-//                .perform(
-//                        get(CAKE_EDIT_VIEW_PAGE_URL)
-//                                .param("id", String.valueOf(TEST_ID))
-//                )
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("cakeListEditPage"))
-//                .andExpect(model().attribute("cake", testCake))
-//                .andExpect(model().attribute("entities", testList));
-//
-//        Mockito.verify(cakeService).getCakeByIdOrNew(TEST_ID);
-    }
+    public void checkRemoveCake() throws Exception {
+        long id = 777;
 
-    @Test
-    void cakeListEditPageWithDefValueTest() throws Exception {
-//        final Long TEST_ID = -1L;
-//        final String TEST_NAME = "Test cake name";
-//        final Long TEST_PRICE = 777L;
-//
-//        Cake testCake = new Cake(TEST_ID, TEST_NAME, TEST_PRICE);
-//        List<Cake> testList = new ArrayList<>();
-//        testList.add(testCake);
-//
-//        Mockito.when(cakeService.getCakeByIdOrNew(Mockito.anyLong())).thenReturn(testCake);
-//        Mockito.when(cakeService.getAvailableCakes()).thenReturn(testList);
-//
-//        mockMvc
-//                .perform(
-//                        get(CAKE_EDIT_VIEW_PAGE_URL)
-//                )
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("cakeListEditPage"))
-//                .andExpect(model().attribute("cake", testCake))
-//                .andExpect(model().attribute("entities", testList));
-//
-//        Mockito.verify(cakeService).getCakeByIdOrNew(TEST_ID);
-    }
+        mockMvc.perform(
+                delete("/cakes/" + id)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
 
-    @Test
-    void cakeChoosePageTest() throws Exception {
-//        final String TEST_UID = "test_uid";
-//
-//        final Long TEST_ID = -1L;
-//        final String TEST_NAME = "Test cake name";
-//        final Long TEST_PRICE = 777L;
-//
-//        Cake testCake = new Cake(TEST_ID, TEST_NAME, TEST_PRICE);
-//        List<Cake> testList = new ArrayList<>();
-//        testList.add(testCake);
-//
-//        Mockito.when(cakeService.getAvailableCakes()).thenReturn(testList);
-//
-//        mockMvc
-//                .perform(
-//                        get(CAKE_LIST_PAGE_URL)
-//                                .param("uid", TEST_UID)
-//                )
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("cakeListPage"))
-//                .andExpect(model().attribute("uid", TEST_UID))
-//                .andExpect(model().attribute("entities", testList));
-//
-//        Mockito.verify(cakeService).getAvailableCakes();
-    }
+        )
+                .andExpect(status().isOk());
 
-    @Test
-    void cakeChoosePageWithoutArgsTest() throws Exception {
-//        mockMvc
-//                .perform(
-//                        get(CAKE_LIST_PAGE_URL)
-//                )
-//                .andExpect(status().isBadRequest());
+        Mockito.verify(cakeService).removeCake(id);
     }
 }

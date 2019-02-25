@@ -35,7 +35,7 @@ public class CustomerController {
             value = "/{customerId}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Customer getOrderById(@PathVariable long customerId) {
+    public Customer getCustomerById(@PathVariable long customerId) {
         return customerService.getCustomerById(customerId);
     }
 

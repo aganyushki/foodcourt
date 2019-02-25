@@ -32,6 +32,8 @@ public class CakeService {
     }
 
     public Cake storeNewCake(String name, long price) {
+        if (name == null) throw new NullPointerException("Cake can't have 'null' name");
+        if (price < 1) throw new IllegalArgumentException("Cake can't have price < 1");
         return cakeRepository.save(new Cake(name, price));
     }
 

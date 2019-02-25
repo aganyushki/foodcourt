@@ -4,8 +4,12 @@ import {getOrderStore} from "../../../store/OrderStore";
 import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
 
 const styles = theme => ({
+    wrapper: {
+        paddingTop: 100,
+    },
     button: {
         margin: theme.spacing.unit,
     },
@@ -20,7 +24,13 @@ class ShopOrderApprove extends Component {
 
     render() {
         return (
-            <div>
+            <Grid item
+                  container
+                  direction="row"
+                  justify="space-evenly"
+                  alignItems="center"
+                  className={this.props.classes.wrapper}
+            >
                 <Button variant="outlined" color="primary" size="large" className={this.props.classes.button}
                         onClick={this.approve.bind(this)}>
                     approve
@@ -28,7 +38,7 @@ class ShopOrderApprove extends Component {
                 <Button variant="outlined" color="secondary" size="large" className={this.props.classes.button}>
                     reject
                 </Button>
-            </div>
+            </Grid>
         )
     }
 }
