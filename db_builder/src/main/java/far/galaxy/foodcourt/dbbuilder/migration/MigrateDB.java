@@ -23,6 +23,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -111,12 +112,12 @@ public class MigrateDB {
                 .forEach(oldCake -> {
 
                     String cakeName = oldCake.getName();
-                    long price = oldCake.getPrice();
+                    BigDecimal price = BigDecimal.valueOf(oldCake.getPrice());
 
                     oldOrderRepository.findAllByBulkName(cakeName)
                             .stream()
                             .mapToLong(oldOrder -> oldOrder.getPrice())
-                            .filter(prevPrice -> prevPrice != price)
+                            .filter(prevPrice -> price.compareTo(BigDecimal.valueOf(prevPrice)) != 0)
                             .distinct()
                             .sorted()
                             .mapToObj(prevPrice -> {
@@ -141,7 +142,7 @@ public class MigrateDB {
                             .forEach(oldBalance -> {
                                 int amount = oldBalance.getIncomingTransaction().intValue();
 
-                                customer.addBalance(amount);
+                                customer.addBalance(BigDecimal.valueOf(amount));
                                 Incoming incoming = new Incoming(customer, amount);
                                 incoming.setTime(oldBalance.getTime());
 
@@ -164,7 +165,11 @@ public class MigrateDB {
 
                                 Cake cake = cakeRepository.findByNameAndPrice(oldOrder.getBulkName(), oldOrder.getPrice());
 
-                                customer.addBalance(-1 * oldOrder.getCount() * cake.getPrice());
+                                customer.addBalance(
+                                        cake.getPrice()
+                                            .multiply(BigDecimal.valueOf(oldOrder.getCount()))
+                                            .multiply(BigDecimal.valueOf(-1))
+                                );
 
                                 OrderItem order = new OrderItem(
                                         customer,

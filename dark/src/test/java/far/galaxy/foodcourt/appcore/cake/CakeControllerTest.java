@@ -29,6 +29,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class CakeControllerTest {
     @Test
     public void checkGetAvailableCakeList() throws Exception {
         List<Cake> testList = new ArrayList<>();
-        testList.add(new Cake("name", 2));
+        testList.add(new Cake("name", BigDecimal.valueOf(2)));
 
         Mockito.when(cakeService.getAvailableCakes()).thenReturn(testList);
 
@@ -69,7 +70,7 @@ public class CakeControllerTest {
     @Test
     public void checkGetCakeById() throws Exception {
         long id = 666;
-        Cake cake = new Cake("name 666", 13);
+        Cake cake = new Cake("name 666", BigDecimal.valueOf(13));
 
         Mockito.when(cakeService.getCakeById(id)).thenReturn(cake);
 
@@ -85,7 +86,7 @@ public class CakeControllerTest {
     @Test
     public void checkNewCake() throws Exception {
         String name = "test-name";
-        long price = 713;
+        BigDecimal price = BigDecimal.valueOf(713);
         Cake testResultCake = new Cake(name, price);
         String jsonCake = objectMapper.writeValueAsString(testResultCake);
 
@@ -106,7 +107,7 @@ public class CakeControllerTest {
     public void checkUpdateCake() throws Exception {
         long id = 717;
         String name = "test-name";
-        long price = 713;
+        BigDecimal price = BigDecimal.valueOf(713);
         Cake testResultCake = new Cake(name, price);
         String jsonCake = objectMapper.writeValueAsString(testResultCake);
 

@@ -11,6 +11,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 
@@ -134,7 +136,7 @@ public class CustomerServiceTest {
     @Test
     public void checkUpdateCustomerBalance() {
         long id = 9;
-        long amount = 77;
+        BigDecimal amount = BigDecimal.valueOf(77);
         Customer mockCustomer = Mockito.mock(Customer.class);
         Mockito.when(customerRepository.getOne(id)).thenReturn(mockCustomer);
         customerService.updateCustomerBalance(id, amount);
@@ -146,7 +148,7 @@ public class CustomerServiceTest {
         long id = 1;
         Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> customerService.updateCustomerBalance(id, -5)
+                () -> customerService.updateCustomerBalance(id, BigDecimal.valueOf(-5))
         );
     }
 
@@ -154,14 +156,14 @@ public class CustomerServiceTest {
     public void checkUpdateCustomerBalanceWithNullPointerException() {
         Assertions.assertThrows(
                 NullPointerException.class,
-                () -> customerService.updateCustomerBalance(1, 0)
+                () -> customerService.updateCustomerBalance(1, BigDecimal.valueOf(0))
         );
     }
 
     @Test
     public void checkUpdateCustomerBalanceWithZeroValue() {
         long id = 9;
-        long amount = 0;
+        BigDecimal amount = BigDecimal.valueOf(0);
 
         Customer mockCustomer = Mockito.mock(Customer.class);
         Mockito.when(customerRepository.getOne(id)).thenReturn(mockCustomer);

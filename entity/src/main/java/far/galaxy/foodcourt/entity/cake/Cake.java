@@ -5,6 +5,7 @@ import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity
 @Table(uniqueConstraints = {
@@ -14,21 +15,29 @@ import java.io.Serializable;
 public class Cake {
     private long id;
     private String name;
-    private long price;
+    private BigDecimal price;
     private int version;
     private boolean available;
 
     public Cake() {
         this.id = 0L;
-        this.price = 0L;
+        this.price = BigDecimal.valueOf(0L);
         this.version = 1;
         this.available = true;
     }
 
-    public Cake(String name, long price) {
+    public Cake(String name, BigDecimal price) {
         this();
         this.name = name;
         this.price = price;
+    }
+
+    public Cake(String name, int price) {
+        this(name, BigDecimal.valueOf(price));
+    }
+
+    public Cake(String name, long price) {
+        this(name, BigDecimal.valueOf(price));
     }
 
     @Id
@@ -51,11 +60,11 @@ public class Cake {
         this.name = name;
     }
 
-    public long getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

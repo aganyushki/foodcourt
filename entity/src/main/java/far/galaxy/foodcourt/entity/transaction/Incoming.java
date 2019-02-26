@@ -5,6 +5,7 @@ import far.galaxy.foodcourt.entity.customer.Customer;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -15,18 +16,22 @@ public class Incoming {
 
     private Customer customer;
 
-    private long amount;
+    private BigDecimal amount;
 
     public Incoming() {
         this.id = 0;
         this.time = new Date();
     }
 
-    public Incoming(Customer customer, long amount) {
+    public Incoming(Customer customer, BigDecimal amount) {
         this();
 
         this.customer = customer;
         this.amount = amount;
+    }
+
+    public Incoming(Customer customer, int amount) {
+        this(customer, BigDecimal.valueOf(amount));
     }
 
     @Id
@@ -57,11 +62,11 @@ public class Incoming {
         this.customer = customer;
     }
 
-    public long getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(long amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 }

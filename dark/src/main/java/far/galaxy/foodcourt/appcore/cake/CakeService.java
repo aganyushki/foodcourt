@@ -5,6 +5,7 @@ import far.galaxy.foodcourt.entity.cake.CakeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,9 +32,9 @@ public class CakeService {
         return cakeRepository.getOne(cakeId);
     }
 
-    public Cake storeNewCake(String name, long price) {
+    public Cake storeNewCake(String name, BigDecimal price) {
         if (name == null) throw new NullPointerException("Cake can't have 'null' name");
-        if (price < 1) throw new IllegalArgumentException("Cake can't have price < 1");
+        if (price.compareTo(BigDecimal.ONE) == -1) throw new IllegalArgumentException("Cake can't have price < 1");
         return cakeRepository.save(new Cake(name, price));
     }
 

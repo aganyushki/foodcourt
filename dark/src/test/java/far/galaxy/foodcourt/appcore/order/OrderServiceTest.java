@@ -16,6 +16,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
+
 import static java.util.Optional.ofNullable;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,7 +55,7 @@ public class OrderServiceTest {
     public void checkPutNewOrder() {
         long customerId = 7;
         long cakeId = 77;
-        long cakePrice = 14;
+        BigDecimal cakePrice = BigDecimal.valueOf(14);
         int count = 777;
 
         Customer mockCustomer = Mockito.mock(Customer.class);
@@ -67,7 +69,7 @@ public class OrderServiceTest {
 
         orderService.putNewOrder(customerId, cakeId, count);
 
-        Mockito.verify(mockCustomer).minusBalance(cakePrice * count);
+        Mockito.verify(mockCustomer).minusBalance(cakePrice.multiply(BigDecimal.valueOf(count)));
 
         ArgumentCaptor<OrderItem> argument = ArgumentCaptor.forClass(OrderItem.class);
         Mockito.verify(orderRepository).save(argument.capture());

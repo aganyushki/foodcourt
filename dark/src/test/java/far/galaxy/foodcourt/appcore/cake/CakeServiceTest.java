@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +36,7 @@ public class CakeServiceTest {
     @Test
     public void checkSave() {
         String name = "cake test name";
-        long price = 77;
+        BigDecimal price = BigDecimal.valueOf(77);
 
         cakeService.storeNewCake(name, price);
     }
@@ -43,7 +44,7 @@ public class CakeServiceTest {
     @Test
     public void checkNullPointerInSaveMethod() {
         String name = null;
-        long price = 77;
+        BigDecimal price = BigDecimal.valueOf(77);
 
         Assertions.assertThrows(
                 NullPointerException.class, () -> cakeService.storeNewCake(name, price)
@@ -53,8 +54,8 @@ public class CakeServiceTest {
     @Test
     public void checkInvalidPriceInSaveMethod() {
         String name = "test name";
-        long priceTry1 = 0;
-        long priceTry2 = -2;
+        BigDecimal priceTry1 = BigDecimal.valueOf(0);
+        BigDecimal priceTry2 = BigDecimal.valueOf(-2);
 
         Assertions.assertThrows(
                 IllegalArgumentException.class, () -> cakeService.storeNewCake(name, priceTry1)
@@ -67,7 +68,7 @@ public class CakeServiceTest {
     @Test
     public void checkRepositoryCallInSaveMethod() {
         String name = "name";
-        long price = 7;
+        BigDecimal price = BigDecimal.valueOf(7);
         final long DEFAULT_ID = 0;
         final long DEFAULT_VERSION = 1;
         final boolean DEFAULT_AVAILABLE = true;
@@ -105,8 +106,8 @@ public class CakeServiceTest {
 
     @Test
     public void checkGetterForAvailableCakes() {
-        Cake cake1 = new Cake("name 1", 1); cake1.setId(1);
-        Cake cake2 = new Cake("name 2", 2); cake2.setId(2);
+        Cake cake1 = new Cake("name 1", BigDecimal.valueOf(1)); cake1.setId(1);
+        Cake cake2 = new Cake("name 2", BigDecimal.valueOf(2)); cake2.setId(2);
         List<Cake> testList = new ArrayList<>();
         testList.add(cake2);
         testList.add(cake1);
@@ -149,7 +150,7 @@ public class CakeServiceTest {
     public void checkUpdateName() {
         long id = 9;
         String name = "new name";
-        Cake cake = new Cake("name", 44);
+        Cake cake = new Cake("name", BigDecimal.valueOf(44));
         cake.setId(id);
 
         Mockito.when(cakeRepository.getOne(id)).thenReturn(cake);
@@ -168,7 +169,7 @@ public class CakeServiceTest {
     public void checkUpdateNullName() {
         long id = 9;
         String name = "name";
-        Cake cake = new Cake(name, 44);
+        Cake cake = new Cake(name, BigDecimal.valueOf(44));
         cake.setId(id);
 
         Mockito.when(cakeRepository.getOne(id)).thenReturn(cake);

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -12,11 +13,11 @@ public class Customer {
     private long id;
     private String name;
     private String email;
-    private long balance;
+    private BigDecimal balance;
 
     public Customer() {
         this.id = 0;
-        this.balance = 0;
+        this.balance = BigDecimal.valueOf(0);
     }
 
     public Customer(String name, String email) {
@@ -57,19 +58,19 @@ public class Customer {
         this.email = email;
     }
 
-    public long getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(long balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
-    public void addBalance(long amount) {
-        this.balance += amount;
+    public void addBalance(BigDecimal amount) {
+        this.balance = this.balance.add(amount);
     }
 
-    public void minusBalance(long amount) {
-        this.balance -= amount;
+    public void minusBalance(BigDecimal amount) {
+        this.balance = this.balance.subtract(amount);
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -121,7 +122,7 @@ public class CustomerControllerTest {
     public void checkUpdateCustomerBalance() throws Exception {
         long id = 234;
         Customer customer = new Customer();
-        long balance = 787;
+        BigDecimal balance = BigDecimal.valueOf(787);
         customer.setBalance(balance);
         String customerJson = objectMapper.writeValueAsString(customer);
 

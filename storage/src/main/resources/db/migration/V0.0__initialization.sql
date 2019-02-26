@@ -28,7 +28,7 @@ CREATE TABLE `Cake` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `available` bit(1) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `price` bigint(20) NOT NULL,
+  `price` decimal(19,2),
   `version` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UKnolguekxo6j5u6vr79ft3h4ae` (`name`,`version`)
@@ -44,7 +44,7 @@ DROP TABLE IF EXISTS `Customer`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `Customer` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `balance` bigint(20) NOT NULL,
+  `balance` decimal(19,2),
   `email` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -91,7 +91,7 @@ DROP TABLE IF EXISTS `Incoming`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `Incoming` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `amount` bigint(20) NOT NULL,
+  `amount` decimal(19,2),
   `time` datetime DEFAULT NULL,
   `customer_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),

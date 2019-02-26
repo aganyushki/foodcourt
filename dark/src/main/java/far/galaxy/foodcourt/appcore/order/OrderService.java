@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,7 +43,9 @@ public class OrderService {
                 new IllegalArgumentException("Undefined cake id")
         );
 
-        customer.minusBalance(cake.getPrice() * count); // todo, concurrency?
+        customer.minusBalance(
+                cake.getPrice().multiply(BigDecimal.valueOf(count))
+        ); // todo, concurrency?
 
         return orderRepository.save(new OrderItem(
                 customerRepository.save(customer),

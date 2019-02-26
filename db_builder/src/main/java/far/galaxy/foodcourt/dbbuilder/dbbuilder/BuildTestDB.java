@@ -22,6 +22,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -115,7 +116,7 @@ public class BuildTestDB {
                     IntStream.range(0, txCount)
                             .mapToObj(it -> {
                                 int amount = faker.number().numberBetween(maxAmount / 5, maxAmount);
-                                customer.addBalance(amount);
+                                customer.addBalance(BigDecimal.valueOf(amount));
                                 return new Incoming(customer, amount);
                             })
                             .forEach(incomingRepository::save);
@@ -136,7 +137,11 @@ public class BuildTestDB {
                                 Cake cake = cakeRepository.getOne(
                                         (long) faker.number().numberBetween(1, cakeRepository.findAll().size())
                                 );
-                                customer.addBalance(-1 * amount * cake.getPrice());
+                                customer.addBalance(
+                                        cake.getPrice()
+                                                .multiply(BigDecimal.valueOf(amount))
+                                                .multiply(BigDecimal.valueOf(-1))
+                                );
                                 return new OrderItem(
                                         customer,
                                         cake,
