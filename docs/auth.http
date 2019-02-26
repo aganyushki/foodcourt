@@ -1,6 +1,6 @@
 
 GET http://{{host}}:{{port}}/system/check/admin
-Cookie: JSESSIONID=7305B7E92DF3793A60A32A2ECFC83AF0
+Cookie: JSESSIONID={{authcookie}}
 
 ###
 
