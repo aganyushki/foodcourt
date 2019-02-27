@@ -1,9 +1,13 @@
 package far.galaxy.foodcourt.entity.system;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
     private Long id;
     private String username;
@@ -30,6 +34,7 @@ public class User {
         this.username = username;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -38,6 +43,7 @@ public class User {
         this.password = password;
     }
 
+    @JsonIgnore
     public boolean isEnabled() {
         return enabled;
     }

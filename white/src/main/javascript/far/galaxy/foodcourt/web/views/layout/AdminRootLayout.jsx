@@ -18,6 +18,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import TocIcon from '@material-ui/icons/Toc';
 import Drawer from "@material-ui/core/Drawer";
 import ListItemText from "@material-ui/core/ListItemText";
+import {getSystemStore} from "../../store/SystemStore";
 
 const drawerWidth = 240;
 const styles = theme => ({

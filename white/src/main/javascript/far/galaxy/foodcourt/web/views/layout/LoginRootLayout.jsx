@@ -1,80 +1,51 @@
 import React, {Component} from "react";
 import {getSystemStore} from "../../store/SystemStore";
 import {observer} from "mobx-react";
-import Button from "@material-ui/core/Button";
 import {withStyles} from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
+import Toolbar from "@material-ui/core/Toolbar";
+import AppBar from "@material-ui/core/AppBar";
+import Typography from "@material-ui/core/Typography";
+import LoginView from "../component/LoginView";
 
 const styles = theme => ({
-    button: {
-        margin: theme.spacing.unit,
+    root: {
+        display: 'flex',
     },
-    paper: {
-        padding: theme.spacing.unit * 2,
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
+    appBar: {
+        zIndex: theme.zIndex.drawer + 1,
     },
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing.unit * 3,
+    },
+    toolbar: theme.mixins.toolbar,
 });
 
 @observer
 class LoginRootLayout extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.loginRef = React.createRef();
-        this.pwdRef = React.createRef();
-    }
-
-    doLogin() {
-        getSystemStore().doLogin(
-            this.loginRef.current.value,
-            this.pwdRef.current.value
-        )
-    }
-
     render() {
         const {classes} = this.props;
+        const user = getSystemStore().user;
         return (
-            <div>
-                <Grid
-                    container
-                    direction="row"
-                    justify="center"
-                    alignItems="center"
-                    spacing={24}
-                >
-                    <Grid item xs={6}>
-                        <Paper className={classes.paper}>
+            <div className={classes.root}>
+                <AppBar position="fixed" className={classes.appBar}>
+                    <Toolbar>
+                        <Typography variant="h6" color="inherit" noWrap>
+                            WILEY, Korolev
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
 
-                            <div>
-                                <TextField
-                                    type="text"
-                                    id="login"
-                                    label="login"
-                                    margin="normal"
-                                    inputRef={this.loginRef}
-                                />
-                            </div>
-                            <div>
-                                <TextField
-                                    type="password"
-                                    id="password"
-                                    label="password"
-                                    margin="normal"
-                                    inputRef={this.pwdRef}
-                                />
-                            </div>
+                <main className={classes.content}>
+                    <div className={classes.toolbar} />
 
-                            <Button variant="contained" color="primary" className={classes.button}
-                                    onClick={this.doLogin.bind(this)}>login</Button>
-
-                        </Paper>
-                    </Grid>
-                </Grid>
+                    {
+                        user === null
+                            ? <LoginView />
+                            : <div>processing...</div>
+                    }
+                </main>
             </div>
         )
     }
