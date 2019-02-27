@@ -8,6 +8,17 @@ MYSQL_DB="food_court"
 MYSQL_USER="user_name"
 MYSQL_PASSWORD="your_password"
 ```
+###### environment variable which are used to manage test DB builder 
+```powershell
+MAX_CUSTOMER_PER_GROUP=30
+MAX_CAKES=100
+MAX_CAKE_PRICE=200
+MAX_INCOMING_TX_PER_CUSTOMER=24
+MAX_INCOMING_TX_AMOUNT=2000
+MAX_ORDER_TX_PER_CUSTOMER=1000
+MAX_ORDER_TX_AMOUNT=5
+```
+> used in "build fake database for local" and "build fake database for docker" idea run configurations
 
 #### Docker environment
 

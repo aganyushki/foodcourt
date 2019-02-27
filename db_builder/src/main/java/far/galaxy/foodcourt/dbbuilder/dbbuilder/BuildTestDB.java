@@ -15,15 +15,14 @@ import far.galaxy.foodcourt.entity.transaction.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -38,124 +37,151 @@ import java.util.stream.IntStream;
 )
 @Transactional
 public class BuildTestDB {
-    Logger log = LoggerFactory.getLogger(BuildTestDB.class);
+    private final Logger LOG = LoggerFactory.getLogger(BuildTestDB.class);
 
     @Autowired
-    GroupRepository groupRepository;
+    private GroupRepository groupRepository;
 
     @Autowired
-    CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
 
     @Autowired
-    CakeRepository cakeRepository;
+    private CakeRepository cakeRepository;
 
     @Autowired
-    OrderRepository orderRepository;
+    private OrderRepository orderRepository;
 
     @Autowired
-    IncomingRepository incomingRepository;
+    private IncomingRepository incomingRepository;
 
     private Faker faker = new Faker();
 
-    private int customerPoolSize = 10;
-    private int cakePoolSize = 10;
+    @Value("${max.customer.per.group}")
+    private int maxCustomerPerGroup = 30;
+    @Value("${max.cakes}")
+    private int cakePoolSize = 100;
+    @Value("${max.cake.price}")
     private int maxCakePrice = 20;
-    private int maxIncomingTxPerCustomer = 3;
-    private int maxIncomingTxAmount = 500;
-    private int maxOrderTxPerCustomer = 50;
+    @Value("${max.incoming.tx.per.customer}")
+    private int maxIncomingTxPerCustomer = 12;
+    @Value("${max.incoming.tx.amount}")
+    private int maxIncomingTxAmount = 1000;
+    @Value("${max.order.tx.per.customer}")
+    private int maxOrderTxPerCustomer = 1000;
+    @Value("${max.order.tx.amount}")
     private int maxOrderTxAmount = 5;
+
+    public static void main(String[] args) {
+        SpringApplication.run(BuildTestDB.class, args);
+    }
 
     @EventListener
     public void startUpEventListener(ContextRefreshedEvent e) {
-        buildCustomerPool(customerPoolSize);
+
+        LOG.info("BuildTestDB started...");
+        LOG.info("max.customer.per.group: " + maxCustomerPerGroup);
+        LOG.info("max.cakes: " + cakePoolSize);
+        LOG.info("max.cake.price: " + maxCakePrice);
+        LOG.info("max.incoming.tx.per.customer: " + maxIncomingTxPerCustomer);
+        LOG.info("max.incoming.tx.amount: " + maxIncomingTxAmount);
+        LOG.info("max.order.tx.per.customer: " + maxOrderTxPerCustomer);
+        LOG.info("max.order.tx.amount: " + maxOrderTxAmount);
+
+        buildCustomerPool(maxCustomerPerGroup);
         buildCakePool(cakePoolSize, maxCakePrice);
         buildIncomingTXPool(maxIncomingTxPerCustomer, maxIncomingTxAmount);
         buildOrderPool(maxOrderTxPerCustomer, maxOrderTxAmount);
     }
 
-    private void buildCustomerPool(int N) {
-
-        List<String> groups = Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
-                "O", "P", "Q", "R", "S", "T", "U", "V", "W", "Y", "Z");
-
-        groups.stream()
-                .map(it -> new CustomerGroup(it))
-                .forEach(groupRepository::save);
-
-        IntStream.range(0, N)
-                .mapToObj(it -> new Customer(faker.name().fullName(), faker.internet().emailAddress()))
-                .forEach(customerRepository::save);
-
-        groupRepository.findAll().stream()
-                .map(group -> {
-
-                    group.setCustomers(
-                        customerRepository.findAll().stream()
-                                .filter(customer ->
-                                        customer.getName().toLowerCase().startsWith(group.getTitle().toLowerCase())
-                                )
-                                .collect(Collectors.toList())
-                    );
-
-                    return group;
+    private void buildCustomerPool(final int MAX_CUSTOMER_PER_GROUP) {
+        LOG.info("BuildTestDB.buildCustomerPool");
+        Constants.GROUPS.stream()
+                .map(CustomerGroup::new)
+                .peek(group -> {
+                    if (!group.getTitle().equalsIgnoreCase("F")) {
+                        group.setCustomers(buildCustomersForGroup(group, MAX_CUSTOMER_PER_GROUP));
+                    }
                 })
                 .forEach(groupRepository::save);
     }
 
-    private void buildCakePool(int N, int maxCakePrice) {
-        IntStream.range(0, N)
-                .mapToObj(it -> new Cake(faker.food().ingredient(), faker.number().numberBetween(1, maxCakePrice)))
-                .forEach(cakeRepository::save);
+    private List<Customer> buildCustomersForGroup(CustomerGroup group, final int MAX_CUSTOMERS) {
+        return customerRepository.saveAll(
+                IntStream.range(0, faker.number().numberBetween(0, MAX_CUSTOMERS))
+                        .mapToObj(index -> new Customer(
+                                group.getTitle() + "_" + faker.name().fullName() + "_" + index,
+                                group.getTitle() + "_" + faker.internet().emailAddress() + "_" + index
+                        ))
+                        .collect(Collectors.toList())
+        );
     }
 
-    private void buildIncomingTXPool(int maxTxPerCustomer, int maxAmount) {
+    private void buildCakePool(final int MAX_CAKES, final int MAX_CAKE_PRICE) {
+        LOG.info("BuildTestDB.buildCakePool");
+        cakeRepository.saveAll(
+                IntStream.range(0, MAX_CAKES)
+                        .mapToObj(index -> new Cake(
+                                faker.food().ingredient() + "_" + index,
+                                faker.number().numberBetween(1, MAX_CAKE_PRICE))
+                        )
+                        .collect(Collectors.toList())
+        );
+    }
+
+    private void buildIncomingTXPool(final int MAX_TX_PER_CUSTOMER, final int MAX_AMOUNT) {
+        LOG.info("BuildTestDB.buildIncomingTXPool");
         customerRepository.findAll().stream()
-                .map(customer -> {
-                    int txCount = faker.number().numberBetween(0, maxTxPerCustomer);
-
-                    IntStream.range(0, txCount)
-                            .mapToObj(it -> {
-                                int amount = faker.number().numberBetween(maxAmount / 5, maxAmount);
-                                customer.addBalance(BigDecimal.valueOf(amount));
-                                return new Incoming(customer, amount);
-                            })
-                            .forEach(incomingRepository::save);
-
-                    return customer;
+                .peek(customer -> {
+                    incomingRepository.saveAll(
+                            buildIncomingTxPoolForCustomer(customer, MAX_TX_PER_CUSTOMER, MAX_AMOUNT)
+                    )
+                            .stream()
+                            .forEach(incoming -> customer.addBalance(incoming.getAmount()));
                 })
                 .forEach(customerRepository::save);
     }
 
-    private void buildOrderPool(int maxTxPerCustomer, int maxAmount) {
-        customerRepository.findAll().stream()
-                .map(customer -> {
-                    int txCount = faker.number().numberBetween(0, maxTxPerCustomer);
+    private List<Incoming> buildIncomingTxPoolForCustomer(Customer customer,
+                                                          final int MAX_TX_PER_CUSTOMER, final int MAX_AMOUNT)
+    {
+        return IntStream.range(0, faker.number().numberBetween(0, MAX_TX_PER_CUSTOMER))
+                .mapToObj(it -> new Incoming(
+                        customer,
+                        faker.number().numberBetween(MAX_AMOUNT / 5, MAX_AMOUNT)
+                ))
+                .collect(Collectors.toList());
+    }
 
-                    IntStream.range(0, txCount)
-                            .mapToObj(it -> {
-                                int amount = faker.number().numberBetween(maxAmount / 5, maxAmount);
-                                Cake cake = cakeRepository.getOne(
-                                        (long) faker.number().numberBetween(1, cakeRepository.findAll().size())
-                                );
+    private void buildOrderPool(final int MAX_TX_PER_CUSTOMER, final int MAX_AMOUNT) {
+        LOG.info("BuildTestDB.buildOrderPool");
+        List<Cake> allCakes = cakeRepository.findAll();
+        customerRepository.findAll().stream()
+                .peek(customer -> {
+                    orderRepository.saveAll(
+                            buildOrderPoolForCustomer(customer, allCakes, MAX_TX_PER_CUSTOMER, MAX_AMOUNT)
+                    )
+                            .stream()
+                            .forEach(order -> {
                                 customer.addBalance(
-                                        cake.getPrice()
-                                                .multiply(BigDecimal.valueOf(amount))
+                                        order.getCake().getPrice()
+                                                .multiply(BigDecimal.valueOf(order.getCount()))
                                                 .multiply(BigDecimal.valueOf(-1))
                                 );
-                                return new OrderItem(
-                                        customer,
-                                        cake,
-                                        amount
-                                );
-                            })
-                            .forEach(orderRepository::save);
-
-                    return customer;
+                            });
                 })
                 .forEach(customerRepository::save);
     }
 
-    public static void main(String[] args) {
-        SpringApplication.run(BuildTestDB.class, args);
+    private List<OrderItem> buildOrderPoolForCustomer(Customer customer, List<Cake> allCakes,
+                                                      final int MAX_TX_PER_CUSTOMER, final int MAX_AMOUNT)
+    {
+        int size = allCakes.size();
+        return IntStream.range(0, faker.number().numberBetween(0, MAX_TX_PER_CUSTOMER))
+                .mapToObj(it -> new OrderItem(
+                        customer,
+                        allCakes.get((int) faker.number().numberBetween(1, size)),
+                        faker.number().numberBetween(MAX_AMOUNT / 5, MAX_AMOUNT)
+                ))
+                .collect(Collectors.toList());
     }
 }

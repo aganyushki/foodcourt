@@ -1,6 +1,17 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="build fake database for docker" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
+      <option name="env">
+        <map>
+          <entry key="MAX_CUSTOMER_PER_GROUP" value="30" />
+          <entry key="MAX_CAKES" value="100" />
+          <entry key="MAX_CAKE_PRICE" value="20" />
+          <entry key="MAX_INCOMING_TX_PER_CUSTOMER" value="24" />
+          <entry key="MAX_INCOMING_TX_AMOUNT" value="2000" />
+          <entry key="MAX_ORDER_TX_PER_CUSTOMER" value="1000" />
+          <entry key="MAX_ORDER_TX_AMOUNT" value="5" />
+        </map>
+      </option>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$/storage" />
       <option name="externalSystemIdString" value="GRADLE" />
