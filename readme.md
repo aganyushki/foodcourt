@@ -1,4 +1,8 @@
 
+## Quick start
+
+## Build and installation
+
 ## Development environment
 
 ###### environment variable which are used to manage access to database 
@@ -100,6 +104,26 @@ PS> .\gradlew :storage:flywayMigrate
 ```powershell
 PS> $Env:MYSQL_HOST_PORT="localhost:3306";$Env:MYSQL_DB="food_court";$Env:MYSQL_USER="user_name";$Env:MYSQL_PASSWORD="your_password"; PS> .\gradlew :storage:flywayMigrate
 ```
+
+#### Database migration
+> from first implementation to new, java version
+
+```powershell
+PS> .\gradlew :storage:migrateDatabase
+```
+acceptable environment variables
+```bash
+MYSQL_DB=
+MYSQL_HOST_PORT=
+MYSQL_PASSWORD=
+MYSQL_USER=
+OLD_MYSQL_DB=
+OLD_MYSQL_HOST_PORT=
+OLD_MYSQL_PASSWORD=
+OLD_MYSQL_USER=
+```
+
+also we have idea run configuration for that: ```migrate database for local target```
 
 #### Fake database data
 

@@ -26,6 +26,11 @@ public class Customer {
         this.email = email;
     }
 
+    public Customer(String name, String email, BigDecimal balance) {
+        this(name, email);
+        this.balance = balance;
+    }
+
     @Id
     @NonNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)

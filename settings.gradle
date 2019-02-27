@@ -23,6 +23,7 @@ rootProject.name = 'food-court'
 
 include 'entity'
 include 'db_builder'
+include 'db_migration'
 include 'dark'
 include 'white'
 include 'storage'

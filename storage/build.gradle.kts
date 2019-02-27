@@ -37,5 +37,13 @@ task<JavaExec>("buildFakeDatabase") {
     environment("MYSQL_PASSWORD", MYSQL_PASSWORD)
     environment("MYSQL_DB", MYSQL_DB)
 
-    main = "far.galaxy.foodcourt.dbbuilder.dbbuilder.BuildTestDB"
+    main = "far.galaxy.foodcourt.dbbuilder.BuildTestDB"
+}
+
+task<JavaExec>("migrateDatabase") {
+    dependsOn(":storage:flywayMigrate")
+
+    classpath = project(":db_migration").sourceSets.get("main").runtimeClasspath
+
+    main = "far.galaxy.foodcourt.migration.MigrateDBFromFirstImplementation"
 }

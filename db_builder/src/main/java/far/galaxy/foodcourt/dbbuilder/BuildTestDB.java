@@ -1,6 +1,7 @@
-package far.galaxy.foodcourt.dbbuilder.dbbuilder;
+package far.galaxy.foodcourt.dbbuilder;
 
 import com.github.javafaker.Faker;
+import far.galaxy.foodcourt.entity.Constants;
 import far.galaxy.foodcourt.entity.MainMySQLPersistenceConfig;
 import far.galaxy.foodcourt.entity.cake.Cake;
 import far.galaxy.foodcourt.entity.cake.CakeRepository;
