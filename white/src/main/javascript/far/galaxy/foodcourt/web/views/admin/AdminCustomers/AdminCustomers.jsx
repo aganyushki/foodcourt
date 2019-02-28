@@ -11,12 +11,6 @@ import {NEW_CUSTOMER_MODEL, UPDATE_CUSTOMER_MODEL} from "./Constants";
 import {styles} from "./Style";
 import CustomerAdminViewRow from "./CustomerAdminViewRow";
 import CustomerAdminViewTable from "./CustomerAdminViewTable";
-import IconButton from "@material-ui/core/IconButton";
-import RefreshIcon from "@material-ui/icons/Refresh";
-import SearchIcon from "@material-ui/icons/Search";
-import Button from "@material-ui/core/Button";
-import InputBase from "@material-ui/core/InputBase";
-import Paper from "@material-ui/core/Paper";
 
 @observer
 class AdminCustomers extends Component {
@@ -39,10 +33,6 @@ class AdminCustomers extends Component {
     }
 
     componentDidMount() {
-        this.reloadData();
-    }
-
-    reloadData() {
         getCustomerStore().getCustomers();
     }
 
@@ -92,12 +82,6 @@ class AdminCustomers extends Component {
         })
     }
 
-    doFilter(event) {
-        this.setState({
-            filterValue: event.target.value
-        });
-    }
-
     showRefill(dialogRefillCustomer) {
         this.setState({
             dialogRefill: true,
@@ -115,37 +99,22 @@ class AdminCustomers extends Component {
         })
     }
 
+    selectCustomer(customer) {
+        getCustomerStore().selectCustomer(customer)
+    }
     render() {
-
         const customers = getCustomerStore().customers;
-
+        const filter = getCustomerStore().filterString;
         return (
             <div>
-                <div>
-                    <IconButton aria-label="refresh" onClick={this.reloadData.bind(this)}>
-                        <RefreshIcon fontSize="small" />
-                    </IconButton>
-                    <Button variant="contained" color="primary" onClick={this.showAddNew.bind(this)}>
-                        add new
-                    </Button>
-                    <Paper elevation={1} className={this.props.classes.filterinput}>
-                        <InputBase placeholder="keyword to search..." value={this.state.filterValue} onChange={this.doFilter.bind(this)} />
-                        <IconButton aria-label="Search">
-                            <SearchIcon />
-                        </IconButton>
-                    </Paper>
-                </div>
-
                 <CustomerAdminViewTable>{
                     customers === null
                         ? null
                         : customers
-                            .filter(customer => customer.getName().indexOf(this.state.filterValue) > -1)
+                            .filter(customer => customer.getName().indexOf(filter) > -1)
                             .map(customer =>
                                 <CustomerAdminViewRow key={customer.getId()} customer={customer}
-                                                      doUpdate={this.showUpdate.bind(this, customer)}
-                                                      doRemove={this.showRemove.bind(this, customer)}
-                                                      doRefill={this.showRefill.bind(this, customer)}
+                                                      doSelect={this.selectCustomer.bind(this, customer)}
                                 />
                             )
                 }</CustomerAdminViewTable>

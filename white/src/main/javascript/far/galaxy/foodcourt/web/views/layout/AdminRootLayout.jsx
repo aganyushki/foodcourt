@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Link, Route, Switch} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 
 import AdminCustomers from '../admin/AdminCustomers';
 import AdminCakes from '../admin/AdminCakes';
@@ -10,17 +10,17 @@ import {withStyles} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import CakeIcon from '@material-ui/icons/Cake';
-import PeopleIcon from '@material-ui/icons/People';
-import TocIcon from '@material-ui/icons/Toc';
 import Drawer from "@material-ui/core/Drawer";
-import ListItemText from "@material-ui/core/ListItemText";
-import {getSystemStore} from "../../store/SystemStore";
+import Button from "@material-ui/core/Button";
+import AdminCustomersMainToolbarView from "../admin/AdminCustomers/AdminCustomersMainToolbarView";
+import AdminCustomersSearchToolbarView from "../admin/AdminCustomers/AdminCustomersSearchToolbarView";
+import AdminRootLayoutManu from "./AdminRootLayoutManu";
+import AdminCustomersEditorView from "../admin/AdminCustomers/AdminCustomersEditorView";
+import {getCustomerStore} from "../../store/CustomerStore";
+import {observer} from "mobx-react";
 
 const drawerWidth = 240;
+
 const styles = theme => ({
     root: {
         display: 'flex',
@@ -40,11 +40,20 @@ const styles = theme => ({
         padding: theme.spacing.unit * 3,
     },
     toolbar: theme.mixins.toolbar,
+    grow: {
+        flexGrow: 1,
+    },
+    editorContent: {
+        padding: 50
+    }
 });
 
+@observer
 class AdminRootLayout extends Component {
     render() {
         const {classes} = this.props;
+        const selectedCustomer = getCustomerStore().selectedCustomer;
+        const editDrawerIsOpened = (selectedCustomer !== null);
         return (
             <div className={classes.root}>
                 <AppBar position="fixed" className={classes.appBar}>
@@ -52,6 +61,14 @@ class AdminRootLayout extends Component {
                         <Typography variant="h6" color="inherit" noWrap>
                             WILEY, Korolev
                         </Typography>
+                        <Switch>
+                            <Route path={URL.ADMIN_CUSTOMERS} component={AdminCustomersSearchToolbarView} />
+                        </Switch>
+                        <div className={classes.grow} />
+                        <Switch>
+                            <Route path={URL.ADMIN_CUSTOMERS} component={AdminCustomersMainToolbarView} />
+                        </Switch>
+                        <Button color="inherit">logout</Button>
                     </Toolbar>
                 </AppBar>
 
@@ -63,20 +80,7 @@ class AdminRootLayout extends Component {
                     }}
                 >
                     <div className={classes.toolbar} />
-                    <List>
-                        <ListItem button component={Link} to={URL.ADMIN_ORDERS}>
-                            <ListItemIcon><TocIcon /></ListItemIcon>
-                            <ListItemText primary="Orders" />
-                        </ListItem>
-                        <ListItem button component={Link} to={URL.ADMIN_CAKES}>
-                            <ListItemIcon><CakeIcon /></ListItemIcon>
-                            <ListItemText primary="Cakes" />
-                        </ListItem>
-                        <ListItem button component={Link} to={URL.ADMIN_CUSTOMERS}>
-                            <ListItemIcon><PeopleIcon /></ListItemIcon>
-                            <ListItemText primary="Customers" />
-                        </ListItem>
-                    </List>
+                    <AdminRootLayoutManu />
                 </Drawer>
 
                 <main className={classes.content}>
@@ -88,6 +92,18 @@ class AdminRootLayout extends Component {
                         <Route path={URL.ADMIN_ORDERS} component={AdminOrders} />
                     </Switch>
                 </main>
+
+                <Drawer
+                    className={classes.drawer}
+                    open={editDrawerIsOpened}
+                    anchor="right"
+                >
+                    <div className={classes.editorContent}>
+                        <Switch>
+                            <Route path={URL.ADMIN_CUSTOMERS} component={AdminCustomersEditorView} />
+                        </Switch>
+                    </div>
+                </Drawer>
             </div>
         )
     }

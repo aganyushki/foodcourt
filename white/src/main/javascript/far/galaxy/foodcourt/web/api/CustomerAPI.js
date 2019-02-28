@@ -44,7 +44,7 @@ export function addCustomer(newCustomer) {
         .then(customer => new Customer(customer))
 }
 
-export function updateCustomer(customer, changes) {
+export function updateCustomer(customer, name, email) {
     return fetch(
         `/api/customers/${customer.getId()}`,
         {
@@ -54,8 +54,8 @@ export function updateCustomer(customer, changes) {
                 "Content-Type": "application/json; charset=utf-8",
             },
             body: JSON.stringify({
-                name: changes.name,
-                email: changes.email
+                name,
+                email
             })
         }
     )

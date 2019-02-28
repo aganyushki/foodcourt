@@ -17,8 +17,8 @@ class CustomerAdminViewTable extends Component {
                     <TableHead>
                         <TableRow>
                             <TableCell>Customer Name</TableCell>
+                            <TableCell>Customer Email</TableCell>
                             <TableCell align="right">Balance</TableCell>
-                            <TableCell align="right"></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

@@ -54,7 +54,6 @@ public class Customer {
 
     @NonNull
     @Column(unique = true)
-    @JsonIgnore
     public String getEmail() {
         return email;
     }

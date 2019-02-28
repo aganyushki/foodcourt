@@ -13,6 +13,8 @@ import Customer from "../entity/Customer";
 class CustomerStore {
     @observable groups = null;
     @observable customers = null;
+    @observable filterString = '';
+    @observable selectedCustomer = null;
 
     constructor() {
         getGroups()
@@ -28,6 +30,11 @@ class CustomerStore {
                 this.customers = customers;
                 return customers;
             })
+    }
+
+    @action.bound
+    setFilter(filter) {
+        this.filterString = filter;
     }
 
     @action.bound
@@ -59,16 +66,25 @@ class CustomerStore {
     }
 
     @action.bound
-    updateCustomer(customer, changes) {
-        return updateCustomer(customer, changes)
-            .then(updatedCustomer => {
-                this.customers = this.customers
-                    .map(customer =>
-                        customer.getId() === updatedCustomer.getId() ? updatedCustomer : customer
-                    );
+    rollbackCustomer(customer) {
+        customer && customer.doRollback && customer.doRollback();
+    }
 
-                return updatedCustomer;
-            })
+    @action.bound
+    updateCustomer(customer) {
+        if (customer.isChanged()) {
+            return updateCustomer(customer, customer.getName(), customer.getEmail())
+                .then(updatedCustomer => {
+                    this.customers = this.customers
+                        .map(customer =>
+                            customer.getId() === updatedCustomer.getId() ? updatedCustomer : customer
+                        );
+                    customer.doCommit();
+                    return updatedCustomer;
+                })
+        } else {
+            return Promise.resolve(customer);
+        }
     }
 
     @action.bound
@@ -83,6 +99,11 @@ class CustomerStore {
                 // todo, may be need to use WeakMap to optimize performance for local store data updates
                 return updatedCustomer;
             })
+    }
+
+    @action.bound
+    selectCustomer(customer) {
+        this.selectedCustomer = customer;
     }
 }
 
