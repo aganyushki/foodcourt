@@ -45,6 +45,7 @@ public class SecureConfig extends WebSecurityConfigurerAdapter {
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .and()
                 .authorizeRequests()
+                    .antMatchers(HttpMethod.GET, "/incoming").hasRole(ROLE_ADMIN)
                     .antMatchers(HttpMethod.GET, "/system/check/admin").hasRole(ROLE_ADMIN)
                     .antMatchers(HttpMethod.PUT, "/orders").permitAll()
                     .antMatchers(HttpMethod.GET, "/orders").hasRole(ROLE_ADMIN)
