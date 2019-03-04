@@ -58,19 +58,19 @@ public class BuildTestDB {
     private Faker faker = new Faker();
 
     @Value("${max.customer.per.group}")
-    private int maxCustomerPerGroup = 30;
+    private int maxCustomerPerGroup;
     @Value("${max.cakes}")
-    private int cakePoolSize = 100;
+    private int cakePoolSize;
     @Value("${max.cake.price}")
-    private int maxCakePrice = 20;
+    private int maxCakePrice;
     @Value("${max.incoming.tx.per.customer}")
-    private int maxIncomingTxPerCustomer = 12;
+    private int maxIncomingTxPerCustomer;
     @Value("${max.incoming.tx.amount}")
-    private int maxIncomingTxAmount = 1000;
+    private int maxIncomingTxAmount;
     @Value("${max.order.tx.per.customer}")
-    private int maxOrderTxPerCustomer = 1000;
+    private int maxOrderTxPerCustomer;
     @Value("${max.order.tx.amount}")
-    private int maxOrderTxAmount = 5;
+    private int maxOrderTxAmount;
 
     public static void main(String[] args) {
         SpringApplication.run(BuildTestDB.class, args);
