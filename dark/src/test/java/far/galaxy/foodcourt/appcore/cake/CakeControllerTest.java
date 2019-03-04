@@ -1,44 +1,29 @@
 package far.galaxy.foodcourt.appcore.cake;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import far.galaxy.foodcourt.appcore.cake.CakeController;
-import far.galaxy.foodcourt.appcore.cake.CakeService;
+import far.galaxy.foodcourt.appcore.FakePage;
 import far.galaxy.foodcourt.entity.cake.Cake;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.json.JsonTest;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.*;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
+import static far.galaxy.foodcourt.appcore.TestConstants.PAGINATION_DEFAULT_LIMIT;
+import static far.galaxy.foodcourt.appcore.TestConstants.PAGINATION_DEFAULT_PAGE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(value = CakeController.class, secure = false)
 public class CakeControllerTest {
+    private Logger LOG = LoggerFactory.getLogger(CakeControllerTest.class);
 
     // todo, exceptions is not handled in controller and not tested here
 
@@ -52,18 +37,33 @@ public class CakeControllerTest {
 
     @Test
     public void checkGetAvailableCakeList() throws Exception {
-        List<Cake> testList = new ArrayList<>();
-        testList.add(new Cake("name", BigDecimal.valueOf(2)));
+        FakePage fakePage = new FakePage();
 
-        Mockito.when(cakeService.getAvailableCakes()).thenReturn(testList);
-
+        Mockito.when(cakeService.getAvailableCakes(PAGINATION_DEFAULT_PAGE, PAGINATION_DEFAULT_LIMIT)).thenReturn(fakePage);
+        LOG.info(objectMapper.writeValueAsString(fakePage));
         mockMvc.perform(
                 get("/cakes")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
         )
                 .andExpect(status().isOk())
                 .andExpect(content().json(
-                        objectMapper.writeValueAsString(testList)
+                        objectMapper.writeValueAsString(fakePage)
+                ));
+    }
+
+    @Test
+    public void checkGetAvailableCakeListWithPagination() throws Exception {
+        FakePage fakePage = new FakePage();
+
+        Mockito.when(cakeService.getAvailableCakes(3,77)).thenReturn(fakePage);
+        LOG.info(objectMapper.writeValueAsString(fakePage));
+        mockMvc.perform(
+                get("/cakes?page=3&limit=77")
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().json(
+                        objectMapper.writeValueAsString(fakePage)
                 ));
     }
 

@@ -1,6 +1,7 @@
 package far.galaxy.foodcourt.appcore.order;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import far.galaxy.foodcourt.appcore.FakePage;
 import far.galaxy.foodcourt.entity.transaction.OrderItem;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -13,6 +14,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 import java.util.List;
 
+import static far.galaxy.foodcourt.appcore.TestConstants.PAGINATION_DEFAULT_LIMIT;
+import static far.galaxy.foodcourt.appcore.TestConstants.PAGINATION_DEFAULT_PAGE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,20 +33,21 @@ public class OrderControllerTest {
 
     @Test
     public void checkGetOrderList() throws Exception {
-        List<OrderItem> testList = Arrays.asList(
-                new OrderItem()
-        );
-        testList.get(0).setId(7);
-        testList.get(0).setTime(null);
+        FakePage fakePage = new FakePage();
 
-        Mockito.when(orderService.getOrderList()).thenReturn(testList);
+        Mockito.when(
+                orderService.getOrderList(
+                    PAGINATION_DEFAULT_PAGE,
+                    PAGINATION_DEFAULT_LIMIT
+                )
+        ).thenReturn(fakePage);
 
         mockMvc.perform(
                 get("/orders")
         )
                 .andExpect(status().isOk())
                 .andExpect(content().json(
-                        objectMapper.writeValueAsString(testList)
+                        objectMapper.writeValueAsString(fakePage)
                 ));
     }
 

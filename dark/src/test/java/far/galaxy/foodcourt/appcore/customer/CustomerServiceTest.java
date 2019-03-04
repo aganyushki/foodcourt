@@ -31,13 +31,6 @@ public class CustomerServiceTest {
     }
 
     @Test
-    public void checkGetList() {
-        customerService.getList();
-
-        Mockito.verify(customerRepository).findAll();
-    }
-
-    @Test
     public void checkGetCustomerById() {
         long id = 123;
 

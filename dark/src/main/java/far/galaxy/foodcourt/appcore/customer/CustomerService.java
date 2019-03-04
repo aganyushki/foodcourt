@@ -5,6 +5,9 @@ import far.galaxy.foodcourt.entity.customer.CustomerRepository;
 import far.galaxy.foodcourt.entity.group.CustomerGroup;
 import far.galaxy.foodcourt.entity.group.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -16,8 +19,8 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public List<Customer> getList() {
-        return customerRepository.findAll();
+    public Page<Customer> getList(int page, int size, String orderBy) {
+        return customerRepository.findAll(PageRequest.of(page, size, Sort.by(orderBy).ascending()));
     }
 
     public Customer getCustomerById(long customerId) {

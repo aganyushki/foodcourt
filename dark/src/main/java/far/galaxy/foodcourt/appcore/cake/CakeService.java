@@ -3,11 +3,12 @@ package far.galaxy.foodcourt.appcore.cake;
 import far.galaxy.foodcourt.entity.cake.Cake;
 import far.galaxy.foodcourt.entity.cake.CakeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CakeService {
@@ -17,15 +18,8 @@ public class CakeService {
 
     // todo, set available = false for old versions then new version wes created
 
-    public List<Cake> getAvailableCakes() {
-        return cakeRepository.findAllByAvailableTrue()
-                .stream()
-                .sorted((a, b) ->
-                        a.getId() > b.getId() ? 1 : (
-                                a.getId() < b.getId() ? -1 : 0
-                        )
-                )
-                .collect(Collectors.toList());
+    public Page<Cake> getAvailableCakes(int page, int limit) {
+        return cakeRepository.findAllByAvailableTrue(PageRequest.of(page, limit, Sort.by("name")));
     }
 
     public Cake getCakeById(long cakeId) {

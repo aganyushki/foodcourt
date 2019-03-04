@@ -7,12 +7,13 @@ import far.galaxy.foodcourt.entity.customer.CustomerRepository;
 import far.galaxy.foodcourt.entity.transaction.OrderItem;
 import far.galaxy.foodcourt.entity.transaction.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -26,8 +27,8 @@ public class OrderService {
     @Autowired
     private CakeRepository cakeRepository;
 
-    public List<OrderItem> getOrderList() {
-        return orderRepository.findAll();
+    public Page<OrderItem> getOrderList(int page, int limit) {
+        return orderRepository.findAll(PageRequest.of(page, limit, Sort.by("id").descending()));
     }
 
     public OrderItem getOrderById(long orderId) {

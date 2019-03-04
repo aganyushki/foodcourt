@@ -3,15 +3,18 @@ package far.galaxy.foodcourt.appcore.customer;
 import far.galaxy.foodcourt.entity.customer.Customer;
 import far.galaxy.foodcourt.entity.customer.CustomerRepository;
 import far.galaxy.foodcourt.entity.group.GroupRepository;
+import net.bytebuddy.implementation.bind.annotation.Default;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +22,8 @@ import java.util.Map;
 @RestController
 @RequestMapping(path = "/customers")
 public class CustomerController {
-    Logger log = LoggerFactory.getLogger(CustomerController.class);
+    private Logger LOG = LoggerFactory.getLogger(CustomerController.class);
+    private List<String> ORDER_BY = Arrays.asList("name", "balance");
 
     @Autowired
     private CustomerService customerService;
@@ -27,8 +31,15 @@ public class CustomerController {
     @GetMapping(
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public List<Customer> getCustomers() {
-        return customerService.getList();
+    public Page<Customer> getCustomers(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "limit", defaultValue = "100") int limit,
+            @RequestParam(value = "orderBy", defaultValue = "name") String orderBy
+    ) {
+        if (orderBy != null && !ORDER_BY.contains(orderBy)) {
+            throw new IllegalArgumentException("Incorrect orderBy field value: " + orderBy);
+        }
+        return customerService.getList(page, limit, orderBy);
     }
 
     @GetMapping(

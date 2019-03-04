@@ -2,11 +2,9 @@ package far.galaxy.foodcourt.appcore.order;
 
 import far.galaxy.foodcourt.entity.transaction.OrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(path ="/orders")
@@ -18,8 +16,11 @@ public class OrderController {
     @GetMapping(
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public List<OrderItem> getOrderList() {
-        return orderService.getOrderList();
+    public Page<OrderItem> getOrderList(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "limit", defaultValue = "100") int limit
+    ) {
+        return orderService.getOrderList(page, limit);
     }
 
     @GetMapping(

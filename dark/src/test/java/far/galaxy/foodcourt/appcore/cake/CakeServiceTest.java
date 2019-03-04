@@ -1,5 +1,6 @@
 package far.galaxy.foodcourt.appcore.cake;
 
+import far.galaxy.foodcourt.appcore.FakePage;
 import far.galaxy.foodcourt.appcore.cake.CakeService;
 import far.galaxy.foodcourt.entity.cake.Cake;
 import far.galaxy.foodcourt.entity.cake.CakeRepository;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -106,37 +108,12 @@ public class CakeServiceTest {
 
     @Test
     public void checkGetterForAvailableCakes() {
-        Cake cake1 = new Cake("name 1", BigDecimal.valueOf(1)); cake1.setId(1);
-        Cake cake2 = new Cake("name 2", BigDecimal.valueOf(2)); cake2.setId(2);
-        List<Cake> testList = new ArrayList<>();
-        testList.add(cake2);
-        testList.add(cake1);
+        FakePage fakePage = new FakePage();
+        Mockito.when(cakeRepository.findAllByAvailableTrue(Mockito.any())).thenReturn(fakePage);
 
-        Mockito.when(cakeRepository.findAllByAvailableTrue()).thenReturn(testList);
+        Page<Cake> availableCakes = cakeService.getAvailableCakes(1, 2);
 
-        List<Cake> sortedTestList = testList.stream()
-                .sorted((a, b) ->
-                        a.getId() > b.getId() ? 1 : (
-                                a.getId() < b.getId() ? -1 : 0
-                        )
-                )
-                .collect(Collectors.toList());
-
-        List<Cake> value = cakeService.getAvailableCakes();
-
-        Assertions.assertNotEquals(testList, value);
-        Assertions.assertEquals(
-                sortedTestList,
-                value
-        );
-    }
-
-    @Test
-    public void checkNullPointerExceptionForAvailableCakes() {
-        Mockito.when(cakeRepository.findAllByAvailableTrue()).thenReturn(null);
-        Assertions.assertThrows(
-                NullPointerException.class, () -> cakeService.getAvailableCakes()
-        );
+        Assertions.assertEquals(fakePage, availableCakes);
     }
 
     @Test

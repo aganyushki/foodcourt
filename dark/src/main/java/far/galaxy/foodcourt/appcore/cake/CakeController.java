@@ -2,15 +2,9 @@ package far.galaxy.foodcourt.appcore.cake;
 
 import far.galaxy.foodcourt.entity.cake.Cake;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/cakes")
@@ -22,8 +16,11 @@ public class CakeController {
     @GetMapping(
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public List<Cake> getAvailableCakeList() {
-        return cakeService.getAvailableCakes();
+    public Page<Cake> getAvailableCakeList(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "limit", defaultValue = "100") int limit
+    ) {
+        return cakeService.getAvailableCakes(page, limit);
     }
 
     @GetMapping(

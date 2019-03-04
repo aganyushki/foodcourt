@@ -10,6 +10,10 @@ GET http://localhost/groups/2/customers
 
 ###
 
+GET http://localhost/customers?page=0&limit=3&orderBy=balance
+
+###
+
 GET http://localhost/cakes
 
 ###

@@ -2,25 +2,32 @@ package far.galaxy.foodcourt.appcore.customer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import far.galaxy.foodcourt.appcore.FakePage;
 import far.galaxy.foodcourt.entity.customer.Customer;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.util.NestedServletException;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
+import static far.galaxy.foodcourt.appcore.TestConstants.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(value = CustomerController.class, secure = false)
 public class CustomerControllerTest {
+    private Logger LOG = LoggerFactory.getLogger(CustomerControllerTest.class);
 
     @Autowired
     private MockMvc mockMvc;
@@ -32,12 +39,15 @@ public class CustomerControllerTest {
 
     @Test
     public void checkGetCustomers() throws Exception {
-        List<Customer> customerList = Arrays.asList(
-                new Customer("name 1", "email1"),
-                new Customer("name 2", "email2")
-        );
+        FakePage fakePage = new FakePage();
 
-        Mockito.when(customerService.getList()).thenReturn(customerList);
+        Mockito.when(
+                customerService.getList(
+                    PAGINATION_DEFAULT_PAGE,
+                    PAGINATION_DEFAULT_LIMIT,
+                    PAGINATION_DEFAULT_CUSTOMER_ORDER
+                )
+        ).thenReturn(fakePage);
 
         mockMvc.perform(
                 get("/customers")
@@ -45,8 +55,35 @@ public class CustomerControllerTest {
         )
                 .andExpect(status().isOk())
                 .andExpect(content().json(
-                        objectMapper.writeValueAsString(customerList)
+                        objectMapper.writeValueAsString(fakePage)
                 ));
+    }
+
+    @Test
+    public void checkGetCustomersWithPagination() throws Exception {
+        FakePage fakePage = new FakePage();
+
+        Mockito.when(customerService.getList(3,50, "balance")).thenReturn(fakePage);
+
+        mockMvc.perform(
+                get("/customers?page=3&limit=50&orderBy=balance")
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+        )
+                .andExpect(status().isOk())
+                .andExpect(content().json(
+                        objectMapper.writeValueAsString(fakePage)
+                ));
+    }
+
+    @Test
+    public void checkGetCustomersWithIncorrectPagination() throws Exception {
+        Assertions.assertThrows(
+                NestedServletException.class,
+                () -> mockMvc.perform(
+                        get("/customers?page=3&limit=50&orderBy=test")
+                                .accept(MediaType.APPLICATION_JSON_VALUE)
+                )
+        );
     }
 
     @Test
@@ -73,7 +110,7 @@ public class CustomerControllerTest {
         Customer customer = new Customer(name, email);
         String customerJson = objectMapper.writeValueAsString(customer);
 
-        Mockito.when(customerService.storeNewCustomer(name, null)).thenReturn(customer);
+        Mockito.when(customerService.storeNewCustomer(name, email)).thenReturn(customer);
 
         mockMvc.perform(
                 put("/customers")
@@ -93,7 +130,7 @@ public class CustomerControllerTest {
         Customer customer = new Customer(name, email);
         String customerJson = objectMapper.writeValueAsString(customer);
 
-        Mockito.when(customerService.updateCustomer(id, name, null)).thenReturn(customer);
+        Mockito.when(customerService.updateCustomer(id, name, email)).thenReturn(customer);
 
         mockMvc.perform(
                 post("/customers/" + id)

@@ -39,12 +39,6 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void checkGetOrderList() {
-        orderService.getOrderList();
-        Mockito.verify(orderRepository).findAll();
-    }
-
-    @Test
     public void checkOrderById() {
         long id = 70;
         orderService.getOrderById(id);
