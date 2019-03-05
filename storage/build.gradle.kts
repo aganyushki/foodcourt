@@ -20,7 +20,7 @@ var MYSQL_USER = if (System.getenv().containsKey("MYSQL_USER")) System.getenv("M
 var MYSQL_PASSWORD = if (System.getenv().containsKey("MYSQL_PASSWORD")) System.getenv("MYSQL_PASSWORD") else "secretpwd1"
 
 flyway {
-    url = "jdbc:mysql://${MYSQL_HOST_PORT}/${MYSQL_DB}?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8"
+    url = "jdbc:mysql://${MYSQL_HOST_PORT}/?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8"
     user = MYSQL_USER
     password = MYSQL_PASSWORD
     schemas = listOf("food_court").toTypedArray()

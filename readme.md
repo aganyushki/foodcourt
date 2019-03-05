@@ -37,8 +37,8 @@ required: docker on the host machine
 ```
    
 will be started:
-- MySQL container with empty database
-    - initialize database with Flyway then DB will be ready
+- MySQL container with default users appuser1/secretpwd1
+    - initialize database with Flyway then DB container will be ready
     - initialize fake database
     - root password: root
 - Application node
@@ -129,7 +129,7 @@ also we have idea run configuration for that: ```migrate database for local targ
 
 Working with MySQL database in docker development environment
 
-1) **build test database** (required: empty database)
+1) **build test database**
     ```powershell
     PS> .\gradlew :storage:buildFakeDatabase
     ```
@@ -150,7 +150,7 @@ Working with MySQL database in docker development environment
 
 Working with local installed MySQL database
 
-1) **build test database** (required: empty database)
+1) **build test database**
     ```powershell
     PS> $Env:MYSQL_HOST_PORT="localhost:3306";$Env:MYSQL_DB="food_court";$Env:MYSQL_USER="user_name";$Env:MYSQL_PASSWORD="your_password"; .\gradlew :storage:buildFakeDatabase
     ```
