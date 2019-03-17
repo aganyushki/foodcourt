@@ -3,8 +3,8 @@ import Cake from "../entity/Cake";
 export function getCakes() {
     return fetch("/api/cakes")
         .then(res => res.json())
-        .then(cakes =>
-            cakes.map(cake => new Cake(cake))
+        .then(({content}) =>
+            content.map(cake => new Cake(cake))
         )
 }
 

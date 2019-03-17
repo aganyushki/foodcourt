@@ -1,6 +1,7 @@
-import {observable, action} from "mobx";
-import {getOrders, putOrder} from "../api/OrderAPI";
+import {observable, action, computed} from "mobx";
+import {getOrders, getPageableOrders, putOrder} from "../api/OrderAPI";
 import NewOrderItem from "../entity/NewOrderItem";
+import DataViewTableBaseStore from "./DataViewTableBaseStore";
 
 function buildOrderEntity(internalOrderStructure) {
     return {
@@ -11,38 +12,48 @@ function buildOrderEntity(internalOrderStructure) {
     }
 }
 
-class OrderStore {
+export default class OrderStore extends DataViewTableBaseStore {
     @observable order;
     @observable processing = false;
-    @observable orders = null;
 
-    constructor() {
+    constructor(scope) {
+        super({
+            scope,
+            getPageableFromServer: getPageableOrders,
+            fieldsDescription: [
+                {id: 'time', title: "Time", transform: value => new Date(value).toLocaleString()},
+                {id: 'orderPrice', title: "Order Price", transform: value => `${value} ₽`},
+                {id: 'count', title: "Count"},
+                {id: 'customer', title: "Customer"},
+                {id: 'cake', title: "Cake"},
+                {id: 'price', title: "Price", transform: value => `${value} ₽`},
+            ],
+            rowTransformer: (row => (
+                {...row, customer: row.customer.name, cake: row.cake.name, price: row.cake.price,
+                    orderPrice: row.cake.price * row.count}
+            )),
+            rowOnClick: item => console.log(item.id)
+        });
+
         this.order = {
             group: null,
             customer: null,
             cake: null,
             count: 0
         };
-
-    }
-
-    @action.bound
-    getOrders() {
-        this.orders = null;
-        getOrders()
-            .then(orders => {
-                this.orders = orders;
-            })
     }
 
     @action.bound
     putOrder() { // todo, workflow?
         this.processing = true;
         putOrder(new NewOrderItem(buildOrderEntity(this.order)))
-            .then(() => {
-                this.processing = false;
-                this.cleanupOrder();
-            })
+            .then(this.putOrderCompletion)
+    }
+
+    @action.bound
+    putOrderCompletion() {
+        this.processing = false;
+        this.cleanupOrder();
     }
 
     @action.bound
@@ -72,12 +83,4 @@ class OrderStore {
     setCount(count) {
         this.order.count = count;
     }
-}
-
-let store = null;
-export function getOrderStore() {
-    if (store === null) {
-        store = new OrderStore();
-    }
-    return store;
 }

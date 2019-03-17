@@ -21,9 +21,13 @@ export function putOrder(orderTemplate) {
 }
 
 export function getOrders() {
-    return fetch(`/api/orders`)
-        .then(res => res.json())
-        .then(orders =>
-            orders.map(order => new OrderItem(order))
+    return getPageableOrders()
+        .then(({content}) =>
+            content.map(order => new OrderItem(order))
         )
+}
+
+export function getPageableOrders(page, limit) {
+    return fetch(`/api/orders?page=${page}&limit=${limit}`)
+        .then(res => res.json());
 }

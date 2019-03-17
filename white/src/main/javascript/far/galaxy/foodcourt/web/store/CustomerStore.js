@@ -10,7 +10,7 @@ import {
 } from "../api/CustomerAPI";
 import Customer from "../entity/Customer";
 
-class CustomerStore {
+export default class CustomerStore {
     @observable groups = null;
     @observable customers = null;
     @observable filterString = '';
@@ -20,16 +20,44 @@ class CustomerStore {
         getGroups()
             .then(groups => {
                 this.groups = groups;
-            })
+            });
     }
 
+    @action.bound
+    setCustomers(customers) {
+        this.customers = customers;
+        return customers;
+    }
+
+    @action.bound
+    addNewCustomer(customer) {
+        this.customers.push(customer);
+    }
+
+    @action.bound
+    dropCustomer(customer) {
+        const idToRemove = customer.getId();
+        this.customers = this.customers
+            .filter(customer => customer.getId() !== idToRemove);
+    }
+
+    @action.bound
+    _updateCustomer({updatedCustomer, customer, commit}) {
+        this.customers = this.customers
+            .map(customer =>
+                customer.getId() === updatedCustomer.getId() ? updatedCustomer : customer
+            );
+        if (commit) {
+            customer.doCommit();
+        }
+        return updatedCustomer;
+    }
+
+    @action.bound
     getCustomersByGroup(group) {
         this.customers = null;
         return getCustomersByGroup(group)
-            .then(customers => {
-                this.customers = customers;
-                return customers;
-            })
+            .then(this.setCustomers);
     }
 
     @action.bound
@@ -41,28 +69,20 @@ class CustomerStore {
     getCustomers() {
         this.customers = null;
         return getCustomers()
-            .then(customers => {
-                this.customers = customers;
-                return customers;
-            })
+            .then(this.setCustomers);
     }
 
     @action.bound
     putNewCustomer(newCustomerTemplate) {
         return addCustomer(new Customer(newCustomerTemplate))
-            .then(customer => {
-                this.customers.push(customer);
-            })
+            .then(this.addNewCustomer);
     }
 
     @action.bound
     removeCustomer(customer) {
         return removeCustomer(customer)
-            .then(() => {
-                const idToRemove = customer.getId();
-                this.customers = this.customers
-                    .filter(customer => customer.getId() !== idToRemove)
-            })
+            .then(() => customer)
+            .then(this.dropCustomer);
     }
 
     @action.bound
@@ -74,14 +94,8 @@ class CustomerStore {
     updateCustomer(customer) {
         if (customer.isChanged()) {
             return updateCustomer(customer, customer.getName(), customer.getEmail())
-                .then(updatedCustomer => {
-                    this.customers = this.customers
-                        .map(customer =>
-                            customer.getId() === updatedCustomer.getId() ? updatedCustomer : customer
-                        );
-                    customer.doCommit();
-                    return updatedCustomer;
-                })
+                .then(updatedCustomer => ({updatedCustomer, customer, commit: true}))
+                .then(this._updateCustomer);
         } else {
             return Promise.resolve(customer);
         }
@@ -91,26 +105,13 @@ class CustomerStore {
     refill(customer, value) {
         const incomingValue = +value;
         return addBalance(customer, incomingValue)
-            .then(updatedCustomer => {
-                this.customers = this.customers
-                    .map(customer =>
-                        customer.getId() === updatedCustomer.getId() ? updatedCustomer : customer
-                    );
-                // todo, may be need to use WeakMap to optimize performance for local store data updates
-                return updatedCustomer;
-            })
+            .then(updatedCustomer => ({updatedCustomer, customer, commit: false}))
+            .then(this._updateCustomer);
+        // todo, may be need to use WeakMap to optimize performance for local store data updates
     }
 
     @action.bound
     selectCustomer(customer) {
         this.selectedCustomer = customer;
     }
-}
-
-let store = null;
-export function getCustomerStore() {
-    if (store === null) {
-        store = new CustomerStore();
-    }
-    return store;
 }

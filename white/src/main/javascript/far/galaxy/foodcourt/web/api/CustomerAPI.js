@@ -20,8 +20,8 @@ export function getCustomersByGroup(group) {
 export function getCustomers() {
     return fetch(`/api/customers`)
         .then(res => res.json())
-        .then(customers =>
-            customers.map(customer => new Customer(customer))
+        .then(({content}) =>
+            content.map(customer => new Customer(customer))
         )
 }
 

@@ -22,4 +22,12 @@ export default class OrderItem {
     getCount() {
         return this.value.count;
     }
+
+    getTime() {
+        return this.value.time;
+    }
+
+    getTimeFormatted() {
+        return new Date(this.getTime()).toLocaleString();
+    }
 }
