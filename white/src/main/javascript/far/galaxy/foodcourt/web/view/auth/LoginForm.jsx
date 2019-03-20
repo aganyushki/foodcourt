@@ -4,12 +4,11 @@ import Button from "@material-ui/core/Button";
 import {withStyles} from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import {LoginFormStyles} from "./Style";
 import Typography from "@material-ui/core/Typography";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Text from "../component/Text";
 
 @inject("systemStore")
 @observer
@@ -46,13 +45,13 @@ class LoginForm extends Component {
         const {classes} = this.props;
         return (
             <Paper className={classes.paper}>
-                <Typography variant="h4">WILEY</Typography>
+                <Typography variant="h4"><Text>LOGIN_FORM_TITLE</Text></Typography>
                 <div className={classes.ctrlWrapper}>
                     <div>
                         <TextField
                             type="text"
                             id="login"
-                            label="login"
+                            label={<Text>LOGIN_FORM_FIELD_LOGIN</Text>}
                             margin="normal"
                             fullWidth
                             inputRef={this.loginRef}
@@ -63,7 +62,7 @@ class LoginForm extends Component {
                         <TextField
                             type="password"
                             id="password"
-                            label="password"
+                            label={<Text>LOGIN_FORM_FIELD_PWD</Text>}
                             margin="normal"
                             fullWidth
                             inputRef={this.pwdRef}
@@ -77,7 +76,7 @@ class LoginForm extends Component {
                             disabled={this.state.processing}
                             onClick={this.doLogin}
                     >
-                        login
+                        {<Text>LOGIN_FORM_ACTION_LOGIN</Text>}
                         {
                             this.state.processing
                                 ? <CircularProgress size={24} className={classes.buttonProgress} />

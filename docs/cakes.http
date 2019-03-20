@@ -1,8 +1,11 @@
-GET http://localhost/cakes
+GET http://localhost/api/cakes
 
 ###
 
-GET http://localhost/cakes?page=0&limit=3
+GET http://localhost/api/cakes?page=0&limit=3
 
 ###
 
+GET http://localhost/api/cakes?page=0&limit=3&search=oil
+
+###

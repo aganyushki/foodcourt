@@ -14,7 +14,7 @@ export default class OrderItem {
     }
 
     getCakeId() {
-        return this.value.order;
+        return this.value.cake;
     }
 
     getCount() {

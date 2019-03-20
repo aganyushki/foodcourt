@@ -21,5 +21,5 @@ task("build") {
 
 tasks.register<Delete>("clean") {
     delete(buildDir)
-    delete("node_modules")
+//    delete("node_modules")
 }

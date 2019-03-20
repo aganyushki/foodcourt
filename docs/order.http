@@ -1,15 +1,15 @@
 
-GET http://{{host}}:{{port}}/orders
+GET http://{{host}}:{{port}}/api/orders
 Cookie: JSESSIONID={{authcookie}}
 
 ###
 
-GET http://{{host}}:{{port}}/orders/234
+GET http://{{host}}:{{port}}/api/orders/234
 Cookie: JSESSIONID={{authcookie}}
 
 ###
 
-PUT http://{{host}}:{{port}}/orders
+PUT http://{{host}}:{{port}}/api/orders
 Cookie: JSESSIONID={{authcookie}}
 Content-Type: application/json
 

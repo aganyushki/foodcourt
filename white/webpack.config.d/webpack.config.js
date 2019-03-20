@@ -2,6 +2,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const config = {
     devtool: 'source-map',
@@ -76,8 +77,7 @@ const config = {
         contentBase: './build/out',
         proxy: {
             '/api': {
-                target: 'http://localhost:80',
-                pathRewrite: {'^/api' : ''}
+                target: 'http://localhost:80'
             }
         }
     }
@@ -85,8 +85,10 @@ const config = {
 
 module.exports = config;
 
+config.plugins.push(new CleanWebpackPlugin());
+
 config.plugins.push(new webpack.DefinePlugin({
-    "X": "\"x_entry\""
+    "DEBUG": `${process.env.NODE_ENV !== 'production'}`
 }));
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');

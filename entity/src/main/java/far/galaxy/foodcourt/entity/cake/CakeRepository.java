@@ -12,4 +12,5 @@ public interface CakeRepository extends JpaRepository<Cake, Long> {
     Cake findByNameAndPrice(String name, long price);
     List<Cake> findAllByAvailableTrue();
     Page<Cake> findAllByAvailableTrue(Pageable pageable);
+    Page<Cake> findAllByAvailableTrueAndNameLike(Pageable pageable, String name);
 }

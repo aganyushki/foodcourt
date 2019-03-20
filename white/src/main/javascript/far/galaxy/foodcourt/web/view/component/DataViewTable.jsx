@@ -17,6 +17,7 @@ import Paper from "@material-ui/core/Paper";
 import ProcessingCover from "./ProcessingCover";
 import Typography from "@material-ui/core/Typography";
 import RootProcessingIndicator from "./RootProcessingIndicator";
+import Text from "./Text";
 
 @observer
 class DataViewTable extends Component {
@@ -57,14 +58,14 @@ class DataViewTable extends Component {
             }
         </TableBody>
     };
-    doRefresh = () => {
-        this.props.model.reload();
+    setSearch = () => {
+
     };
     buildEmptyMessage = (classes) => {
         return (
             <div className={classes.emptyTableNotificationWrapper}>
-                <Typography align="center" color="default" variant="h6" paragraph={true}>
-                    Seems like there is no data to show
+                <Typography align="center" color="default" variant="div" paragraph={true}>
+                    <Text>TABLE_VIEW_MSG_EMPTY</Text>
                 </Typography>
             </div>
         )
@@ -86,10 +87,10 @@ class DataViewTable extends Component {
                     rowsPerPage={model.pages.pageSize}
                     page={model.currentPage}
                     backIconButtonProps={{
-                        'aria-label': 'Previous Page',
+                        'aria-label': <Text>TABLE_VIEW_PREV_PAGE</Text>,
                     }}
                     nextIconButtonProps={{
-                        'aria-label': 'Next Page',
+                        'aria-label': <Text>TABLE_VIEW_NEXT_PAGE</Text>,
                     }}
                     onChangePage={(event, newPage) => model.setNextPage(newPage)}
                     onChangeRowsPerPage={event => model.setPageSize(event.target.value)}
@@ -108,16 +109,31 @@ class DataViewTable extends Component {
                         model.pullingPageableData ? <ProcessingCover /> : null
                     }
                     <div className={classes.tableTopToolbar}>
+                        {
+                            model.showSearch ?
+                                <TextField
+                                    className={classes.tableTopToolbarSearchCtrl}
+                                    margin="normal"
+                                    value={model.search}
+                                    onChange={event => model.setSearch(event.target.value)}
+                                />
+                            : null
+                        }
+                        {
+                            model.showSearch && model.search.length ?
+                                <IconButton aria-label={<Text>TABLE_VIEW_SEARCH_CLEAR</Text>}
+                                            className={classes.tableTopToolbarCtrl}
+                                            onClick={model.clearSearch}
+                                >
+                                    <ClearIcon fontSize="small" />
+                                </IconButton>
+                            : null
+                        }
                         <div className={classes.grow} />
-                        {/*<TextField*/}
-                        {/*id="standard-name"*/}
-                        {/*className={classes.tableTopToolbarSearchCtrl}*/}
-                        {/*margin="normal"*/}
-                        {/*/>*/}
-                        {/*<IconButton aria-label="Clear Search" className={classes.tableTopToolbarCtrl}>*/}
-                        {/*<ClearIcon fontSize="small" />*/}
-                        {/*</IconButton>*/}
-                        <IconButton aria-label="Refresh" className={classes.tableTopToolbarCtrl} onClick={this.doRefresh}>
+                        <IconButton aria-label={<Text>TABLE_VIEW_REFRESH</Text>}
+                                    className={classes.tableTopToolbarCtrl}
+                                    onClick={model.reload}
+                        >
                             <RefreshIcon fontSize="small" />
                         </IconButton>
                     </div>

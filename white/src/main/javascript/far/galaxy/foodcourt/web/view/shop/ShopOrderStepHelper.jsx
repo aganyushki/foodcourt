@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {inject, observer} from "mobx-react";
 import PropTypes from 'prop-types';
 import Typography from "@material-ui/core/Typography";
+import Text from "../component/Text";
 
 @inject("orderStore")
 @observer
@@ -12,19 +13,18 @@ class ShopOrderStepHelper extends Component {
 
     getMessage = () => {
         let msg = "";
-
         const order = this.props.orderStore.order;
 
         if (order.group === null) {
-            msg = "Выберите первую букву вашей фамилии";
+            msg = <Text>HELPER_STAGE_1</Text>;
         } else if (order.customer === null) {
-            msg = "Как вас зовут";
+            msg = <Text>HELPER_STAGE_2</Text>;
         } else if (order.cake === null) {
-            msg = "Выберите изделие";
+            msg = <Text>HELPER_STAGE_3</Text>;
         } else if (order.count === 0) {
-            msg = "Выберите количество";
+            msg = <Text>HELPER_STAGE_4</Text>;
         } else {
-            msg = "Завершите выбор";
+            msg = <Text>HELPER_STAGE_5</Text>;
         }
 
         return msg;

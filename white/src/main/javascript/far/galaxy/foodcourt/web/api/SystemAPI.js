@@ -1,4 +1,5 @@
 import User from "../entity/User";
+import {SYS_ERROR_UNABLE_TO_LOGIN} from "../Constants";
 
 export function getUser() {
     return fetch(
@@ -13,13 +14,13 @@ export function getUser() {
     )
         .then(res => {
             if (res.status !== 200) {
-                throw new Error(`Incorrect login event processing`);
+                throw new Error(SYS_ERROR_UNABLE_TO_LOGIN);
             }
             return res.json()
         })
         .then(response => {
             if (response.status !== 'OK') {
-                throw new Error(`Incorrect login event processing`);
+                throw new Error(SYS_ERROR_UNABLE_TO_LOGIN);
             }
             return new User(response.user);
         })
@@ -39,13 +40,13 @@ export function doAuth(login, pwd) {
     )
         .then(res => {
             if (res.status !== 200) {
-                throw new Error(`Incorrect login event processing`);
+                throw new Error(SYS_ERROR_UNABLE_TO_LOGIN);
             }
             return res.json()
         })
         .then(response => {
             if (response.status !== 'OK') {
-                throw new Error(`Incorrect login event processing`);
+                throw new Error(SYS_ERROR_UNABLE_TO_LOGIN);
             }
             return new User(response.user);
         })

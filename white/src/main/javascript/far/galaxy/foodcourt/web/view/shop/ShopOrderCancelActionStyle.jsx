@@ -5,6 +5,11 @@ export const ShopOrderCancelActionStyles = theme => ({
         bottom: 20,
         right: 20,
     },
+    goBackActionFrame: {
+        position: "fixed",
+        bottom: 20,
+        left: 20,
+    },
     extendedIcon: {
         marginRight: theme.spacing.unit,
     },

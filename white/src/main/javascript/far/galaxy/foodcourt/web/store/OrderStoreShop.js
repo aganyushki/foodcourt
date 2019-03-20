@@ -1,7 +1,7 @@
 import {observable, action, computed} from "mobx";
-import {getOrders, getPageableOrders, putOrder} from "../api/OrderAPI";
+import {putOrder} from "../api/OrderAPI";
 import NewOrderItem from "../entity/NewOrderItem";
-import DataViewTableBaseStore from "./DataViewTableBaseStore";
+import React from "react";
 
 function buildOrderEntity(internalOrderStructure) {
     return {
@@ -12,29 +12,11 @@ function buildOrderEntity(internalOrderStructure) {
     }
 }
 
-export default class OrderStore extends DataViewTableBaseStore {
+export default class OrderStoreShop {
     @observable order;
     @observable processing = false;
 
-    constructor(scope) {
-        super({
-            scope,
-            getPageableFromServer: getPageableOrders,
-            fieldsDescription: [
-                {id: 'time', title: "Time", transform: value => new Date(value).toLocaleString()},
-                {id: 'orderPrice', title: "Order Price", transform: value => `${value} ₽`},
-                {id: 'count', title: "Count"},
-                {id: 'customer', title: "Customer"},
-                {id: 'cake', title: "Cake"},
-                {id: 'price', title: "Price", transform: value => `${value} ₽`},
-            ],
-            rowTransformer: (row => (
-                {...row, customer: row.customer.name, cake: row.cake.name, price: row.cake.price,
-                    orderPrice: row.cake.price * row.count}
-            )),
-            rowOnClick: item => console.log(item.id)
-        });
-
+    constructor() {
         this.order = {
             group: null,
             customer: null,
@@ -65,8 +47,26 @@ export default class OrderStore extends DataViewTableBaseStore {
     }
 
     @action.bound
+    goBack() {
+        if (this.order.count !== 0) {
+            this.order.count = 0;
+        } else if (this.order.cake !== null) {
+            this.order.cake = null;
+        } else if (this.order.customer !== null) {
+            this.order.customer = null;
+        } else {
+            this.order.group = null;
+        }
+    }
+
+    @action.bound
     setGroup(group) {
         this.order.group = group;
+    }
+
+    @computed
+    get selectedGroup() {
+        return this.order.group;
     }
 
     @action.bound

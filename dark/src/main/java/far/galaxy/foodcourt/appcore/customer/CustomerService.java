@@ -4,6 +4,8 @@ import far.galaxy.foodcourt.entity.customer.Customer;
 import far.galaxy.foodcourt.entity.customer.CustomerRepository;
 import far.galaxy.foodcourt.entity.group.CustomerGroup;
 import far.galaxy.foodcourt.entity.group.GroupRepository;
+import far.galaxy.foodcourt.entity.transaction.Incoming;
+import far.galaxy.foodcourt.entity.transaction.IncomingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,8 +21,18 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private IncomingRepository incomingRepository;
+
     public Page<Customer> getList(int page, int size, String orderBy) {
         return customerRepository.findAll(PageRequest.of(page, size, Sort.by(orderBy).ascending()));
+    }
+
+    public Page<Customer> getList(int page, int size, String orderBy, String search) {
+        return customerRepository.findAllByNameLike(
+                PageRequest.of(page, size, Sort.by(orderBy).ascending()),
+                '%'+search+'%' // todo, performance?
+        );
     }
 
     public Customer getCustomerById(long customerId) {
@@ -51,6 +63,9 @@ public class CustomerService {
 
         Customer customer = customerRepository.getOne(id);
         customer.addBalance(balance);
+
+        incomingRepository.save(new Incoming(customer, balance)); // todo, skip & log if tails and proceed execution
+
         return customerRepository.save(customer);
     }
 }

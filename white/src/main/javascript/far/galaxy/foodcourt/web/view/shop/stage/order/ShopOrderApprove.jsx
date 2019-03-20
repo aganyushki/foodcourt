@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import {ShopOrderApproveStyles} from "./Style";
+import Text from "../../../component/Text";
 
 @inject("orderStore")
 @observer
@@ -26,11 +27,11 @@ class ShopOrderApprove extends Component {
             >
                 <Button variant="outlined" color="primary" size="large" className={classes.button}
                         onClick={orderStore.putOrder}>
-                    approve
+                    <Text>ORDER_CONFIRMATION_APPROVE</Text>
                 </Button>
                 <Button variant="outlined" color="secondary" size="large" className={classes.button}
                         onClick={orderStore.cleanupOrder}>
-                    reject
+                    <Text>REJECT_ORDER</Text>
                 </Button>
             </Grid>
         )

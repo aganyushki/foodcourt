@@ -6,31 +6,32 @@ import StepLabel from "@material-ui/core/StepLabel";
 import {withStyles} from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import {ShopOrderStepperStyles} from "./Style";
+import Text from "../component/Text";
 
 @inject("orderStore")
 @observer
 class ShopOrderStepper extends Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
-        orderStore: PropTypes.object.isRequired
+        orderStore: PropTypes.object.isRequired,
     };
 
     stepperData = (order) => {
         return [
             {
-                title: order.customer !== null ? order.customer.getName() : "Your name",
+                title: order.customer !== null ? order.customer.getName() : <Text>STEPPER_STAGE_1</Text>,
                 completed: order.customer !== null,
             },
             {
-                title: order.cake !== null ? order.cake.getName() : "Cake",
+                title: order.cake !== null ? order.cake.getName() : <Text>STEPPER_STAGE_2</Text>,
                 completed: order.cake !== null,
             },
             {
-                title: order.count > 0 ? order.count : "Count",
+                title: order.count > 0 ? order.count : <Text>STEPPER_STAGE_3</Text>,
                 completed: order.count > 0,
             },
             {
-                title: "Complete",
+                title: <Text>STEPPER_STAGE_4</Text>,
                 completed: false,
             }
         ];

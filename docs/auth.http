@@ -1,52 +1,14 @@
 
-GET http://{{host}}:{{port}}/system/check/admin
+GET http://{{host}}:{{port}}/api/system/check/admin
 Cookie: JSESSIONID={{authcookie}}
 
 ###
 
-POST http://{{host}}:{{port}}/login
+POST http://{{host}}:{{port}}/api/login
 Content-Type: application/x-www-form-urlencoded
 
 login={{login}}&password={{password}}
 
-#POST http://localhost/login
-#
-#HTTP/1.1 302
-#X-Content-Type-Options: nosniff
-#X-XSS-Protection: 1; mode=block
-#Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-#Pragma: no-cache
-#Expires: 0
-#X-Frame-Options: DENY
-#Set-Cookie: JSESSIONID=8080FB897BE01D81CE6F4D1985FF693F; Path=/; HttpOnly
-#Location: http://localhost/
-#Content-Length: 0
-#Date: Wed, 20 Feb 2019 12:05:26 GMT
-#
-#<Response body is empty>
-#
-#Response code: 302; Time: 75ms; Content length: 0 bytes
-
 ###
 
-POST http://{{host}}:{{port}}/logout
-
-#POST http://localhost/logout
-#
-#HTTP/1.1 302
-#Set-Cookie: JSESSIONID=; Max-Age=0; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/
-#X-Content-Type-Options: nosniff
-#X-XSS-Protection: 1; mode=block
-#Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-#Pragma: no-cache
-#Expires: 0
-#X-Frame-Options: DENY
-#Location: http://localhost/
-#Content-Length: 0
-#Date: Wed, 20 Feb 2019 12:12:45 GMT
-#
-#<Response body is empty>
-#
-#Response code: 302; Time: 11ms; Content length: 0 bytes
-
-###
+POST http://{{host}}:{{port}}/api/logout

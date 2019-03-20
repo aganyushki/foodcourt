@@ -31,9 +31,8 @@ task("stopDockerDevelopmentEnvironment") {
     )
 }
 
-task("xyz") {
-    doLast {
-        println(System.getenv().forEach { println(it) })
-//        println(System.getProperties().forEach { println(it) })
-    }
+task("buildArtifact") {
+    dependsOn(
+        tasks.getByPath(":dark:bootJar")
+    )
 }

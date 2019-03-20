@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Route, Switch} from "react-router-dom";
+import {Route, Switch, withRouter} from "react-router-dom";
 import ShopGroups from "./stage/group/ShopGroups";
 import ShopCustomers from "./stage/customer/ShopCustomers";
 import ShopCakes from "./stage/cake/ShopCakes";
@@ -13,21 +13,20 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import InfoIcon from "@material-ui/icons/Info";
 import ShopOrderStepHelper from "./ShopOrderStepHelper";
-import {inject, observer} from "mobx-react";
+import {observer} from "mobx-react";
 import {ShopRootLayoutStyles} from "./Style";
 import ShopviewWorkflowRouter from "./ShopviewWorkflowRouter";
 import ShopOrderCancelAction from "./ShopOrderCancelAction";
 
-@inject("orderStore")
+@withRouter
 @observer
 class ShopRootLayout extends Component {
     static propTypes = {
-        classes: PropTypes.object.isRequired,
-        orderStore: PropTypes.object.isRequired
+        classes: PropTypes.object.isRequired
     };
 
     render() {
-        const {classes, orderStore} = this.props;
+        const {classes} = this.props;
         return (
             <div>
                 <Route component={ShopviewWorkflowRouter} />

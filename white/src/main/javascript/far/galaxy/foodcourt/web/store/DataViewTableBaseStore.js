@@ -1,7 +1,7 @@
 import {observable, action, computed} from "mobx";
 
 export default class DataViewTableBaseStore {
-    @observable filter = '';
+    @observable search = '';
     @observable pageableData = null;
     @observable fields = [];
     @observable pages = {
@@ -13,23 +13,27 @@ export default class DataViewTableBaseStore {
     getPageableFromServer = null;
     scope = null;
     rowOnClick = null;
+    showSearch = false;
 
-    constructor({getPageableFromServer, fieldsDescription, scope, rowTransformer, rowOnClick}) {
+    constructor({getPageableFromServer, fieldsDescription, scope, rowTransformer, rowOnClick, search}) {
         this.rowTransformer = rowTransformer || (row => row);
         this.fields = fieldsDescription;
         this.getPageableFromServer = getPageableFromServer || (() => Promise.resolve());
         this.scope = scope;
         this.rowOnClick = rowOnClick || (() => {});
+        this.showSearch = search || false;
     }
 
     @action.bound
-    setFilter(value) {
-        this.filter = value;
+    setSearch(value) {
+        this.search = value;
+        this.pullData(); // todo, debounce?
     }
 
     @action.bound
-    clearFilter() {
-        this.filter = '';
+    clearSearch() {
+        this.search = '';
+        this.pullData();
     }
 
     @action.bound
@@ -48,7 +52,7 @@ export default class DataViewTableBaseStore {
     @action.bound
     pullData() {
         this.setPullingPageableDataStatus(true);
-        return this.getPageableFromServer(this.currentPage, this.pages.pageSize)
+        return this.getPageableFromServer(this.currentPage, this.pages.pageSize, this.search)
             .then(data => {
                 this.setPageableData(data);
                 this.setPullingPageableDataStatus(false);
@@ -73,7 +77,7 @@ export default class DataViewTableBaseStore {
     @action.bound
     setNextPage(nextPage) {
         this.setPullingPageableDataStatus(true);
-        return this.getPageableFromServer(nextPage, this.pages.pageSize)
+        return this.getPageableFromServer(nextPage, this.pages.pageSize, this.search)
             .then(data => {
                 this.setPageableData(data);
                 this.setPullingPageableDataStatus(false);

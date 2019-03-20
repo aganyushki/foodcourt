@@ -1,8 +1,8 @@
+import ChangeableEntity from "./ChangeableEntity";
 
-export default class Cake {
-
+export default class Cake extends ChangeableEntity {
     constructor(value) {
-        this.value = value;
+        super(value);
     }
 
     getId() {
@@ -13,8 +13,20 @@ export default class Cake {
         return this.value.name;
     }
 
+    setName(name) {
+        this.markAsChanged();
+        this.value.name = name;
+    }
+
     getPrice() {
         return this.value.price;
+    }
+
+    setPrice(price) {
+        if (!isNaN(+price)) {
+            this.markAsChanged();
+            this.value.price = +price;
+        }
     }
 
     getMaxCount() {

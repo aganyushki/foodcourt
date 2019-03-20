@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/customers")
+@RequestMapping(path = "/api/customers")
 public class CustomerController {
     private Logger LOG = LoggerFactory.getLogger(CustomerController.class);
     private List<String> ORDER_BY = Arrays.asList("name", "balance");
@@ -34,12 +34,15 @@ public class CustomerController {
     public Page<Customer> getCustomers(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "limit", defaultValue = "100") int limit,
-            @RequestParam(value = "orderBy", defaultValue = "name") String orderBy
+            @RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
+            @RequestParam(value = "search", required = false) String search
     ) {
         if (orderBy != null && !ORDER_BY.contains(orderBy)) {
             throw new IllegalArgumentException("Incorrect orderBy field value: " + orderBy);
         }
-        return customerService.getList(page, limit, orderBy);
+        return search == null
+            ? customerService.getList(page, limit, orderBy)
+            : customerService.getList(page, limit, orderBy, search);
     }
 
     @GetMapping(

@@ -8,10 +8,12 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import AdminCustomersMainToolbarView from "./activity/customer/AdminCustomersMainToolbarView";
 import {inject, observer} from "mobx-react";
 import {ManagerRootLayoutStyles} from "./Style";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import ManagerCakesMainToolbarView from "./activity/cake/ManagerCakesMainToolbarView";
+import ManagerCustomersMainToolbarView from "./activity/customer/ManagerCustomersMainToolbarView";
+import Text from "../component/Text";
 
 @inject("systemStore")
 @observer
@@ -38,10 +40,11 @@ class ManagerRootLayoutToolbar extends Component {
                     <div className={classes.grow} />
 
                     <Switch>
-                        <Route path={URL.ADMIN_CUSTOMERS} component={AdminCustomersMainToolbarView} />
+                        <Route path={URL.ADMIN_CUSTOMERS} component={ManagerCustomersMainToolbarView} />
+                        <Route path={URL.ADMIN_CAKES} component={ManagerCakesMainToolbarView} />
                     </Switch>
 
-                    <Button color="inherit" onClick={systemStore.doLogout}>logout</Button>
+                    <Button color="inherit" onClick={systemStore.doLogout}><Text>LOGOUT</Text></Button>
                 </Toolbar>
             </AppBar>
         )

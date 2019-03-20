@@ -22,6 +22,13 @@ public class CakeService {
         return cakeRepository.findAllByAvailableTrue(PageRequest.of(page, limit, Sort.by("name")));
     }
 
+    public Page<Cake> getAvailableCakes(int page, int limit, String search) {
+        return cakeRepository.findAllByAvailableTrueAndNameLike(
+                PageRequest.of(page, limit, Sort.by("name")),
+                '%'+search+'%' // todo, performance?
+        );
+    }
+
     public Cake getCakeById(long cakeId) {
         return cakeRepository.getOne(cakeId);
     }

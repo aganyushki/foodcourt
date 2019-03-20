@@ -2,11 +2,14 @@ import {observable, action, computed} from "mobx";
 import {doAuth, getUser} from "../api/SystemAPI";
 import Cookies from 'js-cookie';
 import {AUTH_COOKIE_NAME} from "../Constants";
+import {TEXT} from "../Localization";
 
 export default class SystemStore {
     @observable user = undefined;
     @observable globalProcessingIndicator = false;
     @observable loginActionError = null;
+
+    text = TEXT;
 
     constructor() {
         this.getUser();
@@ -70,7 +73,7 @@ export default class SystemStore {
     @action.bound
     doLoginFail() {
         this.user = null;
-        this.loginActionError = "Unable to login, please check you credentials and try again.";
+        this.loginActionError = this.text.UNABLE_TO_LOGIN;
     }
 
     @action.bound

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/groups")
+@RequestMapping(path = "/api/groups")
 public class GroupController {
 
     @Autowired

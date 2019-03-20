@@ -1,27 +1,31 @@
-GET http://localhost/groups
+GET http://localhost/api/groups
 
 ###
 
-GET http://localhost/groups/7
+GET http://localhost/api/groups/7
 
 ###
 
-GET http://localhost/groups/2/customers
+GET http://localhost/api/groups/2/customers
 
 ###
 
-GET http://localhost/customers?page=0&limit=3&orderBy=balance
+GET http://localhost/api/customers?page=0&limit=3&orderBy=balance
 
 ###
 
-GET http://localhost/cakes
+GET http://localhost/api/customers?page=0&limit=3&search=rebe
 
 ###
 
-GET http://localhost/cakes/10
+GET http://localhost/api/cakes
 
 ###
 
-GET http://localhost/customers/2
+GET http://localhost/api/cakes/10
+
+###
+
+GET http://localhost/api/customers/2
 
 ###

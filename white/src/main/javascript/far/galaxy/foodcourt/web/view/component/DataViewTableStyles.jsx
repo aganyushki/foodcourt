@@ -1,8 +1,8 @@
-import {fade} from "@material-ui/core/styles/colorManipulator";
 
 export const DataViewTableStyles = theme => ({
     tableTopToolbar: {
         display: 'flex',
+        paddingLeft: 20,
     },
     grow: {
         flexGrow: 1,
@@ -18,4 +18,7 @@ export const DataViewTableStyles = theme => ({
     paperRelativeStyle: {
         position: 'relative',
     },
+    emptyTableNotificationWrapper: {
+        padding: 100
+    }
 });

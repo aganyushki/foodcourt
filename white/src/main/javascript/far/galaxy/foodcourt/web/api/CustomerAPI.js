@@ -1,6 +1,15 @@
 import CustomerGroup from "../entity/CustomerGroup";
 import Customer from "../entity/Customer";
 
+export function getPageableCustomers(page, limit, search) {
+    let url = `/api/customers?page=${page}&limit=${limit}`;
+    if (search && search.length) {
+        url = `${url}&search=${search}`;
+    }
+    return fetch(url)
+        .then(res => res.json());
+}
+
 export function getGroups() {
     return fetch("/api/groups")
         .then(res => res.json())
@@ -17,45 +26,26 @@ export function getCustomersByGroup(group) {
         )
 }
 
-export function getCustomers() {
-    return fetch(`/api/customers`)
-        .then(res => res.json())
-        .then(({content}) =>
-            content.map(customer => new Customer(customer))
-        )
-}
+export function saveOrUpdateCustomer(customer) {
+    let url = '/api/customers';
+    let method = 'PUT';
 
-export function addCustomer(newCustomer) {
+    if (customer.getId()) {
+        url = `/api/customers/${customer.getId()}`;
+        method = 'POST';
+    }
+
     return fetch(
-        `/api/customers`,
+        url,
         {
-            method: "PUT",
+            method,
             cache: "no-cache",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
             },
             body: JSON.stringify({
-                name: newCustomer.getName(),
-                email: newCustomer.getEmail()
-            })
-        }
-    )
-        .then(res => res.json())
-        .then(customer => new Customer(customer))
-}
-
-export function updateCustomer(customer, name, email) {
-    return fetch(
-        `/api/customers/${customer.getId()}`,
-        {
-            method: "POST",
-            cache: "no-cache",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-            },
-            body: JSON.stringify({
-                name,
-                email
+                name: customer.getName(),
+                email: customer.getEmail()
             })
         }
     )

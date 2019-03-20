@@ -1,9 +1,8 @@
 import React, {Component} from "react";
-import {Link, Route, Switch} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 import {URL} from '../../Constants';
 import PropTypes from "prop-types";
-import {withStyles} from "@material-ui/core";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -13,8 +12,10 @@ import ShoppingBasketRounded from '@material-ui/icons/ShoppingBasketRounded';
 import AttachMoney from '@material-ui/icons/AttachMoney';
 import ListItemText from "@material-ui/core/ListItemText";
 import {withRouter} from 'react-router-dom';
+import Text from "../component/Text";
 
-class ManagerRootLayoutMenu extends Component {
+@withRouter
+export default class ManagerRootLayoutMenu extends Component {
     static propTypes = {
         match: PropTypes.object.isRequired,
         location: PropTypes.object.isRequired,
@@ -27,23 +28,21 @@ class ManagerRootLayoutMenu extends Component {
             <List>
                 <ListItem button component={Link} to={URL.ADMIN_ORDERS} selected={location.pathname === URL.ADMIN_ORDERS}>
                     <ListItemIcon><ShoppingBasketRounded /></ListItemIcon>
-                    <ListItemText primary="Orders" />
+                    <ListItemText primary={<Text>MANAGER_MENU_TITLE_ORDERS</Text>} />
                 </ListItem>
                 <ListItem button component={Link} to={URL.ADMIN_INCOMING} selected={location.pathname === URL.ADMIN_INCOMING}>
                     <ListItemIcon><AttachMoney /></ListItemIcon>
-                    <ListItemText primary="Incoming" />
+                    <ListItemText primary={<Text>MANAGER_MENU_TITLE_INCOMING</Text>} />
                 </ListItem>
                 <ListItem button component={Link} to={URL.ADMIN_CAKES} selected={location.pathname === URL.ADMIN_CAKES}>
                     <ListItemIcon><CakeIcon /></ListItemIcon>
-                    <ListItemText primary="Cakes" />
+                    <ListItemText primary={<Text>MANAGER_MENU_TITLE_CAKES</Text>} />
                 </ListItem>
                 <ListItem button component={Link} to={URL.ADMIN_CUSTOMERS} selected={location.pathname === URL.ADMIN_CUSTOMERS}>
                     <ListItemIcon><PeopleIcon /></ListItemIcon>
-                    <ListItemText primary="Customers" />
+                    <ListItemText primary={<Text>MANAGER_MENU_TITLE_CUSTOMERS</Text>} />
                 </ListItem>
             </List>
         )
     }
 }
-
-export default withRouter(ManagerRootLayoutMenu);

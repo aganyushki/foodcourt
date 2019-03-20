@@ -3,6 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import {RootProcessingIndicatorStyles} from './RootProcessingIndicatorStyle';
 import {withStyles} from "@material-ui/core";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import Text from "./Text";
 
 class RootProcessingIndicator extends Component {
     render() {
@@ -10,7 +11,9 @@ class RootProcessingIndicator extends Component {
         return (
             <div className={classes.processingWrapper}>
                 <LinearProgress />
-                <Typography variant="h6" color="textSecondary" className={classes.text}>loading...</Typography>
+                <Typography variant="h6" color="textSecondary" className={classes.text}>
+                    <Text>LOADING</Text>
+                </Typography>
             </div>
         )
     }

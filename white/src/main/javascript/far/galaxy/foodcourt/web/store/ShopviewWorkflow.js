@@ -4,7 +4,7 @@ import {URL} from '../Constants';
 export default class ShopviewWorkflow {
     @observable _routerPath = URL.ROOT;
 
-    constructor({orderStore, customerStore}) {
+    constructor({orderStore}) {
         autorun(() => {
             let order = orderStore.order;
 
@@ -12,7 +12,6 @@ export default class ShopviewWorkflow {
                 this._routerPath = URL.SHOP_GROUPS;
 
             } else if (order.customer === null) {
-                customerStore.getCustomersByGroup(order.group);
                 this._routerPath = URL.SHOP_CUSTOMERS;
 
             } else if (order.cake === null) {

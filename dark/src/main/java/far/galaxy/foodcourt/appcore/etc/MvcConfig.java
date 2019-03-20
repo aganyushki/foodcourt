@@ -6,13 +6,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("forward:/static/index.html");
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -22,20 +24,7 @@ public class MvcConfig implements WebMvcConfigurer {
     }
 
     @Override
-    public void addCorsMappings(CorsRegistry registry) {
+    public void addCorsMappings(CorsRegistry registry) { // todo, remove it?
         registry.addMapping("/**").allowedOrigins("http://localhost:63342");
     }
-//
-//    @Bean
-//    public DispatcherServlet dispatcherServlet() {
-//        return new DispatcherServlet();
-//    }
-//
-//    @Bean
-//    public ServletRegistrationBean dispatcherServletRegistration() {
-//        ServletRegistrationBean registration = new ServletRegistrationBean(
-//                dispatcherServlet(), "/api/");
-//        registration.setName(DispatcherServletAutoConfiguration.DEFAULT_DISPATCHER_SERVLET_REGISTRATION_BEAN_NAME);
-//        return registration;
-//    }
 }

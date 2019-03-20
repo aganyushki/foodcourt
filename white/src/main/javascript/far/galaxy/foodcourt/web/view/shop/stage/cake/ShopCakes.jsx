@@ -16,6 +16,10 @@ class ShopCakes extends Component {
         orderStore: PropTypes.object.isRequired
     };
 
+    componentDidMount() {
+        this.props.cakeStore.pullCakes();
+    }
+
     doSelect = (cake) => {
         this.props.orderStore.setCake(cake);
     };

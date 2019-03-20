@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core";
 import {ShopOrderSummaryStyles} from "./Style";
+import {CURRENCY_MARKER} from "../../../../Constants";
 
 function buildSummaryItem(icon, message) {
     const {classes} = this;
@@ -58,17 +59,17 @@ class ShopOrderSummary extends Component {
                         : null
                 }
                 {
-
-                        buildSummaryItem.call({classes},
+                    order.cake
+                        ? buildSummaryItem.call({classes},
                             <AttachMoney fontSize="large" />,
                             order.count > 0
                                 ? <div className={classes.resultPrice}>
-                                    {order.cake.getPrice()} ₽ * {order.count}  =  {order.cake.getPrice() * order.count} ₽
+                                    {order.cake.getPrice()} {CURRENCY_MARKER} * {order.count}  =  {order.cake.getPrice() * order.count} {CURRENCY_MARKER}
                                 </div>
                                 : <div className={classes.resultPrice}>
-                                    {order.cake.getPrice()} ₽  *  ?  =  ? ₽
+                                    {order.cake.getPrice()} {CURRENCY_MARKER}  *  ?  =  ? {CURRENCY_MARKER}
                                 </div>
-                        )
+                        ) : null
                 }
             </Grid>
         )

@@ -34,11 +34,12 @@ tasks {
     "test"(Test::class) {
         useJUnitPlatform()
     }
+}
 
-//    "build" {
-//        dependsOn(":white:build")
-//        doLast {
-//
-//        }
-//    }
+(tasks.getByName("processResources") as ProcessResources).apply {
+    dependsOn(":white:build")
+
+    from("../white/build/out") {
+        into("static")
+    }
 }

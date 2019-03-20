@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/cakes")
+@RequestMapping(path = "/api/cakes")
 public class CakeController {
 
     @Autowired
@@ -18,9 +18,12 @@ public class CakeController {
     )
     public Page<Cake> getAvailableCakeList(
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "limit", defaultValue = "100") int limit
+            @RequestParam(value = "limit", defaultValue = "100") int limit,
+            @RequestParam(value = "search", required = false) String search
     ) {
-        return cakeService.getAvailableCakes(page, limit);
+        return search == null
+                ? cakeService.getAvailableCakes(page, limit)
+                : cakeService.getAvailableCakes(page, limit, search);
     }
 
     @GetMapping(

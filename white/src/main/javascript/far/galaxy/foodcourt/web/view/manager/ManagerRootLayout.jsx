@@ -1,8 +1,7 @@
 import React, {Component} from "react";
-import {Route, Switch} from "react-router-dom";
+import {Route, Switch, withRouter} from "react-router-dom";
 
-import AdminCustomers from './activity/customer';
-import AdminCakes from './activity/cake/AdminCakes';
+import ManagerCakes from './activity/cake/ManagerCakes';
 import ManagerOrders from './activity/order/ManagerOrders';
 import {URL} from '../../Constants';
 import PropTypes from "prop-types";
@@ -12,7 +11,9 @@ import ManagerRootLayoutMenu from "./ManagerRootLayoutMenu";
 import {ManagerRootLayoutStyles} from "./Style";
 import ManagerRootLayoutToolbar from "./ManagerRootLayoutToolbar";
 import ManagerIncoming from "./activity/incoming/ManagerIncoming";
+import ManagerCustomers from "./activity/customer/ManagerCustomers";
 
+@withRouter
 class ManagerRootLayout extends Component {
     static propTypes = {
         classes: PropTypes.object.isRequired,
@@ -38,8 +39,8 @@ class ManagerRootLayout extends Component {
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
                     <Switch>
-                        <Route path={URL.ADMIN_CUSTOMERS} component={AdminCustomers} />
-                        <Route path={URL.ADMIN_CAKES} component={AdminCakes} />
+                        <Route path={URL.ADMIN_CUSTOMERS} component={ManagerCustomers} />
+                        <Route path={URL.ADMIN_CAKES} component={ManagerCakes} />
                         <Route path={URL.ADMIN_ORDERS} component={ManagerOrders} />
                         <Route path={URL.ADMIN_INCOMING} component={ManagerIncoming} />
                     </Switch>

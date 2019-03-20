@@ -23,7 +23,4 @@ export const ManagerRootLayoutStyles = theme => ({
     grow: {
         flexGrow: 1,
     },
-    editorContent: {
-        padding: 50
-    }
 });

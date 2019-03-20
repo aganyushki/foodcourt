@@ -16,6 +16,10 @@ class ShopGroups extends Component {
         orderStore: PropTypes.object.isRequired
     };
 
+    componentDidMount() {
+        this.props.customerStore.pullGroups();
+    }
+
     doSelect = (group) => {
         this.props.orderStore.setGroup(group);
     };

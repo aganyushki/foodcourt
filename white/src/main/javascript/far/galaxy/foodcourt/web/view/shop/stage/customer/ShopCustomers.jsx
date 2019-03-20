@@ -36,13 +36,14 @@ class ShopCustomers extends Component {
     };
 
     render() {
-        const {customerStore, classes} = this.props;
+        const {customerStore, orderStore, classes} = this.props;
+        const customers = customerStore.customersByGroup(orderStore.selectedGroup); // todo, performance optimization?
         return (
             <div className={classes.wrapped}>
                 {
-                    customerStore.customers === null
+                    customers === null
                         ? <RootProcessingIndicator />
-                        : this.showCustomers(customerStore.customers)
+                        : this.showCustomers(customers)
                 }
             </div>
         )
