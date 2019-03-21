@@ -27,7 +27,7 @@ public class SampleSeleniumTest {
 
     @Test
     public void testProd() throws InterruptedException {
-        driver.get("https://customselect.wiley.com/");
+        driver.get("https://www.google.com/");
 
         WebElement input = driver.findElement(By.cssSelector("div.tiny-search input"));
         input.sendKeys("math");
@@ -42,7 +42,7 @@ public class SampleSeleniumTest {
 
     @Test
     public void testDev() throws InterruptedException {
-        driver.get("https://customselect.dev.wiley.com/");
+        driver.get("https://www.google.com/");
 
         WebElement input = driver.findElement(By.cssSelector("div.tiny-search input"));
         input.sendKeys("math");

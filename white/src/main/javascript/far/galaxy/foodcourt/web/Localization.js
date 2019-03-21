@@ -36,7 +36,7 @@ export const TEXT = {
     TABLE_VIEW_NEXT_PAGE: "следующая страница",
     TABLE_VIEW_SEARCH_CLEAR: "Очистить поиск",
     TABLE_VIEW_REFRESH: "Обновить",
-    LOGIN_FORM_TITLE: "WILEY",
+    LOGIN_FORM_TITLE: "FoodCourt",
     LOGIN_FORM_FIELD_LOGIN: "логин",
     LOGIN_FORM_FIELD_PWD: "пароль",
     LOGIN_FORM_ACTION_LOGIN: "войти",

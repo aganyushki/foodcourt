@@ -14,7 +14,7 @@ export const URL = {
 
 // todo, refactoring admin to manager
 
-export const APPLICATION_TYTLE = "WILEY, Korolev";
+export const APPLICATION_TYTLE = "FoodCourt";
 
 // export const AUTH_COOKIE_NAME = "JSESSIONID";
 
