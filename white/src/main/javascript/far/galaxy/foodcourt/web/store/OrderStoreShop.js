@@ -2,6 +2,7 @@ import {observable, action, computed} from "mobx";
 import {putOrder} from "../api/OrderAPI";
 import NewOrderItem from "../entity/NewOrderItem";
 import React from "react";
+import {SHOP_ORDER_AUTO_CANCEL_TIMEOUR_SEC, SYS_ERROR_ORDER_TIMEOUT_ALREADY_STARTED} from "../Constants";
 
 function buildOrderEntity(internalOrderStructure) {
     return {
@@ -14,9 +15,11 @@ function buildOrderEntity(internalOrderStructure) {
 
 export default class OrderStoreShop {
     @observable order;
-    @observable processing = false;
+    @observable sendingOrder = false;
+    @observable sendingOrderError = null;
 
     scope = null;
+    orderTimeout = null;
 
     constructor(scope) {
         this.scope = scope;
@@ -29,8 +32,12 @@ export default class OrderStoreShop {
     }
 
     @action.bound
-    putOrder() { // todo, workflow?
-        this.processing = true;
+    putOrder() {
+        if (this.sendingOrder) return;
+
+        this.stopOrderTimeout();
+
+        this.sendingOrder = true;
         putOrder(new NewOrderItem(buildOrderEntity(this.order)))
             .then(this.putOrderCompletion)
             .catch(this.putOrderFails);
@@ -38,17 +45,21 @@ export default class OrderStoreShop {
 
     @action.bound
     putOrderCompletion() {
-        this.processing = false;
+        this.sendingOrder = false;
         this.cleanupOrder();
     }
 
     @action.bound
     putOrderFails(error) {
-        this.scope.systemStore.setGlobalErrorNotification(error.message);
+        this.sendingOrder = false;
+        this.sendingOrderError = error.message;
     }
 
     @action.bound
     cleanupOrder() {
+        this.sendingOrderError = null;
+        this.stopOrderTimeout();
+
         this.order.group = null;
         this.order.customer = null;
         this.order.cake = null;
@@ -64,6 +75,7 @@ export default class OrderStoreShop {
         } else if (this.order.customer !== null) {
             this.order.customer = null;
         } else {
+            this.stopOrderTimeout();
             this.order.group = null;
         }
     }
@@ -71,6 +83,7 @@ export default class OrderStoreShop {
     @action.bound
     setGroup(group) {
         this.order.group = group;
+        this.startOrderTimeout();
     }
 
     @computed
@@ -80,16 +93,42 @@ export default class OrderStoreShop {
 
     @action.bound
     setCustomer(customer) {
+        this.resetOrderTimeout();
         this.order.customer = customer;
     }
 
     @action.bound
     setCake(cake) {
+        this.resetOrderTimeout();
         this.order.cake = cake;
     }
 
     @action.bound
     setCount(count) {
+        this.resetOrderTimeout();
         this.order.count = count;
+    }
+
+    startOrderTimeout() {
+        if (this.orderTimeout !== null) {
+            throw new Error(SYS_ERROR_ORDER_TIMEOUT_ALREADY_STARTED);
+        }
+        this.orderTimeout = setTimeout(
+            () => {
+                this.cleanupOrder();
+                this.orderTimeout = null;
+            },
+            SHOP_ORDER_AUTO_CANCEL_TIMEOUR_SEC * 1e3
+        );
+    }
+    stopOrderTimeout() {
+        if (this.orderTimeout !== null) {
+            clearTimeout(this.orderTimeout);
+            this.orderTimeout = null;
+        }
+    }
+    resetOrderTimeout() {
+        this.stopOrderTimeout();
+        this.startOrderTimeout();
     }
 }

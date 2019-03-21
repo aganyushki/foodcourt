@@ -1,6 +1,7 @@
 
 export const TEXT = {
     ORDER_CONFIRMATION_APPROVE: "отправить",
+    GO_HOME: "в начало",
     REJECT_ORDER: "отмена заказа",
     GO_BACK: "назад",
     STEPPER_STAGE_1: "Ваше имя",

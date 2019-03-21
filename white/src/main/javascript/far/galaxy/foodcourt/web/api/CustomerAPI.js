@@ -1,6 +1,6 @@
 import CustomerGroup from "../entity/CustomerGroup";
 import Customer from "../entity/Customer";
-import {API_ERROR_ACTION_CAN_NOT_BE_COMPLETED} from "../Constants";
+import {checkIfRequestIsOKAndConvertToJSON} from "./Utils";
 
 export function getPageableCustomers(page, limit, search) {
     let url = `/api/customers?page=${page}&limit=${limit}`;
@@ -8,13 +8,7 @@ export function getPageableCustomers(page, limit, search) {
         url = `${url}&search=${search}`;
     }
     return fetch(url)
-        .then(res => {
-            if (res.status !== 200) {
-                throw new Error(API_ERROR_ACTION_CAN_NOT_BE_COMPLETED);
-            }
-            return res;
-        })
-        .then(res => res.json());
+        .then(checkIfRequestIsOKAndConvertToJSON);
 }
 
 export function getGroups() {
@@ -22,14 +16,6 @@ export function getGroups() {
         .then(res => res.json())
         .then(groups =>
             groups.map(group => new CustomerGroup(group))
-        )
-}
-
-export function getCustomersByGroup(group) {
-    return fetch(`/api/groups/${group.getId()}/customers`)
-        .then(res => res.json())
-        .then(customers =>
-            customers.map(customer => new Customer(customer))
         )
 }
 
@@ -56,24 +42,8 @@ export function saveOrUpdateCustomer(customer) {
             })
         }
     )
-        .then(res => {
-            if (res.status !== 200) {
-                throw new Error(API_ERROR_ACTION_CAN_NOT_BE_COMPLETED);
-            }
-            return res;
-        })
-        .then(res => res.json())
+        .then(checkIfRequestIsOKAndConvertToJSON)
         .then(customer => new Customer(customer))
-}
-
-export function removeCustomer(customer) {
-    return fetch(
-        `/api/customers/${customer.getId()}`,
-        {
-            method: "DELETE",
-            cache: "no-cache"
-        }
-    )
 }
 
 export function addBalance(customer, incoming) {
@@ -90,12 +60,6 @@ export function addBalance(customer, incoming) {
             })
         }
     )
-        .then(res => {
-            if (res.status !== 200) {
-                throw new Error(API_ERROR_ACTION_CAN_NOT_BE_COMPLETED);
-            }
-            return res;
-        })
-        .then(res => res.json())
+        .then(checkIfRequestIsOKAndConvertToJSON)
         .then(customer => new Customer(customer))
 }

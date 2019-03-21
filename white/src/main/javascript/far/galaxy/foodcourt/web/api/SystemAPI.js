@@ -1,5 +1,6 @@
 import User from "../entity/User";
 import {SYS_ERROR_UNABLE_TO_LOGIN} from "../Constants";
+import {checkIfRequestIsOKAndConvertToJSON} from "./Utils";
 
 export function getUser() {
     return fetch(
@@ -12,12 +13,7 @@ export function getUser() {
             }
         }
     )
-        .then(res => {
-            if (res.status !== 200) {
-                throw new Error(SYS_ERROR_UNABLE_TO_LOGIN);
-            }
-            return res.json()
-        })
+        .then(checkIfRequestIsOKAndConvertToJSON)
         .then(response => {
             if (response.status !== 'OK') {
                 throw new Error(SYS_ERROR_UNABLE_TO_LOGIN);
@@ -38,12 +34,7 @@ export function doAuth(login, pwd) {
             body: `login=${login}&password=${pwd}`
         }
     )
-        .then(res => {
-            if (res.status !== 200) {
-                throw new Error(SYS_ERROR_UNABLE_TO_LOGIN);
-            }
-            return res.json()
-        })
+        .then(checkIfRequestIsOKAndConvertToJSON)
         .then(response => {
             if (response.status !== 'OK') {
                 throw new Error(SYS_ERROR_UNABLE_TO_LOGIN);

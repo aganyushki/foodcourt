@@ -26,6 +26,7 @@ export const ShopOrderApproveStyles = theme => ({
     },
     button: {
         margin: theme.spacing.unit,
+        padding: 30,
     },
 });
 
@@ -37,5 +38,33 @@ export const ShopOrderAmountStyles = theme => ({
         margin: theme.spacing.unit,
         padding: 30,
         fontSize: 30
+    }
+});
+
+export const ShopOrderSendingStyles = theme => ({
+    wrapper: {
+        paddingTop: 100,
+    },
+    button: {
+        margin: theme.spacing.unit,
+        padding: 30,
+    },
+    processingWrapper: {
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        width: 250,
+    }
+});
+
+export const ShopOrderSendingErrorStyles = theme => ({
+    wrapper: {
+        paddingTop: 100,
+    },
+    button: {
+        margin: theme.spacing.unit,
+        padding: 30,
+    },
+    errorBlock: {
+        paddingBottom: 15
     }
 });

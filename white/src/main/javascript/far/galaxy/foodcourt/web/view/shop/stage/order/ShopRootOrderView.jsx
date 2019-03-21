@@ -8,6 +8,8 @@ import {withStyles} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import {ShopRootOrderViewStyles} from "./Style";
+import ShopOrderSending from "./ShopOrderSending";
+import ShopOrderSendingError from "./ShopOrderSendingError";
 
 @inject("orderStore")
 @observer
@@ -17,9 +19,20 @@ class ShopRootOrderView extends Component {
         orderStore: PropTypes.object.isRequired
     };
 
+    buildStage = (orderStore) => {
+        if (orderStore.sendingOrderError) {
+            return <ShopOrderSendingError />;
+        } else if (orderStore.sendingOrder) {
+            return <ShopOrderSending />;
+        } else if (orderStore.order.count === 0) {
+            return <ShopOrderAmount />;
+        } else {
+            return <ShopOrderApprove />;
+        }
+    };
+
     render() {
         const {classes, orderStore} = this.props;
-        const order = orderStore.order;
         return (
             <div className={classes.wrapped}>
 
@@ -38,9 +51,7 @@ class ShopRootOrderView extends Component {
                             <div className={classes.whiteFrameDiv}>
                                 <ShopOrderSummary />
                                 {
-                                    order.count === 0
-                                        ? <ShopOrderAmount />
-                                        : <ShopOrderApprove />
+                                    this.buildStage(orderStore)
                                 }
                             </div>
                         </Paper>
