@@ -15,7 +15,7 @@ export const ManagerCakesEditorStyles = theme => ({
     },
 });
 
-export const ManagerCakesMainToolbarViewStyles = theme => ({
+export const ManagerCakesMainToolbarViewStyles = () => ({
     root: {
         display: 'flex'
     },

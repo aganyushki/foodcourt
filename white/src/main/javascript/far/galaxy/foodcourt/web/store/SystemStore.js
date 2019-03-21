@@ -1,7 +1,6 @@
 import {observable, action, computed} from "mobx";
 import LogRocket from "logrocket";
 import {doAuth, getUser} from "../api/SystemAPI";
-import {AUTH_COOKIE_NAME} from "../Constants";
 import {TEXT} from "../Localization";
 
 export default class SystemStore {

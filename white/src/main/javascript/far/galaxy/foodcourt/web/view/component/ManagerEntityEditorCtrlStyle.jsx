@@ -1,5 +1,5 @@
 
-export const ManagerEntityEditorCtrlStyles = theme => ({
+export const ManagerEntityEditorCtrlStyles = () => ({
     root: {
         width: 400,
     }

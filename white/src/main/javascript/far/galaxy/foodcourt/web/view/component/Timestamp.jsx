@@ -17,7 +17,7 @@ class Timestamp extends Component {
     }
 
     render() {
-        const {value, classes} = this.props;
+        const {value} = this.props;
         const date = new Date(value);
         return (
             <span>{

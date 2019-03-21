@@ -1,4 +1,4 @@
-export const ShopRootOrderViewStyles = theme => ({
+export const ShopRootOrderViewStyles = () => ({
     wrapped: {
         paddingTop: 75,
     },
@@ -10,7 +10,7 @@ export const ShopRootOrderViewStyles = theme => ({
     },
 });
 
-export const ShopOrderSummaryStyles = theme => ({
+export const ShopOrderSummaryStyles = () => ({
     summaryItemIconPadding: {
         padding: 15.
     },

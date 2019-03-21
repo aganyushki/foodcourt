@@ -1,4 +1,4 @@
-export const ShopOrderStepperStyles = theme => ({ // todo, normalize styles
+export const ShopOrderStepperStyles = () => ({ // todo, normalize styles
     wrapper: {
         width: '50%'
     },

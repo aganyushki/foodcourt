@@ -1,5 +1,5 @@
 
-export const MoneyValueStyles = theme => ({
+export const MoneyValueStyles = () => ({
     negativeValue: {
         color: 'red',
         fontWeight: 'bold',

@@ -1,4 +1,4 @@
 
-export const TimestampStyles = theme => ({
+export const TimestampStyles = () => ({
     
 });

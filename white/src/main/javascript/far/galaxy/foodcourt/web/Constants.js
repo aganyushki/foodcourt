@@ -16,7 +16,7 @@ export const URL = {
 
 export const APPLICATION_TYTLE = "WILEY, Korolev";
 
-export const AUTH_COOKIE_NAME = "JSESSIONID";
+// export const AUTH_COOKIE_NAME = "JSESSIONID";
 
 export const SYS_ERROR_UNABLE_TO_LOGIN = "Incorrect login event processing";
 export const SYS_ERROR_ORDER_TIMEOUT_ALREADY_STARTED = "Timer already started";

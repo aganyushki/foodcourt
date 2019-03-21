@@ -13,10 +13,6 @@ export default class User {
         return this.value.name;
     }
 
-    getAuthToken() {
-        return this.value.authToken;
-    }
-
     getRolesAsString() {
         return this.value.roles.map(role => role.name).join(",");
     }
