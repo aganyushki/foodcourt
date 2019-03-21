@@ -16,4 +16,8 @@ export default class User {
     getAuthToken() {
         return this.value.authToken;
     }
+
+    getRolesAsString() {
+        return this.value.roles.map(role => role.name).join(",");
+    }
 }

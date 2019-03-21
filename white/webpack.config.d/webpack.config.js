@@ -42,6 +42,9 @@ const config = {
                             ],
                             [
                                 "@babel/plugin-proposal-export-default-from"
+                            ],
+                            [
+                                "add-react-displayname"
                             ]
                         ]
                     }

@@ -21,3 +21,5 @@ export const AUTH_COOKIE_NAME = "JSESSIONID";
 export const SYS_ERROR_UNABLE_TO_LOGIN = "Incorrect login event processing";
 
 export const CURRENCY_MARKER = "₽";
+
+export const LOG_ROCKET_KEY = "rrq9mo/foodcourt";

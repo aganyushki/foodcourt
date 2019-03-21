@@ -1,4 +1,5 @@
 import {observable, action, computed} from "mobx";
+import LogRocket from "logrocket";
 import {doAuth, getUser} from "../api/SystemAPI";
 import Cookies from 'js-cookie';
 import {AUTH_COOKIE_NAME} from "../Constants";
@@ -28,6 +29,14 @@ export default class SystemStore {
     @action.bound
     setUser(user) {
         this.user = user;
+
+        if (user) {
+            LogRocket.identify(`${user.getId()}/${user.getName()}`, {
+                name: user.getName(),
+                cookie: null,
+                roles: user.getRolesAsString()
+            });
+        }
     }
 
     @action.bound
@@ -40,12 +49,12 @@ export default class SystemStore {
 
     @action.bound
     getUserOk(user) {
-        this.user = user;
+        this.setUser(user)
     }
 
     @action.bound
     getUserFail() {
-        this.user = null;
+        this.setUser(null)
     }
 
     @action.bound
@@ -64,15 +73,15 @@ export default class SystemStore {
     @action.bound
     doLoginOk(user) {
         if (user) {
-            this.user = user;
+            this.setUser(user)
         } else {
-            this.user = null;
+            this.setUser(null)
         }
     }
 
     @action.bound
     doLoginFail() {
-        this.user = null;
+        this.setUser(null)
         this.loginActionError = this.text.UNABLE_TO_LOGIN;
     }
 
