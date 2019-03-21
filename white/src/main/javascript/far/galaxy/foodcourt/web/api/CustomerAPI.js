@@ -1,5 +1,6 @@
 import CustomerGroup from "../entity/CustomerGroup";
 import Customer from "../entity/Customer";
+import {API_ERROR_ACTION_CAN_NOT_BE_COMPLETED} from "../Constants";
 
 export function getPageableCustomers(page, limit, search) {
     let url = `/api/customers?page=${page}&limit=${limit}`;
@@ -7,6 +8,12 @@ export function getPageableCustomers(page, limit, search) {
         url = `${url}&search=${search}`;
     }
     return fetch(url)
+        .then(res => {
+            if (res.status !== 200) {
+                throw new Error(API_ERROR_ACTION_CAN_NOT_BE_COMPLETED);
+            }
+            return res;
+        })
         .then(res => res.json());
 }
 
@@ -49,6 +56,12 @@ export function saveOrUpdateCustomer(customer) {
             })
         }
     )
+        .then(res => {
+            if (res.status !== 200) {
+                throw new Error(API_ERROR_ACTION_CAN_NOT_BE_COMPLETED);
+            }
+            return res;
+        })
         .then(res => res.json())
         .then(customer => new Customer(customer))
 }
@@ -77,6 +90,12 @@ export function addBalance(customer, incoming) {
             })
         }
     )
+        .then(res => {
+            if (res.status !== 200) {
+                throw new Error(API_ERROR_ACTION_CAN_NOT_BE_COMPLETED);
+            }
+            return res;
+        })
         .then(res => res.json())
         .then(customer => new Customer(customer))
 }

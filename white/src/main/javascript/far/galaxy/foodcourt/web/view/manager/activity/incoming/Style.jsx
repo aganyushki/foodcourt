@@ -1,5 +1,3 @@
-import {fade} from "@material-ui/core/styles/colorManipulator";
-
 export const ManagerIncomingStyles = theme => ({
     tableTopToolbar: {
         display: 'flex',

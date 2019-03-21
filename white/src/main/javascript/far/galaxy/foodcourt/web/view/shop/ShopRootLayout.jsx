@@ -17,6 +17,7 @@ import {observer} from "mobx-react";
 import {ShopRootLayoutStyles} from "./Style";
 import ShopviewWorkflowRouter from "./ShopviewWorkflowRouter";
 import ShopOrderCancelAction from "./ShopOrderCancelAction";
+import GlobalNotificationCtrl from "../component/GlobalNotificationCtrl";
 
 @withRouter
 @observer
@@ -55,6 +56,7 @@ class ShopRootLayout extends Component {
                 </div>
 
                 <ShopOrderCancelAction />
+                <GlobalNotificationCtrl />
             </div>
         )
     }

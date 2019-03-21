@@ -52,12 +52,11 @@ export default class CustomerStoreManager extends DataViewTableBaseStore {
     saveCustomerOk() {
         this.scope.systemStore.setGlobalProcessingStatus(false);
         this.reload();
-        // todo,
     }
     @action.bound
-    saveCustomerFail() {
+    saveCustomerFail(error) {
         this.scope.systemStore.setGlobalProcessingStatus(false);
-        // todo,
+        this.scope.systemStore.setGlobalErrorNotification(error.message);
     }
 
     @action.bound
@@ -73,11 +72,10 @@ export default class CustomerStoreManager extends DataViewTableBaseStore {
     refillOk() {
         this.scope.systemStore.setGlobalProcessingStatus(false);
         this.reload();
-        // todo,
     }
     @action.bound
-    refillFail() {
+    refillFail(error) {
         this.scope.systemStore.setGlobalProcessingStatus(false);
-        // todo,
+        this.scope.systemStore.setGlobalErrorNotification(error.message);
     }
 }

@@ -1,5 +1,3 @@
-import green from '@material-ui/core/colors/green';
-
 export const LoginRootLayoutStyles = theme => ({
     root: {
         display: 'flex',

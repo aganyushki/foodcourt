@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {observer, Provider} from "mobx-react";
+import {Provider} from "mobx-react";
 import PropTypes from "prop-types";
 import SystemStore from "./SystemStore";
 import ShopviewWorkflow from "./ShopviewWorkflow";

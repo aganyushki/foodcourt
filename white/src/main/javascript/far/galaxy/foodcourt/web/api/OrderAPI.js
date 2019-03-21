@@ -1,4 +1,5 @@
 import OrderItem from "../entity/OrderItem";
+import {API_ERROR_ACTION_CAN_NOT_BE_COMPLETED} from "../Constants";
 
 export function putOrder(orderTemplate) {
     return fetch(
@@ -29,5 +30,11 @@ export function getOrders() {
 
 export function getPageableOrders(page, limit) {
     return fetch(`/api/orders?page=${page}&limit=${limit}`)
+        .then(res => {
+            if (res.status !== 200) {
+                throw new Error(API_ERROR_ACTION_CAN_NOT_BE_COMPLETED);
+            }
+            return res;
+        })
         .then(res => res.json());
 }

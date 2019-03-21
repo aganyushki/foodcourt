@@ -46,13 +46,12 @@ export default class CakeStoreManager extends DataViewTableBaseStore {
     @action.bound
     saveCakeOk() {
         this.scope.systemStore.setGlobalProcessingStatus(false);
-        // todo,
     }
 
     @action.bound
-    saveCakeFail() {
+    saveCakeFail(error) {
         this.scope.systemStore.setGlobalProcessingStatus(false);
-        // todo,
+        this.scope.systemStore.setGlobalErrorNotification(error.message);
     }
 
     @action.bound

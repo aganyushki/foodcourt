@@ -1,4 +1,5 @@
 import Cake from "../entity/Cake";
+import {API_ERROR_ACTION_CAN_NOT_BE_COMPLETED} from "../Constants";
 
 export function getPageableCakes(page, limit, search) {
     let url = `/api/cakes?page=${page}&limit=${limit}`;
@@ -6,6 +7,12 @@ export function getPageableCakes(page, limit, search) {
         url = `${url}&search=${search}`;
     }
     return fetch(url)
+        .then(res => {
+            if (res.status !== 200) {
+                throw new Error(API_ERROR_ACTION_CAN_NOT_BE_COMPLETED);
+            }
+            return res;
+        })
         .then(res => res.json());
 }
 
@@ -37,6 +44,12 @@ export function saveOrUpdateCake(cake) {
             })
         }
     )
+        .then(res => {
+            if (res.status !== 200) {
+                throw new Error(API_ERROR_ACTION_CAN_NOT_BE_COMPLETED);
+            }
+            return res;
+        })
         .then(res => res.json())
         .then(cake => new Cake(cake))
 }

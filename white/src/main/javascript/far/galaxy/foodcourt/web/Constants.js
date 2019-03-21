@@ -19,7 +19,11 @@ export const APPLICATION_TYTLE = "WILEY, Korolev";
 export const AUTH_COOKIE_NAME = "JSESSIONID";
 
 export const SYS_ERROR_UNABLE_TO_LOGIN = "Incorrect login event processing";
+export const API_ERROR_ACTION_CAN_NOT_BE_COMPLETED = "Action can't be completed, maybe server is not available";
 
 export const CURRENCY_MARKER = "₽";
 
 export const LOG_ROCKET_KEY = "rrq9mo/foodcourt";
+
+export const DATA_VIEW_TABLE_PER_PAGE_LIST = [5, 10, 15, 20, 100];
+export const DATA_VIEW_TABLE_PER_PAGE_DEF = 10;

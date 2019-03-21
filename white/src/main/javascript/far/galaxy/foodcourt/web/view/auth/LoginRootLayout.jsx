@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import LoginForm from "./LoginForm";
 import {LoginRootLayoutStyles} from "./Style";
 import RootProcessingIndicator from "../component/RootProcessingIndicator";
-import Snackbar from '@material-ui/core/Snackbar';
+import GlobalNotificationCtrl from "../component/GlobalNotificationCtrl";
 
 @inject("systemStore")
 @observer
@@ -35,15 +35,7 @@ class LoginRootLayout extends Component {
                             ? <LoginForm />
                             : <RootProcessingIndicator />
                     }
-                    <Snackbar
-                        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                        open={systemStore.loginActionError !== null}
-                        onClose={systemStore.clearLoginActionError}
-                        ContentProps={{
-                            'aria-describedby': 'login-error-message',
-                        }}
-                        message={<span id="login-error-message">{systemStore.loginActionError}</span>}
-                    />
+                    <GlobalNotificationCtrl />
                 </main>
             </div>
         )

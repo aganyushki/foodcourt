@@ -16,7 +16,10 @@ export default class OrderStoreShop {
     @observable order;
     @observable processing = false;
 
-    constructor() {
+    scope = null;
+
+    constructor(scope) {
+        this.scope = scope;
         this.order = {
             group: null,
             customer: null,
@@ -30,12 +33,18 @@ export default class OrderStoreShop {
         this.processing = true;
         putOrder(new NewOrderItem(buildOrderEntity(this.order)))
             .then(this.putOrderCompletion)
+            .catch(this.putOrderFails);
     }
 
     @action.bound
     putOrderCompletion() {
         this.processing = false;
         this.cleanupOrder();
+    }
+
+    @action.bound
+    putOrderFails(error) {
+        this.scope.systemStore.setGlobalErrorNotification(error.message);
     }
 
     @action.bound

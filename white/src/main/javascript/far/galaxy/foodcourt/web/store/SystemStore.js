@@ -1,14 +1,13 @@
 import {observable, action, computed} from "mobx";
 import LogRocket from "logrocket";
 import {doAuth, getUser} from "../api/SystemAPI";
-import Cookies from 'js-cookie';
 import {AUTH_COOKIE_NAME} from "../Constants";
 import {TEXT} from "../Localization";
 
 export default class SystemStore {
     @observable user = undefined;
     @observable globalProcessingIndicator = false;
-    @observable loginActionError = null;
+    @observable globalErrorNotification = null;
 
     text = TEXT;
 
@@ -58,13 +57,18 @@ export default class SystemStore {
     }
 
     @action.bound
-    clearLoginActionError() {
-        this.loginActionError = null;
+    setGlobalErrorNotification(msg) {
+        this.globalErrorNotification = msg;
+    }
+
+    @action.bound
+    clearGlobalErrorNotification() {
+        this.setGlobalErrorNotification(null);
     }
 
     @action.bound
     doLogin(login, pwd) {
-        this.clearLoginActionError();
+        this.clearGlobalErrorNotification();
         return doAuth(login, pwd)
             .then(this.doLoginOk)
             .catch(this.doLoginFail)
@@ -81,8 +85,8 @@ export default class SystemStore {
 
     @action.bound
     doLoginFail() {
-        this.setUser(null)
-        this.loginActionError = this.text.UNABLE_TO_LOGIN;
+        this.setUser(null);
+        this.setGlobalErrorNotification(this.text.UNABLE_TO_LOGIN);
     }
 
     @action.bound

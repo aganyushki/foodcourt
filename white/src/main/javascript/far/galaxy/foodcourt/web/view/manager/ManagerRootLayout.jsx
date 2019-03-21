@@ -12,6 +12,7 @@ import {ManagerRootLayoutStyles} from "./Style";
 import ManagerRootLayoutToolbar from "./ManagerRootLayoutToolbar";
 import ManagerIncoming from "./activity/incoming/ManagerIncoming";
 import ManagerCustomers from "./activity/customer/ManagerCustomers";
+import GlobalNotificationCtrl from "../component/GlobalNotificationCtrl";
 
 @withRouter
 class ManagerRootLayout extends Component {
@@ -44,6 +45,7 @@ class ManagerRootLayout extends Component {
                         <Route path={URL.ADMIN_ORDERS} component={ManagerOrders} />
                         <Route path={URL.ADMIN_INCOMING} component={ManagerIncoming} />
                     </Switch>
+                    <GlobalNotificationCtrl />
                 </main>
             </div>
         )

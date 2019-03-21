@@ -3,7 +3,6 @@ import {inject, observer} from "mobx-react";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import CakeIcon from "@material-ui/icons/Cake";
 import AttachMoney from "@material-ui/icons/AttachMoney";
-import HelpOutline from "@material-ui/icons/HelpOutline";
 import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
 import {withStyles} from "@material-ui/core";

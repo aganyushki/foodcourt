@@ -1,12 +1,13 @@
 import {observable, action, computed} from "mobx";
+import {DATA_VIEW_TABLE_PER_PAGE_DEF, DATA_VIEW_TABLE_PER_PAGE_LIST} from "../Constants";
 
 export default class DataViewTableBaseStore {
     @observable search = '';
     @observable pageableData = null;
     @observable fields = [];
     @observable pages = {
-        pageSize: 10,
-        availablePageSizes: [5, 10, 15, 20, 100]
+        pageSize: DATA_VIEW_TABLE_PER_PAGE_DEF,
+        availablePageSizes: DATA_VIEW_TABLE_PER_PAGE_LIST
     };
     @observable pullingPageableData = true;
 
@@ -50,6 +51,13 @@ export default class DataViewTableBaseStore {
     }
 
     @action.bound
+    errorHandler(e) {
+        this.pullingPageableData = false;
+        this.scope.systemStore.setGlobalProcessingStatus(false);
+        this.scope.systemStore.setGlobalErrorNotification(e.message);
+    }
+
+    @action.bound
     pullData() {
         this.setPullingPageableDataStatus(true);
         return this.getPageableFromServer(this.currentPage, this.pages.pageSize, this.search)
@@ -57,7 +65,8 @@ export default class DataViewTableBaseStore {
                 this.setPageableData(data);
                 this.setPullingPageableDataStatus(false);
                 return data;
-            });
+            })
+            .catch(this.errorHandler);
     }
 
     @computed
@@ -82,7 +91,8 @@ export default class DataViewTableBaseStore {
                 this.setPageableData(data);
                 this.setPullingPageableDataStatus(false);
                 return data;
-            });
+            })
+            .catch(this.errorHandler);
     }
 
     @action.bound
