@@ -47,9 +47,10 @@ class DataViewTable extends Component {
             {
                 rows.map(row => (
                     <TableRow key={row.id} onClick={() => rowOnClick(row)}>{
-                        header.map(hItem => {
+                        header.map((hItem, index) => {
                             const value = row[hItem.id];
-                            return <TableCell key={value} component="th" scope="row">{
+                            // here, index - just cell position, have no other way to build uniq key for cell.
+                            return <TableCell key={`${row.id}_${index}`} component="th" scope="row">{
                                 hItem.transform ? hItem.transform(value, row) : value
                             }</TableCell>
                         })

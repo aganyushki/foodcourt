@@ -32,12 +32,12 @@ class LoginForm extends Component {
                 this.loginRef.current.value,
                 this.pwdRef.current.value
             )
-                .then(() => {
-                    this.loginRef.current.value = "";
-                    this.pwdRef.current.value = "";
-                })
-                .then(() => {
-                    this.setState({processing: false})
+                .then(user => {
+                    if (!user) {
+                        this.loginRef.current.value = "";
+                        this.pwdRef.current.value = "";
+                        this.setState({processing: false})
+                    }
                 })
         });
     };

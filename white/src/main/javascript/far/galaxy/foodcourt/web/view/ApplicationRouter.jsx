@@ -46,7 +46,7 @@ export class ApplicationRouter extends Component {
                         </Route>
                     </Switch>
                     {
-                        DEBUG ? <DevTools position="bottomLeft" /> : null
+                        (process.env.NODE_ENV === 'development') ? <DevTools position="bottomLeft" /> : null
                     }
                 </div>
             </Router>

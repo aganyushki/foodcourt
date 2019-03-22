@@ -27,14 +27,20 @@ export default class SystemStore {
     @action.bound
     setUser(user) {
         this.user = user;
+        this.initLogRocket(user);
+    }
 
+    initLogRocket(user) { // todo, not good idea to have this initialization as part of app core.
+        const opts = {
+            name: "#:anonymous",
+            roles: "",
+            cookie: null,
+        };
         if (user) {
-            LogRocket.identify(`${user.getId()}/${user.getName()}`, {
-                name: user.getName(),
-                cookie: null,
-                roles: user.getRolesAsString()
-            });
+            opts.name = `#${user.getId()}:${user.getName() || "anonymous"}`;
+            opts.roles = user.getRolesAsString();
         }
+        LogRocket.identify(opts.name, opts);
     }
 
     @action.bound
@@ -76,10 +82,9 @@ export default class SystemStore {
     @action.bound
     doLoginOk(user) {
         if (user) {
-            this.setUser(user)
-        } else {
-            this.setUser(null)
+            this.setUser(user);
         }
+        return user;
     }
 
     @action.bound

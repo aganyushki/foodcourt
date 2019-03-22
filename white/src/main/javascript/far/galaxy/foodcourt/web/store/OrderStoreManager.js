@@ -21,8 +21,7 @@ export default class OrderStoreManager extends DataViewTableBaseStore {
             rowTransformer: (row => (
                 {...row, customer: row.customer.name, cake: row.cake.name, price: row.cake.price,
                     orderPrice: row.cake.price * row.count}
-            )),
-            rowOnClick: item => console.log(item.id)
+            ))
         });
     }
 }

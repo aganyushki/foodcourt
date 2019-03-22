@@ -22,28 +22,34 @@ export class StoreProvider extends Component {
         children: PropTypes.any
     };
 
-    constructor(props) {
-        super(props);
+    scopeType = null;
+    scope = null;
 
+    // todo, need to investigate and rewrite this algorithm. router & provider to support both shop and admin ui's.
+
+    buildScope(props) {
         const scope = {};
         scope.systemStore = new SystemStore(scope);
 
-        if (props.scope === 'shop') {
+        if (props.scope === STORE_SCOPE.SHOP) {
             scope.customerStore = new CustomerStoreShop(scope);
             scope.orderStore = new OrderStoreShop(scope);
             scope.cakeStore = new CakeStoreShop(scope);
             scope.shopviewWorkflow = new ShopviewWorkflow(scope);
-        } else if (props.scope === 'manager') {
+        } else if (props.scope === STORE_SCOPE.MANAGER) {
             scope.customerStore = new CustomerStoreManager(scope);
             scope.orderStore = new OrderStoreManager(scope);
             scope.cakeStore = new CakeStoreManager(scope);
             scope.incomingStore = new IncomingStoreManager(scope);
         }
-
-        this.scope = scope;
+        return scope;
     }
 
     render() {
+        if (this.scope === null || this.scopeType !== this.props.scope) {
+            this.scopeType = this.props.scope;
+            this.scope = this.buildScope(this.props);
+        }
         return (
             <Provider {...this.scope}>
                 {this.props.children}

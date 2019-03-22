@@ -90,10 +90,6 @@ module.exports = config;
 
 config.plugins.push(new CleanWebpackPlugin());
 
-config.plugins.push(new webpack.DefinePlugin({
-    "DEBUG": `${process.env.NODE_ENV !== 'production'}`
-}));
-
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 config.plugins.push(new HtmlWebpackPlugin({
     template: path.resolve(__dirname, '../src/main/resources/index.html')
