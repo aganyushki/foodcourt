@@ -40,6 +40,7 @@ class ManagerRootLayout extends Component {
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
                     <Switch>
+                        <Route path={URL.ADMIN} exact component={ManagerOrders} />
                         <Route path={URL.ADMIN_CUSTOMERS} component={ManagerCustomers} />
                         <Route path={URL.ADMIN_CAKES} component={ManagerCakes} />
                         <Route path={URL.ADMIN_ORDERS} component={ManagerOrders} />
