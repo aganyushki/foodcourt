@@ -24,6 +24,8 @@ dependencies {
 
     testCompile("org.mockito:mockito-core:2.+")
     testCompile("org.mockito:mockito-junit-jupiter:2.18.3")
+
+    testCompile("com.h2database:h2:1.4.199")
 }
 
 tasks {

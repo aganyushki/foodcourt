@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -37,12 +39,16 @@ public class CakeControllerTest {
 
     @Test
     public void checkGetAvailableCakeList() throws Exception {
+        // todo, seems like FakePage here is a best solution.
+        // can't understand how to do this with Mockito and interface mock. is it impossible?
+        // maybe refactor it as test util: PageBuilder?
         FakePage fakePage = new FakePage();
+        Mockito.when(
+                cakeService.getAvailableCakes(PAGINATION_DEFAULT_PAGE, PAGINATION_DEFAULT_LIMIT)
+        ).thenReturn(fakePage);
 
-        Mockito.when(cakeService.getAvailableCakes(PAGINATION_DEFAULT_PAGE, PAGINATION_DEFAULT_LIMIT)).thenReturn(fakePage);
-        LOG.info(objectMapper.writeValueAsString(fakePage));
         mockMvc.perform(
-                get("/cakes")
+                get("/api/cakes")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
         )
                 .andExpect(status().isOk())
@@ -58,7 +64,7 @@ public class CakeControllerTest {
         Mockito.when(cakeService.getAvailableCakes(3,77)).thenReturn(fakePage);
         LOG.info(objectMapper.writeValueAsString(fakePage));
         mockMvc.perform(
-                get("/cakes?page=3&limit=77")
+                get("/api/cakes?page=3&limit=77")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
         )
                 .andExpect(status().isOk())
@@ -75,7 +81,7 @@ public class CakeControllerTest {
         Mockito.when(cakeService.getCakeById(id)).thenReturn(cake);
 
         mockMvc.perform(
-                get("/cakes/" + id).accept(MediaType.APPLICATION_JSON_VALUE)
+                get("/api/cakes/" + id).accept(MediaType.APPLICATION_JSON_VALUE)
         )
                 .andExpect(status().isOk())
                 .andExpect(content().json(
@@ -93,7 +99,7 @@ public class CakeControllerTest {
         Mockito.when(cakeService.storeNewCake(name, price)).thenReturn(testResultCake);
 
         mockMvc.perform(
-                put("/cakes")
+                put("/api/cakes")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .content(jsonCake)
@@ -114,7 +120,7 @@ public class CakeControllerTest {
         Mockito.when(cakeService.updateCake(id, name)).thenReturn(testResultCake);
 
         mockMvc.perform(
-                post("/cakes/" + id)
+                post("/api/cakes/" + id)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .content(jsonCake)
@@ -129,7 +135,7 @@ public class CakeControllerTest {
         long id = 777;
 
         mockMvc.perform(
-                delete("/cakes/" + id)
+                delete("/api/cakes/" + id)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
 
         )

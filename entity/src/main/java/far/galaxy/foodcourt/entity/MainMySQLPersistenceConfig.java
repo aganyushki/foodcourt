@@ -1,15 +1,13 @@
 package far.galaxy.foodcourt.entity;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -23,13 +21,18 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@PropertySource("classpath:application-dev-database.properties")
+@PropertySources({
+        @PropertySource("classpath:application-database.properties")
+})
 @EnableJpaRepositories(
         entityManagerFactoryRef = "entityManagerFactory",
         basePackages = {"far.galaxy.foodcourt.entity"}
 )
 @EntityScan(basePackages = {"far.galaxy.foodcourt.entity"})
 public class MainMySQLPersistenceConfig {
+
+    @Value("${hbm2ddl}")
+    private String hbm2ddl;
 
     @Primary
     @Bean(name = "dataSource")
@@ -50,7 +53,7 @@ public class MainMySQLPersistenceConfig {
                 .build();
 
         Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "validate");
+        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", hbm2ddl);
         hibernateProperties.setProperty("hibernate.show_sql", "false");
         hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
 

@@ -43,7 +43,7 @@ public class OrderControllerTest {
         ).thenReturn(fakePage);
 
         mockMvc.perform(
-                get("/orders")
+                get("/api/orders")
         )
                 .andExpect(status().isOk())
                 .andExpect(content().json(
@@ -61,7 +61,7 @@ public class OrderControllerTest {
         Mockito.when(orderService.getOrderById(id)).thenReturn(order);
 
         mockMvc.perform(
-                get("/orders/" + id)
+                get("/api/orders/" + id)
         )
                 .andExpect(status().isOk())
                 .andExpect(content().json(
@@ -83,7 +83,7 @@ public class OrderControllerTest {
         Mockito.when(orderService.putNewOrder(customerId, cakeId, count)).thenReturn(order);
 
         mockMvc.perform(
-                put("/orders")
+                put("/api/orders")
                     .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
                     .content(objectMapper.writeValueAsString(orderRequest))

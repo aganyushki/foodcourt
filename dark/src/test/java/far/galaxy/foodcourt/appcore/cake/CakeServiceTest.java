@@ -117,6 +117,18 @@ public class CakeServiceTest {
     }
 
     @Test
+    public void checkGetterForAvailableCakesWithSearch() {
+        FakePage fakePage = new FakePage();
+        Mockito.when(
+                cakeRepository.findAllByAvailableTrueAndNameLike(Mockito.any(), Mockito.anyString())
+        ).thenReturn(fakePage);
+
+        Page<Cake> availableCakes = cakeService.getAvailableCakes(1, 2, "test");
+
+        Assertions.assertEquals(fakePage, availableCakes);
+    }
+
+    @Test
     public void checkGetById() {
         long id = 7;
         cakeService.getCakeById(id);

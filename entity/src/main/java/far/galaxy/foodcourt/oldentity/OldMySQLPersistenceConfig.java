@@ -1,14 +1,12 @@
 package far.galaxy.foodcourt.oldentity;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -20,7 +18,9 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@PropertySource("classpath:application-dev-database.properties")
+@PropertySources({
+        @PropertySource("classpath:old-application-database.properties")
+})
 @EnableJpaRepositories(
         entityManagerFactoryRef = "oldEntityManagerFactory",
         transactionManagerRef = "oldTransactionManager",
@@ -28,6 +28,9 @@ import java.util.Properties;
 )
 @EntityScan(basePackages = {"far.galaxy.foodcourt.oldentity"})
 public class OldMySQLPersistenceConfig {
+
+    @Value("${hbm2ddl}")
+    private String hbm2ddl;
 
     @Bean(name = "oldataSource")
     @ConfigurationProperties(prefix = "spring.oldatasource")
@@ -46,7 +49,7 @@ public class OldMySQLPersistenceConfig {
                 .build();
 
         Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
+        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", hbm2ddl);
         hibernateProperties.setProperty("hibernate.show_sql", "false");
         hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
 

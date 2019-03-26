@@ -50,7 +50,7 @@ public class CustomerControllerTest {
         ).thenReturn(fakePage);
 
         mockMvc.perform(
-                get("/customers")
+                get("/api/customers")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
         )
                 .andExpect(status().isOk())
@@ -66,7 +66,7 @@ public class CustomerControllerTest {
         Mockito.when(customerService.getList(3,50, "balance")).thenReturn(fakePage);
 
         mockMvc.perform(
-                get("/customers?page=3&limit=50&orderBy=balance")
+                get("/api/customers?page=3&limit=50&orderBy=balance")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
         )
                 .andExpect(status().isOk())
@@ -80,7 +80,7 @@ public class CustomerControllerTest {
         Assertions.assertThrows(
                 NestedServletException.class,
                 () -> mockMvc.perform(
-                        get("/customers?page=3&limit=50&orderBy=test")
+                        get("/api/customers?page=3&limit=50&orderBy=test")
                                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 )
         );
@@ -94,7 +94,7 @@ public class CustomerControllerTest {
         Mockito.when(customerService.getCustomerById(id)).thenReturn(customer);
 
         mockMvc.perform(
-                get("/customers/" + id)
+                get("/api/customers/" + id)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
         )
                 .andExpect(status().isOk())
@@ -113,7 +113,7 @@ public class CustomerControllerTest {
         Mockito.when(customerService.storeNewCustomer(name, email)).thenReturn(customer);
 
         mockMvc.perform(
-                put("/customers")
+                put("/api/customers")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .content(customerJson)
@@ -133,7 +133,7 @@ public class CustomerControllerTest {
         Mockito.when(customerService.updateCustomer(id, name, email)).thenReturn(customer);
 
         mockMvc.perform(
-                post("/customers/" + id)
+                post("/api/customers/" + id)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .content(customerJson)
@@ -147,7 +147,7 @@ public class CustomerControllerTest {
         long id = 717; // todo, refactoring, generate test data with faker library
 
         mockMvc.perform(
-                delete("/customers/" + id)
+                delete("/api/customers/" + id)
                     .accept(MediaType.APPLICATION_JSON_VALUE)
         )
                 .andExpect(status().isOk());
@@ -166,7 +166,7 @@ public class CustomerControllerTest {
         Mockito.when(customerService.updateCustomerBalance(id, balance)).thenReturn(customer);
 
         mockMvc.perform(
-                post("/customers/" + id + "/balance")
+                post("/api/customers/" + id + "/balance")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .content(customerJson)

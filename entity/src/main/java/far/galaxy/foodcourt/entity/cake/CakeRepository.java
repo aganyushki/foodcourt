@@ -8,9 +8,6 @@ import java.util.List;
 
 public interface CakeRepository extends JpaRepository<Cake, Long> {
     Cake findByName(String name);
-    List<Cake> findAllByName(String name);
-    Cake findByNameAndPrice(String name, long price);
-    List<Cake> findAllByAvailableTrue();
     Page<Cake> findAllByAvailableTrue(Pageable pageable);
     Page<Cake> findAllByAvailableTrueAndNameLike(Pageable pageable, String name);
 }

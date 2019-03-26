@@ -2,6 +2,8 @@ package far.galaxy.foodcourt.appcore.customer;
 
 import far.galaxy.foodcourt.entity.customer.Customer;
 import far.galaxy.foodcourt.entity.customer.CustomerRepository;
+import far.galaxy.foodcourt.entity.transaction.Incoming;
+import far.galaxy.foodcourt.entity.transaction.IncomingRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,6 +23,9 @@ public class CustomerServiceTest {
 
     @Mock
     private CustomerRepository customerRepository;
+
+    @Mock
+    private IncomingRepository incomingRepository;
 
     @InjectMocks
     private CustomerService customerService;
@@ -134,6 +139,7 @@ public class CustomerServiceTest {
         Mockito.when(customerRepository.getOne(id)).thenReturn(mockCustomer);
         customerService.updateCustomerBalance(id, amount);
         Mockito.verify(mockCustomer).addBalance(amount);
+        Mockito.verify(incomingRepository).save(Mockito.isA(Incoming.class));
     }
 
     @Test

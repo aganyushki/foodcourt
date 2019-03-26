@@ -40,7 +40,7 @@ public class GroupControllerTest {
         Mockito.when(groupService.getList()).thenReturn(groupList);
 
         mockMvc.perform(
-                get("/groups")
+                get("/api/groups")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
         )
                 .andExpect(status().isOk())
@@ -57,7 +57,7 @@ public class GroupControllerTest {
         Mockito.when(groupService.getGroupById(id)).thenReturn(group);
 
         mockMvc.perform(
-                get("/groups/" + id)
+                get("/api/groups/" + id)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
         )
                 .andExpect(status().isOk())
@@ -76,7 +76,7 @@ public class GroupControllerTest {
         Mockito.when(groupService.getCustomers(id)).thenReturn(testList);
 
         mockMvc.perform(
-                get("/groups/" + id + "/customers")
+                get("/api/groups/" + id + "/customers")
                     .accept(MediaType.APPLICATION_JSON_VALUE)
         )
                 .andExpect(status().isOk())

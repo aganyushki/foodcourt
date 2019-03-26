@@ -44,7 +44,7 @@ public class IncomingControllerTest {
         ).thenReturn(fakePage);
 
         mockMvc.perform(
-                get("/incoming")
+                get("/api/incoming")
         )
                 .andExpect(status().isOk())
                 .andExpect(content().json(
@@ -64,7 +64,7 @@ public class IncomingControllerTest {
         ).thenReturn(fakePage);
 
         mockMvc.perform(
-                get("/incoming?page=3&limit=77")
+                get("/api/incoming?page=3&limit=77")
         )
                 .andExpect(status().isOk())
                 .andExpect(content().json(
